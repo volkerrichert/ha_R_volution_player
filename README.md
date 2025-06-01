@@ -1,2 +1,2 @@
-# ha_rvolutuion_player
-home assistant integration for r_volution players
+# ha_R_volution_player
+home assistant integration for R_volution players
