@@ -1,0 +1,13 @@
+{
+  "domain": "ha_r_volution_player",
+  "name": "R_volution Player",
+  "version": "0.0.1",
+  "documentation": "https://github.com/volkerrichert/ha_r_volution_player",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@volkerrichert"],
+  "config_flow": true,
+  "icon": "mdi:music-box",
+  "integration_type": "device",
+  "iot_class": "local_polling"
+}
