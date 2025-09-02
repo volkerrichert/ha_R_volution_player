@@ -1,7 +1,8 @@
 {
-  "domain": "ha_r_volution_player",
+  "domain": "r_volution_player",
   "name": "R_volution Player",
   "version": "0.0.1",
+  "homeassistant": "2025.6.0",
   "documentation": "https://github.com/volkerrichert/ha_r_volution_player",
   "requirements": [],
   "dependencies": [],
