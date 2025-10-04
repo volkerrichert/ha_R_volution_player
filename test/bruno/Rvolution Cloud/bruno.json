@@ -1,0 +1,23 @@
+{
+  "version": "1",
+  "name": "Rvolution",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.00251007080078125,
+  "filesCount": 11,
+  "proxy": {
+    "bypassProxy": "",
+    "enabled": "global",
+    "auth": {
+      "enabled": false,
+      "username": "",
+      "password": ""
+    },
+    "port": null,
+    "hostname": "",
+    "protocol": "https"
+  }
+}

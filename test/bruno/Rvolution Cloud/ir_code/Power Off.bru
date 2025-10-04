@@ -1,0 +1,16 @@
+meta {
+  name: Power Off
+  type: http
+  seq: 17
+}
+
+get {
+  url: http://{{ip}}//cgi-bin/do?cmd=ir_code&ir_code=4AB54040
+  body: none
+  auth: none
+}
+
+params:query {
+  cmd: ir_code
+  ir_code: 4AB54040
+}

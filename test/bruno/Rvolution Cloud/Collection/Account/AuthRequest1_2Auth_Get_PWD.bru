@@ -1,0 +1,26 @@
+meta {
+  name: AuthRequest1_2Auth_Get_PWD
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/Auth?ApiKey={{apiKey}}&Email={{username}}&Password={{password}}
+  body: none
+  auth: none
+}
+
+params:query {
+  ApiKey: {{apiKey}}
+  Email: {{username}}
+  Password: {{password}}
+  ~format: json
+  ~Email: api@rvideo.com
+  ~Password: 123456
+}
+
+script:post-response {
+  bru.setVar('firstCollectionId', res.body.CollectionInfos[0].Collection)
+  let match = res.body.Key.match(/([0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z])([0-9a-z][0-9a-z][0-9a-z][0-9a-z])([0-9a-z][0-9a-z][0-9a-z][0-9a-z])([0-9a-z][0-9a-z][0-9a-z][0-9a-z])([0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z][0-9a-z])/i);
+  bru.setVar('authKey', `${match[1]}-${match[2]}-${match[3]}-${match[4]}-${match[5]}`)
+}

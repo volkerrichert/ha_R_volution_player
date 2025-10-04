@@ -1,0 +1,21 @@
+meta {
+  name: test
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/do?cmd=start_file_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/file.mkv&speed=0&position=0&black_screen=1&hide_osd=1&action_on_finish=restart_playback
+  body: none
+  auth: inherit
+}
+
+params:query {
+  cmd: start_file_playback
+  media_url: nfs://10.0.0.1:/VideoStorage:/SomeFolder/file.mkv
+  speed: 0
+  position: 0
+  black_screen: 1
+  hide_osd: 1
+  action_on_finish: restart_playback
+}

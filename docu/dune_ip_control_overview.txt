@@ -1,0 +1,582 @@
+DUNE IP CONTROL DOCUMENTATION
+=============================
+
+Introduction
+------------
+
+Dune IP Control feature can be used to send HTTP commands to Dune HD media
+player which request the player to do various things, such as:
+- Start playback of the given media content.
+- Control the playback (pause, seek to a given position, etc).
+- Report the current player status (current playback position, etc).
+- Stop playback and switch to various player states (e.g. black screen,
+  standby).
+- Emulate key press on remote control.
+
+HTTP port number
+----------------
+
+HTTP port number is 80 on all models except Google-certified ATV models
+(ATV models use port number 11080; se "ATV models" section for more details).
+
+IP address of the media player
+------------------------------
+
+To send HTTP commands to the media player, you need to know the IP address
+of the media player. You can see the IP address in "Setup / Information" menu.
+
+In the examples of HTTP commands, IP address "10.0.0.1" is used.
+Peplace "10.0.0.1" with the actual IP address of your media player.
+
+Firmware and protocol versions
+------------------------------
+
+The first public firmware version which introduced IP Control version was
+110127_2105_beta. In this firmware version, IP Control protocol version "1" was
+used.
+
+Below is the information about IP Control features available in protocol
+version "1". For information about changes and additional features introduced
+in further firmware updates, please look at the end of the document.
+
+ATV models
+----------
+
+Google-certified ATV models (BOXY, Homatics Box R 4K Plus, Premier 4K Pro)
+have a limited support for IP Control with some differences:
+
+1. The HTTP port number is 11080 instead of 80. Add ":11080" to the IP
+   address in in the examples of HTTP commands.
+
+2. Dune HD Media Center app should be installed. See:
+    https://dune-hd.com/support/app/index.html
+
+3. IP Control can be used to control only Dune HD Media Center app.
+
+---------------------------------------------------------------------------
+
+Features in protocol version "1"
+================================
+
+Examples of HTTP commands
+-------------------------
+
+==== Getting player status ====
+
+Do nothing, just print the current player status:
+http://10.0.0.1/cgi-bin/do?cmd=status
+
+==== Start playback ====
+
+Play file from NFS server:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_file_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/file.mkv
+
+Play DVD-Video folder from SMB server:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_dvd_playback&media_url=smb://10.0.0.1/VideoStorage/SomeFolder/DVDFolder
+
+Play DVD-Video ISO from local storage "MyHDD1":
+http://10.0.0.1/cgi-bin/do?
+cmd=start_dvd_playback&media_url=storage_name://MyHDD1/SomeFolder/dvd_image.iso
+
+Play Blu-ray folder from NFS server:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_bluray_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/BlurayFolder
+
+Play Blu-ray ISO from NFS server:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_bluray_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/bluray_image.iso
+
+Play Blu-ray ISO from NFS server and play given BD playlist in BD Lite mode, only for Sigma Designs models:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_bluray_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/bluray_image.iso&start_index=3&auto_start=yes
+
+Play media from HTTP URL, for example, it can be a file on UPnP server:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_file_playback&media_url=http://10.0.0.1/some_upnp_url_path
+
+Play media from HTTP URL, for example, it can be an MP3 internet radio stream:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_file_playback&media_url=http://www.someinternetradio.org/station1.mp3
+
+Play file from NFS server, using given initial playback parameters
+(paused, play from beggining, enable "black screen" mode, enable "hide osd" mode, enable "restart playback on finish" mode):
+http://10.0.0.1/cgi-bin/do?
+cmd=start_file_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/file.mkv&speed=0&position=0&black_screen=1&hide_osd=1&action_on_finish=restart_playback
+
+Here:
+- media_url: any media URL supported by Dune HD, see here for more
+  information:
+   http://files.dune-hd.com/sdk/doc/html/media_url.html
+- speed: -1024/-512/-256/-128/-64/0/64/128/256/512/1024
+  (0 = paused, 64 = 1/4x, 256 = 1x, 1024 = 4x, -1024 = -4x).
+- position: initial position (seconds).
+- black_screen: 0|1 (1 means everything (video+OSD) is initially hidden by
+  "black screen" - can be reset to 0 later via set_playback_state command).
+- hide_osd: 0|1 (1 means OSD is initially hidden - can be reset to 0 later
+  via set_playback_state command).
+- action_on_finish: exit|restart_playback ("exit" means exit the playback
+  in the usual way, "restart_playback" means go to the initial playback
+  state).
+- start_index=N, auto_start=yes|no|auto: parameters of
+  start_bluray_playback command. They have effect on startup of bluray-lite
+  playback. Only for Sigma Designs models.
+
+NOTE: Not all parameters are supported for all file formats. For Blu-ray
+playback, when using a special Blu-ray playback engine, many parameters are
+not supported (in particular, black_screen and hide_osd is not supported).
+
+NOTE: The "media_url" parameter must be URL-escaped in the usual way, e.g.
+whitespace character (' ') should be replaced with '%20%' string.
+
+==== Control playback ====
+
+Pause:
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&speed=0
+
+Resume:
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&speed=256
+
+Resume and disable black screen:
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&speed=256&black_screen=0
+
+Seek to 1000 seconds:
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&position=1000
+
+Seek to file beginning and pause and enable "black screen" mode:
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&speed=0&position=0&black_screen=1
+
+Disable "hide osd" mode:
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&hide_osd=0
+
+Navigate to next/prev key frame (suported only on Sigma models, only for
+MKV and DVD-Video, only when playback is currently paused):
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&skip_frames=-1
+http://10.0.0.1/cgi-bin/do?cmd=set_playback_state&skip_frames=1
+
+==== DVD-Video menu navigation ====
+
+Emulate user action to control DVD-Video menu when playing DVD-Video in menu mode:
+http://10.0.0.1/cgi-bin/do?cmd=dvd_navigation&action=RIGHT
+Here:
+action: LEFT|RIGHT|UP|DOWN|ENTER
+
+NOTE: Supported only for Sigma Designs models.
+
+==== Stop playback / switch to main menu / switch to black screen / enter and exit standby  ====
+
+http://10.0.0.1/cgi-bin/do?cmd=main_screen
+Stop playback (if any), exit standby mode (if any), go to the main screen of the player's menu
+
+http://10.0.0.1/cgi-bin/do?cmd=black_screen
+Stop playback (if any), exit standby mode (if any), go to the global "black_screen" state.
+
+http://10.0.0.1/cgi-bin/do?cmd=standby
+Stop playback (if any), go to standby state.
+
+==== Emulate a key press on Remote Control ====
+
+http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=IR_CODE
+
+Here, IR_CODE is 4-byte NEC IR code supported by Dune HD media players,
+see the list of IR codes here:
+    http://dune-hd.com/support/rc
+with bytes written in the opposite order, for example:
+    RC button "RIGHT" = 00 BF 18 E7
+    so IR code is E718BF00
+    so IP Control command is:
+        http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=E718BF00
+
+Examples:
+    RIGHT:          http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=E718BF00
+    LEFT:           http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=E817BF00
+    UP:             http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=EA15BF00
+    DOWN:           http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=E916BF00
+    ENTER:          http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=EB14BF00
+    RETURN:         http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=FB04BF00
+    TOP MENU:       http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=AE51BF00
+    POP UP MENU:    http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=F807BF00
+    POWER:          http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=BC43BF00
+    MUTE:           http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=B946BF00
+    V+:             http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=AD52BF00
+    V-:             http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=AC53BF00
+
+Command execution timeouts
+--------------------------
+
+The client gets response either when the command execution completes, or on
+timeout. The default timeout is 20 seconds. If timeout occurs, the
+"timeout" status is returned to the client, and the command execution is
+continued by the player; if needed the client can then poll the player with
+the "status" command to wait for the player to change its state as the
+result of this command. There is a special parameter "timeout", which
+allows to specify any other timeout (seconds) (1 sec is minumum).
+
+Example of "timeout" parameter usage:
+http://10.0.0.1/cgi-bin/do?
+cmd=start_file_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/file.mkv&speed=0&black_screen=1&hide_osd=1&timeout=1
+
+HTTP-response syntax
+--------------------
+
+<?xml version="1.0" ?>
+<command_result>
+<param name="protocol_version" value="1"/>
+<param name="command_status" value="ok"/>
+<param name="player_state" value="dvd_playback"/>
+<param name="playback_speed" value="256"/>
+<param name="playback_duration" value="5183"/>
+<param name="playback_position" value="3000"/>
+<param name="playback_dvd_menu" value="0"/>
+<param name="playback_is_buffering" value="0"/>
+</command_result>
+
+Here:
+- protocol_version: 1
+- command_status: ok|failed|timeout
+- player_state: file_playback|dvd_playback|bluray_playback|black_screen|standby|navigator
+
+If command_status is "failed", the response also contains the
+following parameters:
+- error_kind: unknown_command|invalid_parameters|illegal_state|internal_error|operation_failed
+- error_description: some text
+
+If player_state is "file_playback" or "dvd_playback", the response
+also contains the following parameters:
+- playback_speed: -1024/-512/-256/-128/-64/0/64/128/256/512/1024
+- playback_duration: duration in seconds (-1 or 0 if unknown)
+- playback_position: position in seconds (-1 if unknown)
+- playback_dvd_menu: 0|1 (1 means DVD-menu is currently shown)
+- playback_is_buffering: 0|1 (1 means buffering is in progress)
+
+Quick recommendations for using Dune as an embedded playback device
+-------------------------------------------------------------------
+
+- Set the setting "Setup / Misc / Power Management / Power on" to "Black
+  screen". => Dune will not show its menu by default on boot.
+
+- To play a M2TS file, send the NFS URL pointing to the file to Dune using
+  "start_file_playback" HTTP command.
+
+- To control the playback (pause, seek, etc), use "set_playback_state" HTTP
+  command.
+
+- To stop the playback, use "black_screen" (or "standby") HTTP command.
+
+- To implement any other things not explicitly supported by the HTTP
+  protocol, use "ir_code" HTTP comand to emulate RC button presses.
+
+Sending sequences of IR codes to trigger various actions
+--------------------------------------------------------
+
+If some action has no dedicated IP Control command, in many cases it may be
+possible to send a sequence of IR codes to trigger this action.
+
+For example, "REPEAT" playback setting can be currently (as of 2020-09-15)
+accessed only via "Playlist menu and can be toggled by the following
+sequence of RCU key presses after playback start:
+- AUDIO (to open the audiotracks menu)
+- POP UP MENU (to exit from the audiotracks menu to the main playback menu)
+- UP (to select "Playlist" item in the main playback menu)
+- ENTER (to open the playlist menu)
+- 7 (to toggle "REPEAT" function)
+- POP UP MENU (to exit from the playlist menu to the main playback menu)
+- POP UP MENU (to exit from the main playback menu)
+
+Here is the sequence of IP control command which imitates these RCU key
+presses:
+- cmd=ir_code&ir_code=BB44BF00
+- cmd=ir_code&ir_code=F807BF00
+- cmd=ir_code&ir_code=EA15BF00
+- cmd=ir_code&ir_code=EB14BF00
+- cmd=ir_code&ir_code=EE11BF00
+- cmd=ir_code&ir_code=EB14BF00
+- cmd=ir_code&ir_code=F807BF00
+- cmd=ir_code&ir_code=F807BF00
+
+Here is an example of Linux shell script which sends these IP control
+commands to Dune box (replace 10.0.0.1 the the actual Dune box IP address):
+
+for i in BB44BF00 F807BF00 EA15BF00 EB14BF00 EE11BF00 F807BF00 F807BF00; do
+curl "http://10.0.0.1/cgi-bin/do?cmd=ir_code&ir_code=$i"; sleep 0.1; done
+
+Changes and new features, introduced in firmware updates
+========================================================
+
+Protocol "2" (starting with firmware version 111122_0159_beta)
+--------------------------------------------------------------
+
+   - Improved reporting of current state during playback of IPTV streams.
+   - Added information about available audiotracks during playback.
+   - Added the possibility to configure the following playback parameters
+     (via "set_playback_state"):
+      - video_enabled
+      - video_zoom
+      - video_fullscreen
+      - video_x
+      - video_y
+      - video_width
+      - video_height
+      - volume
+      - mute
+
+Protocol "3" (starting with firmware version 120531_2200_beta)
+--------------------------------------------------------------
+
+==== Start playback of playlist ====
+
+http://10.0.0.1/cgi-bin/do?
+cmd=start_playlist_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/mymovies.m3u&start_index=2
+
+http://10.0.0.1/cgi-bin/do?
+cmd=start_playlist_playback&media_url=nfs://10.0.0.1:/VideoStorage:/StarWars&start_index=3
+
+http://10.0.0.1/cgi-bin/do?
+cmd=start_playlist_playback&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/mymovies.m3u&start_index=0&speed=0&position=0&black_screen=1&hide_osd=1
+
+==== Start playback of media_url with media kind autodetect (file/DVD/BD) ====
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/file.mkv
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=smb://10.0.0.1/VideoStorage/SomeFolder/DVDFolder
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=nfs://10.0.0.1:/VideoStorage:/SomeFolder/bluray_image.iso
+
+==== Start FlashLite app ====
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=swf://nfs://10.0.0.1:/MiscStorage:/FlashApps/airplane.swf:::flash_param1=value
+
+NOTE: See http://dune-hd.com/support/flash for more details on SWF URL
+syntax.
+
+==== Start web browser with given URL ====
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=www://http://google.com
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=www://http://10.0.0.1/WebApps/my.html:::fullscreen=1&webapp_keys=1&zoom_level=100
+
+NOTE: See http://dune-hd.com/support/misc/media_url.txt for more details on
+WWW URL syntax.
+
+==== Get/set current text editor state ====
+
+http://10.0.0.1/cgi-bin/do?cmd=get_text
+Returns the currently being edited text string as value of "text" param.
+Returns "failed" command status if there is no active text editor.
+
+http://10.0.0.1/cgi-bin/do?cmd=set_text&text=some_text_string
+Replaces the currently edited text string with the given text string.
+Returns "failed" command status if there is no active text editor.
+Here:
+- text: the text string to be assigned (UTF-8).
+
+Protocol "4" (starting with firmware version 150218_0034)
+---------------------------------------------------------
+
+   - Added new parameters to the current state report:
+      - teletext_available
+      - teletext_enabled
+      - teletext_mix_mode
+      - teletext_page_number
+   - Added the possibility to configure the following playback parameters
+     (via "set_playback_state"):
+      - teletext_enabled (0..1)
+      - teletext_mix_mode (0..1)
+      - teletext_page_number (100..899)
+   - dune_params are now allowed in start_bluray_playback, in m3u,
+     dune_folder.txt for Blu-ray lite.
+   - Added new operation:
+      - cmd=open_path&url=URL
+
+==== Enable teletext ====
+
+http://10.0.0.1/cgi-bin/do?
+cmd=set_playback_state&teletext_enabled=1
+
+==== Turn teletext to mix mode ====
+
+http://10.0.0.1/cgi-bin/do?
+cmd=set_playback_state&teletext_mix_mode=1
+
+==== Enable teletext and open page 533 ====
+
+http://10.0.0.1/cgi-bin/do?
+cmd=set_playback_state&teletext_enabled=1&teletext_page_number=533
+
+==== Open path in GUI (open given folder / choose given item) ===
+
+The "open_path" command can be used to open the given folder, the given
+menu section, or launch the given menu item.
+
+Examples:
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://applications
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://applications/RadioTime
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://tv
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://setup
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://favorites
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://sources
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://sources/USB%20Storage
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://sources/USB%20Storage/Folder1
+
+http://10.0.0.1/cgi-bin/do?
+cmd=open_path&url=root://sources/Network%20Browser/Network%20Places/WORKGROUP
+
+NOTE: The "url" parameter must be URL-escaped in the usual way, e.g.
+whitespace character (' ') should be replaced with '%20%' string.
+
+NOTE: Captions in URL are those shown on TV screen and may depend on the
+used UI language.
+
+==== Launch plugin ===
+
+The "launch_media_url" command with "plugin_launcher://" media_url can be
+used to launch the given plugin, the given entry point of the given plugin,
+or execute the given action on the given plugin.
+
+Example:
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=plugin_launcher://{name=radiotime}
+
+Syntax:
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=plugin_launcher://{name=plugin_name}
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=plugin_launcher://{name=plugin_name}{ep_media_url=plugin_entry_point_media_url}
+
+http://10.0.0.1/cgi-bin/do?
+cmd=launch_media_url&media_url=plugin_launcher://{name=plugin_name}{action_id=plugin_action_id}
+
+Here:
+- plugin_name -- the name of an installed plugin.
+- ep_media_url -- media_url of an entry point in the plugin; useful if the
+  plugin has several entry points.
+- action_id -- ID of an action in the plugin; useful to perform a given
+  action on the plugin; this action should be defined in the plugin
+  manifest.
+
+More information about plugins:
+http://files.dune-hd.com/sdk/doc/html/plugins.html
+
+Examples of plugin names:
+- radiotime
+- dunestore
+- kartina_tv_launcher
+
+Names of all plugins currently installed on the box can be obtained this
+way:
+1. On a PC, install and open terminal emulator application; for example, PuTTY:
+   https://www.putty.org/
+2. Enable telnet access to the box:
+   http://files.dune-hd.com/sdk/doc/html/dune_devel_info.html#telnet_access_to_stb
+3. Perform the following command in telnet session to the box:
+   ls /tmp/plugins
+
+Protocol "5" (starting with firmware version 181228_0252_r13)
+-------------------------------------------------------------
+
+Support for JSON responses:
+
+   All commands can now return responses in JSON format -- when
+   "result_syntax=json" parameter is specified.
+
+   The new command "ui_state" (see below) requires "result_syntax=json";
+   other commands support both old and new result format.
+
+   NOTE: If your client application needs to support older protocol
+   versions, it must still use the old result format when using old
+   commands.
+
+The following new parameters are now available in player status:
+
+   General information about media player:
+      <param name="product_id" value="tv292b"/>
+      <param name="product_name" value="Pro 4K"/>
+      <param name="firmware_version" value="190117_1611_r13"/>
+      <param name="serial_number" value="0000-0001-5011-FF43-2623-3864-4F19-3185"/>
+      <param name="commercial_serial_number" value="CC292B002184201280"/>
+
+   Additional information about currently played content:
+      <param name="playback_caption" value="Loving You Sunday Morning"/>
+         If available: main caption for the currently played content
+      <param name="playback_extra_caption" value="Scorpions - Deadly Sting"/>
+         If available: additional caption for the currently played content
+      <param name="playback_picture" value="http://url--or--/path/to/file/for/get/file/cmd"/>
+         If available: picture (movie poster, music cover, TV channel llogo) for the currently played content
+      <param name="is_video" value="0"/>
+         If available: information is the currently played content is video or audio
+
+Volume control:
+
+   Now it works on Android models (playback_volume and playback_mute
+   parameters in player status, changing volume/mute status via
+   set_playback_state command).
+
+   Besides, now volume control works even when there is no playback.
+
+The following new commands are now available:
+
+   http://10.0.0.1/cgi-bin/do?
+   cmd=playback_action&action=...
+      Performs the given playback action. Contrary to sending IR code,
+      works properly even if TV UI is shown over playback (like
+      set_playback_state command works).
+      Supported action values:
+         stop
+         prev
+         next
+      NOTE: for other playback-related actions such as "pause/resume",
+      set_playback_state command can and should be used.
+
+   http://10.0.0.1/cgi-bin/do?
+   cmd=ui_state&result_syntax=json
+      Returns the information about the current TV UI screen.
+
+   http://10.0.0.1/cgi-bin/do?
+   cmd=ui_action_return[&count=-1|N]
+      Does the same as pressing RETURN in the TV UI.
+      -1 = go to main screen
+      N = go back N screens (default N = 1)
+
+   http://10.0.0.1/cgi-bin/do?
+   cmd=ui_action_enter&item_id=...
+      Does the same as selecting the item with the given ID on the current
+      TV UI screen and pressing ENTER.
+
+   http://10.0.0.1/cgi-bin/do?
+   cmd=ui_action_popup_menu&item_id=<...>
+      Does the same as selecting the item the given ID on the current TV UI
+      screen and pressing POP UP MENU.
+
+   http://10.0.0.1/cgi-bin/do?
+   cmd=get_file&path=...
+      Returns the content of the picture file with the given path.
+      For AAI files, automatically converts them to BMP.
+      The path should point to a file with one of the following extensions:
+         djpg jpg jpeg dpng png dbmp bmp gif aai
+

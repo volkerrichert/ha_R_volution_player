@@ -1,0 +1,17 @@
+meta {
+  name: Volume Up
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/do?cmd=ir_code&ir_code=E7184040&result_syntax=json
+  body: none
+  auth: none
+}
+
+params:query {
+  cmd: ir_code
+  ir_code: E7184040
+  result_syntax: json
+}

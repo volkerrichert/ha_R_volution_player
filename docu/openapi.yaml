@@ -1,0 +1,4164 @@
+{
+  "swagger": "2.0",
+  "info": { "title": "Rvolution Cloud", "version": "1.0" },
+  "host": "rvolution-server-1-10.westeurope.cloudapp.azure.com",
+  "basePath": "/",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths":
+    {
+      "/api/1.2/GetAnimatedBackground":
+        {
+          "get":
+            {
+              "tags": ["Assets"],
+              "description": "Get an animated background from its ID",
+              "operationId": "GetAnimatedBackgroundRequest1.2GetAnimatedBackground_Get",
+              "consumes": ["application/json"],
+              "produces": ["application/json"],
+              "parameters":
+                [
+                  {
+                    "name": "AuthKey",
+                    "in": "query",
+                    "description": "Retrieved from the Auth request",
+                    "type": "string",
+                    "x-nullable": false,
+                  },
+                  {
+                    "name": "Collection",
+                    "in": "query",
+                    "description": "Retrieved from the property CollectionInfos of the Auth result",
+                    "type": "string",
+                  },
+                  {
+                    "name": "AnimatedBackgroundId",
+                    "in": "query",
+                    "description": "ID of the animated background retrieved from the menu/media result",
+                    "type": "string",
+                  },
+                ],
+              "responses": {},
+              "deprecated": false,
+            },
+          "parameters": [{ "$ref": "#/parameters/Accept" }],
+        },
+      "/api/1.2/GetSoundtrack":
+        {
+          "get":
+            {
+              "tags": ["Assets"],
+              "description": "Get a soundtrack from its ID",
+              "operationId": "GetSoundtrackRequest1.2GetSoundtrack_Get",
+              "consumes": ["application/json"],
+              "produces": ["application/json"],
+              "parameters":
+                [
+                  {
+                    "name": "AuthKey",
+                    "in": "query",
+                    "description": "Retrieved from the Auth request",
+                    "type": "string",
+                    "x-nullable": false,
+                  },
+                  {
+                    "name": "Collection",
+                    "in": "query",
+                    "description": "Retrieved from the property CollectionInfos of the Auth result",
+                    "type": "string",
+                  },
+                  {
+                    "name": "SoundtrackId",
+                    "in": "query",
+                    "description": "ID of the soundtrack retrieved from the menu/media result",
+                    "type": "string",
+                  },
+                  {
+                    "name": "IsDefaultSoundtrack",
+                    "in": "query",
+                    "description": "Is the soundtrack a default one or a personal one?",
+                    "type": "boolean",
+                    "x-nullable": false,
+                  },
+                ],
+              "responses": {},
+              "deprecated": false,
+            },
+          "parameters": [{ "$ref": "#/parameters/Accept" }],
+        },
+      "/api/1.2/Auth":
+        {
+          "get":
+            {
+              "tags": ["Account"],
+              "description": "Get Authkey and collections information",
+              "operationId": "AuthRequest1.2Auth_Get",
+              "consumes": ["application/json"],
+              "produces": ["application/json"],
+              "parameters":
+                [
+                  {
+                    "name": "Email",
+                    "in": "query",
+                    "description": "User email",
+                    "type": "string",
+                  },
+                  {
+                    "name": "Password",
+                    "in": "query",
+                    "description": "User password",
+                    "type": "string",
+                  },
+                ],
+              "responses": {},
+              "deprecated": false,
+            },
+          "parameters": [{ "$ref": "#/parameters/Accept" }],
+        },
+      "/api/1.2/Media":
+        {
+          "get":
+            {
+              "tags": ["Menus and Medias"],
+              "description": "Allow to get the content of a specific media",
+              "operationId": "MediaRequest1.2Media_Get",
+              "consumes": ["application/json"],
+              "produces": ["application/json"],
+              "parameters":
+                [
+                  {
+                    "name": "AuthKey",
+                    "in": "query",
+                    "description": "Retrieved from the Auth request",
+                    "type": "string",
+                    "x-nullable": false,
+                  },
+                  {
+                    "name": "Collection",
+                    "in": "query",
+                    "description": "Retrieved from the property CollectionInfos of the Auth result",
+                    "type": "string",
+                  },
+                  {
+                    "name": "Id",
+                    "in": "query",
+                    "description": "ID of the media",
+                    "type": "string",
+                    "x-nullable": false,
+                  },
+                ],
+              "responses": {},
+              "deprecated": false,
+            },
+          "parameters": [{ "$ref": "#/parameters/Accept" }],
+        },
+      "/api/1.2/Menu":
+        {
+          "get":
+            {
+              "tags": ["Menus and Medias"],
+              "description": "Allow to get the content of a specific menu",
+              "operationId": "MenuRequest1.2Menu_Get",
+              "consumes": ["application/json"],
+              "produces": ["application/json"],
+              "parameters":
+                [
+                  {
+                    "name": "AuthKey",
+                    "in": "query",
+                    "description": "Retrieved from the Auth request",
+                    "type": "string",
+                    "x-nullable": false,
+                  },
+                  {
+                    "name": "Collection",
+                    "in": "query",
+                    "description": "Retrieved from the property CollectionInfos of the Auth result",
+                    "type": "string",
+                  },
+                  {
+                    "name": "ById",
+                    "in": "query",
+                    "description": "Id of the menu requested",
+                    "type": "string",
+                    "x-nullable": false,
+                  },
+                  {
+                    "name": "ByName",
+                    "in": "query",
+                    "description": "Name of the menu requested",
+                    "type": "string",
+                  },
+                  {
+                    "name": "Type",
+                    "in": "query",
+                    "description": "Menu Type",
+                    "type": "string",
+                    "enum": ["Menu", "Category", "Item", "Letter"],
+                    "x-nullable": false,
+                  },
+                  {
+                    "name": "IsParentalControlActive",
+                    "in": "query",
+                    "description": "If true, return only videos set as allowed to children",
+                    "type": "boolean",
+                    "x-nullable": false,
+                  },
+                ],
+              "responses": {},
+              "deprecated": false,
+            },
+          "parameters": [{ "$ref": "#/parameters/Accept" }],
+        },
+      "/api/1.2/Picture":
+        {
+          "get":
+            {
+              "tags": ["Assets"],
+              "description": "Get a picture from its hash",
+              "operationId": "PictureRequest1.2Picture_Get",
+              "consumes": ["application/json"],
+              "produces": ["application/json"],
+              "parameters":
+                [
+                  {
+                    "name": "AuthKey",
+                    "in": "query",
+                    "description": "Retrieved from the Auth request",
+                    "type": "string",
+                    "x-nullable": false,
+                  },
+                  {
+                    "name": "Collection",
+                    "in": "query",
+                    "description": "Retrieved from the property CollectionInfos of the Auth result",
+                    "type": "string",
+                  },
+                  {
+                    "name": "Hash",
+                    "in": "query",
+                    "description": "Hash of the picture retrieved from the menu/media result",
+                    "type": "string",
+                  },
+                ],
+              "responses": {},
+              "deprecated": false,
+            },
+          "parameters": [{ "$ref": "#/parameters/Accept" }],
+        },
+    },
+  "definitions":
+    {
+      "Object": { "properties": {}, "description": "Object", "type": "object" },
+      "StartCollectionFromCloudRequest":
+        {
+          "title": "StartCollectionFromCloudRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "$ref": "#/definitions/CollectionInfo" },
+            },
+          "description": "StartCollectionFromCloudRequest",
+          "type": "object",
+        },
+      "CollectionInfo":
+        {
+          "title": "CollectionInfo",
+          "properties":
+            {
+              "Collection": { "type": "string" },
+              "Alias": { "type": "string" },
+              "ErrorCode": { "type": "string" },
+            },
+          "description": "CollectionInfo",
+          "type": "object",
+        },
+      "AddExternalSubtitleRequest":
+        {
+          "title": "AddExternalSubtitleRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "MediaId": { "type": "string", "x-nullable": false },
+              "SubtitleChosen": { "type": "string" },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "AddExternalSubtitleRequest",
+          "type": "object",
+        },
+      "MultipleAddForChildrenRequest":
+        {
+          "title": "MultipleAddForChildrenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleAddForChildrenRequest",
+          "type": "object",
+        },
+      "AssociateFavouriteSceneRequest":
+        {
+          "title": "AssociateFavouriteSceneRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "MovieHash": { "type": "string" },
+              "SceneId":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "SceneName": { "type": "string" },
+            },
+          "description": "AssociateFavouriteSceneRequest",
+          "type": "object",
+        },
+      "MultipleSetStateAsSeenRequest":
+        {
+          "title": "MultipleSetStateAsSeenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleSetStateAsSeenRequest",
+          "type": "object",
+        },
+      "CreateFavouriteSceneRequest":
+        {
+          "title": "CreateFavouriteSceneRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "Name": { "type": "string" },
+              "TimerStart":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "TimerEnd":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "ThumbnailBytesInBase64": { "type": "string" },
+              "MovieDuration":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "CreateFavouriteSceneRequest",
+          "type": "object",
+        },
+      "ChangeVideoPathRequest":
+        {
+          "title": "ChangeVideoPathRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "OldVideoPath": { "type": "string" },
+              "NewVideoPath": { "type": "string" },
+            },
+          "description": "ChangeVideoPathRequest",
+          "type": "object",
+        },
+      "CleanDatabaseRequest":
+        {
+          "title": "CleanDatabaseRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "CleanDatabaseRequest",
+          "type": "object",
+        },
+      "DeleteAccountRequest":
+        {
+          "title": "DeleteAccountRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Mail": { "type": "string" },
+            },
+          "description": "DeleteAccountRequest",
+          "type": "object",
+        },
+      "DeleteFavouriteSceneRequest":
+        {
+          "title": "DeleteFavouriteSceneRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "SceneId":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "DeleteFavouriteSceneRequest",
+          "type": "object",
+        },
+      "DownloadAnimatedBackgroundVideoRequest":
+        {
+          "title": "DownloadAnimatedBackgroundVideoRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "AnimatedBackgroundId": { "type": "string" },
+            },
+          "description": "DownloadAnimatedBackgroundVideoRequest",
+          "type": "object",
+        },
+      "CategoryToVideoTypeToggleRequest":
+        {
+          "title": "CategoryToVideoTypeToggleRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "CategoryId": { "type": "string", "x-nullable": false },
+            },
+          "description": "CategoryToVideoTypeToggleRequest",
+          "type": "object",
+        },
+      "GetAllDemoTrailersRequest":
+        {
+          "title": "GetAllDemoTrailersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetAllDemoTrailersRequest",
+          "type": "object",
+        },
+      "GetAllUserFavouriteScenesRequest":
+        {
+          "title": "GetAllUserFavouriteScenesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetAllUserFavouriteScenesRequest",
+          "type": "object",
+        },
+      "GetAnimatedBackgroundIdRequest":
+        {
+          "title": "GetAnimatedBackgroundIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScraperId": { "type": "string" },
+            },
+          "description": "GetAnimatedBackgroundIdRequest",
+          "type": "object",
+        },
+      "GetAnimatedBackgroundLastModificationTicksRequest":
+        {
+          "title": "GetAnimatedBackgroundLastModificationTicksRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "AnimatedBackgroundScraperId": { "type": "string" },
+            },
+          "description": "GetAnimatedBackgroundLastModificationTicksRequest",
+          "type": "object",
+        },
+      "GetAnimatedBackgroundRequest":
+        {
+          "title": "GetAnimatedBackgroundRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ButtonGuid": { "type": "string", "x-nullable": false },
+              "AnimatedBackgroundId": { "type": "string" },
+            },
+          "description": "GetAnimatedBackgroundRequest",
+          "type": "object",
+        },
+      "GetBestTechnicalInformationFromVideoIdRequest":
+        {
+          "title": "GetBestTechnicalInformationFromVideoIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "VideoId": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetBestTechnicalInformationFromVideoIdRequest",
+          "type": "object",
+        },
+      "GetDemoTrailersAssociatedToMediaRequest":
+        {
+          "title": "GetDemoTrailersAssociatedToMediaRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "MediaId": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetDemoTrailersAssociatedToMediaRequest",
+          "type": "object",
+        },
+      "GetFavouriteScenesRequest":
+        {
+          "title": "GetFavouriteScenesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetFavouriteScenesRequest",
+          "type": "object",
+        },
+      "GetFavouriteSceneThumbnailRequest":
+        {
+          "title": "GetFavouriteSceneThumbnailRequest",
+          "properties":
+            {
+              "Collection": { "type": "string" },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ThumbnailHash": { "type": "string" },
+            },
+          "description": "GetFavouriteSceneThumbnailRequest",
+          "type": "object",
+        },
+      "GetIdsFromItemIdRequest":
+        {
+          "title": "GetIdsFromItemIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "ItemType": { "type": "string" },
+            },
+          "description": "GetIdsFromItemIdRequest",
+          "type": "object",
+        },
+      "GetImdbRegexRequest":
+        {
+          "title": "GetImdbRegexRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetImdbRegexRequest",
+          "type": "object",
+        },
+      "GetAnimatedBackgroundInfoRequest":
+        {
+          "title": "GetAnimatedBackgroundInfoRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ButtonGuid": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetAnimatedBackgroundInfoRequest",
+          "type": "object",
+        },
+      "GetMenusSortAndFiltersRequest":
+        {
+          "title": "GetMenusSortAndFiltersRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ErrorCode": { "type": "string" },
+            },
+          "description": "GetMenusSortAndFiltersRequest",
+          "type": "object",
+        },
+      "GetAutoripHistoryRequest":
+        {
+          "title": "GetAutoripHistoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+              "DateTimeTicks":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+            },
+          "description": "GetAutoripHistoryRequest",
+          "type": "object",
+        },
+      "GetMoviesWithFavouriteScenesFromUserRequest":
+        {
+          "title": "GetMoviesWithFavouriteScenesFromUserRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetMoviesWithFavouriteScenesFromUserRequest",
+          "type": "object",
+        },
+      "GetMoviesWithFavouriteScenesRequest":
+        {
+          "title": "GetMoviesWithFavouriteScenesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetMoviesWithFavouriteScenesRequest",
+          "type": "object",
+        },
+      "GetPersonFilmographyRequest":
+        {
+          "title": "GetPersonFilmographyRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "PersonName": { "type": "string" },
+              "Language": { "type": "string" },
+              "PersonRole": { "type": "string" },
+            },
+          "description": "GetPersonFilmographyRequest",
+          "type": "object",
+        },
+      "GetRvolutionTrailerRequest":
+        {
+          "title": "GetRvolutionTrailerRequest",
+          "properties":
+            {
+              "Collection": { "type": "string" },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "MediaId": { "type": "string", "x-nullable": false },
+              "MediaType": { "type": "string" },
+            },
+          "description": "GetRvolutionTrailerRequest",
+          "type": "object",
+        },
+      "GetStatsNasRequest":
+        {
+          "title": "GetStatsNasRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+            },
+          "description": "GetStatsNasRequest",
+          "type": "object",
+        },
+      "GetSubscriptionStatusRequest":
+        {
+          "title": "GetSubscriptionStatusRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetSubscriptionStatusRequest",
+          "type": "object",
+        },
+      "GetSubtitleDownloadLinkRequest":
+        {
+          "title": "GetSubtitleDownloadLinkRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "SubtitleId": { "type": "string" },
+            },
+          "description": "GetSubtitleDownloadLinkRequest",
+          "type": "object",
+        },
+      "GetTranslateProjectsRequest":
+        {
+          "title": "GetTranslateProjectsRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetTranslateProjectsRequest",
+          "type": "object",
+        },
+      "GetUserLicenceStatusRequest":
+        {
+          "title": "GetUserLicenceStatusRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetUserLicenceStatusRequest",
+          "type": "object",
+        },
+      "MenuMultipleSelectionRequest":
+        {
+          "title": "MenuMultipleSelectionRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ById": { "type": "string", "x-nullable": false },
+              "Type": { "type": "string" },
+              "VideoType": { "type": "string" },
+              "Start":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Take":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "IsParentalControlActive":
+                { "type": "boolean", "x-nullable": false },
+            },
+          "description": "MenuMultipleSelectionRequest",
+          "type": "object",
+        },
+      "MultipleAddToCategoryRequest":
+        {
+          "title": "MultipleAddToCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "CategoryId": { "type": "string", "x-nullable": false },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleAddToCategoryRequest",
+          "type": "object",
+        },
+      "MultipleAddToGroupRequest":
+        {
+          "title": "MultipleAddToGroupRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "GroupId": { "type": "string", "x-nullable": false },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleAddToGroupRequest",
+          "type": "object",
+        },
+      "MultipleRemoveForChildrenRequest":
+        {
+          "title": "MultipleRemoveForChildrenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleRemoveForChildrenRequest",
+          "type": "object",
+        },
+      "MultipleRemoveFromCategoryRequest":
+        {
+          "title": "MultipleRemoveFromCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "CategoryId": { "type": "string", "x-nullable": false },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleRemoveFromCategoryRequest",
+          "type": "object",
+        },
+      "MultipleRemoveFromGroupRequest":
+        {
+          "title": "MultipleRemoveFromGroupRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "GroupId": { "type": "string", "x-nullable": false },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleRemoveFromGroupRequest",
+          "type": "object",
+        },
+      "OverrideTechnicalInformationRequest":
+        {
+          "title": "OverrideTechnicalInformationRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+              "TechnicalInfo": { "$ref": "#/definitions/TechnicalInfo" },
+            },
+          "description": "OverrideTechnicalInformationRequest",
+          "type": "object",
+        },
+      "TechnicalInfo":
+        {
+          "title": "TechnicalInfo",
+          "properties":
+            {
+              "Container": { "type": "string" },
+              "Width":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Height":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "ScanType": { "type": "string" },
+              "VideoCodec": { "type": "string" },
+              "VideoFramerate": { "type": "string" },
+              "Subtitles": { "type": "string" },
+              "Runtime":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "VideoColorDepth": { "type": "integer", "format": "int32" },
+              "TechnicalInfoType": { "type": "string" },
+              "AudioTrackTechnicalInfos":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/AudioTrackTechnicalInfo" },
+                },
+              "HDR": { "type": "string" },
+            },
+          "description": "TechnicalInfo",
+          "type": "object",
+        },
+      "AudioTrackTechnicalInfo":
+        {
+          "title": "AudioTrackTechnicalInfo",
+          "properties":
+            {
+              "Index":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "UserIndex":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Format": { "type": "string" },
+              "FormatCommercial": { "type": "string" },
+              "FormatProfile": { "type": "string" },
+              "Channels": { "type": "string" },
+              "NumberOfDynamicObjects": { "type": "string" },
+              "BedChannelCount": { "type": "string" },
+              "Language": { "type": "string" },
+            },
+          "description": "AudioTrackTechnicalInfo",
+          "type": "object",
+        },
+      "DisableDemoTrailersRequest":
+        {
+          "title": "DisableDemoTrailersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "DemoTrailersToDisable":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/DemoTrailerModel" },
+                },
+            },
+          "description": "DisableDemoTrailersRequest",
+          "type": "object",
+        },
+      "DemoTrailerModel":
+        {
+          "title": "DemoTrailerModel",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "Hash": { "type": "string" },
+              "Path": { "type": "string" },
+            },
+          "description": "DemoTrailerModel",
+          "type": "object",
+        },
+      "RenameFavouriteSceneRequest":
+        {
+          "title": "RenameFavouriteSceneRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "SceneId":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "SceneName": { "type": "string" },
+            },
+          "description": "RenameFavouriteSceneRequest",
+          "type": "object",
+        },
+      "SaveAssociatedDemoTrailersRequest":
+        {
+          "title": "SaveAssociatedDemoTrailersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "MediaId": { "type": "string", "x-nullable": false },
+              "DemoTrailers":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/DemoTrailerAssociation" },
+                },
+            },
+          "description": "SaveAssociatedDemoTrailersRequest",
+          "type": "object",
+        },
+      "DemoTrailerAssociation":
+        {
+          "title": "DemoTrailerAssociation",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "Hash": { "type": "string" },
+              "Path": { "type": "string" },
+              "Position":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "IsEnabled": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "DemoTrailerAssociation",
+          "type": "object",
+        },
+      "SaveUserTechnicalInformationRequest":
+        {
+          "title": "SaveUserTechnicalInformationRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+              "TechnicalInfo": { "$ref": "#/definitions/TechnicalInfo" },
+            },
+          "description": "SaveUserTechnicalInformationRequest",
+          "type": "object",
+        },
+      "ScanDemoTrailersRequest":
+        {
+          "title": "ScanDemoTrailersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ScannedDemoTrailers":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/NewDemoTrailer" },
+                },
+            },
+          "description": "ScanDemoTrailersRequest",
+          "type": "object",
+        },
+      "NewDemoTrailer":
+        {
+          "title": "NewDemoTrailer",
+          "properties":
+            { "Path": { "type": "string" }, "Hash": { "type": "string" } },
+          "description": "NewDemoTrailer",
+          "type": "object",
+        },
+      "SearchSubtitlesRequest":
+        {
+          "title": "SearchSubtitlesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "ItemType": { "type": "string" },
+              "Languages": { "type": "string" },
+            },
+          "description": "SearchSubtitlesRequest",
+          "type": "object",
+        },
+      "SetFavouriteSceneRequest":
+        {
+          "title": "SetFavouriteSceneRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "FavouriteScene":
+                { "$ref": "#/definitions/FavouriteSceneContainer" },
+            },
+          "description": "SetFavouriteSceneRequest",
+          "type": "object",
+        },
+      "FavouriteSceneContainer":
+        {
+          "title": "FavouriteSceneContainer",
+          "properties":
+            {
+              "ID":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "Name": { "type": "string" },
+              "Rating":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "StartTimer":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "EndTimer":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "DurationInSeconds":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "ThumbnailHash": { "type": "string" },
+              "MovieDuration":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "CreatorUserId": { "type": "string", "x-nullable": false },
+            },
+          "description": "FavouriteSceneContainer",
+          "type": "object",
+        },
+      "SetMenuSortAndFiltersRequest":
+        {
+          "title": "SetMenuSortAndFiltersRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "MenuName": { "type": "string" },
+              "MenuSortAndFilters":
+                { "$ref": "#/definitions/MenuSortAndFilters" },
+              "ErrorCode": { "type": "string" },
+            },
+          "description": "SetMenuSortAndFiltersRequest",
+          "type": "object",
+        },
+      "MenuSortAndFilters":
+        {
+          "title": "MenuSortAndFilters",
+          "properties":
+            {
+              "DisabledFilters":
+                { "type": "array", "items": { "type": "string" } },
+              "Sort": { "type": "string" },
+            },
+          "description": "MenuSortAndFilters",
+          "type": "object",
+        },
+      "SetTrialModeRequest":
+        {
+          "title": "SetTrialModeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "TrialMode": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "SetTrialModeRequest",
+          "type": "object",
+        },
+      "MultipleSetStateAsUnseenRequest":
+        {
+          "title": "MultipleSetStateAsUnseenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemIds":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "MultipleSetStateAsUnseenRequest",
+          "type": "object",
+        },
+      "UpdateBookmarkPositionRequest":
+        {
+          "title": "UpdateBookmarkPositionRequest",
+          "properties":
+            {
+              "Collection": { "type": "string" },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "MediaId": { "type": "string", "x-nullable": false },
+              "BookmarkVideoPosition":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "UpdateBookmarkPositionRequest",
+          "type": "object",
+        },
+      "SetIsAnimatedBackgroundEnabledRequest":
+        {
+          "title": "SetIsAnimatedBackgroundEnabledRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "EnableAnimatedBackground":
+                { "type": "boolean", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "SetIsAnimatedBackgroundEnabledRequest",
+          "type": "object",
+        },
+      "GetSavedYoutubeSearchRequest":
+        {
+          "title": "GetSavedYoutubeSearchRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Language": { "type": "string" },
+              "ScraperId": { "type": "string" },
+            },
+          "description": "GetSavedYoutubeSearchRequest",
+          "type": "object",
+        },
+      "GetYoutubeRegexRequest":
+        {
+          "title": "GetYoutubeRegexRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetYoutubeRegexRequest",
+          "type": "object",
+        },
+      "SetSaveYoutubeSearchRequest":
+        {
+          "title": "SetSaveYoutubeSearchRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScraperId": { "type": "string" },
+              "Status":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/YoutubeVideoStatus" },
+                },
+            },
+          "description": "SetSaveYoutubeSearchRequest",
+          "type": "object",
+        },
+      "YoutubeVideoStatus":
+        {
+          "title": "YoutubeVideoStatus",
+          "properties":
+            {
+              "VideoId": { "type": "string" },
+              "Readability": { "type": "string" },
+              "Category": { "type": "string" },
+              "Language": { "type": "string" },
+              "VideoTitle": { "type": "string" },
+              "ThumbnailUrl": { "type": "string" },
+            },
+          "description": "YoutubeVideoStatus",
+          "type": "object",
+        },
+      "TitleByItemIdRequest":
+        {
+          "title": "TitleByItemIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "CultureName": { "type": "string" },
+            },
+          "description": "TitleByItemIdRequest",
+          "type": "object",
+        },
+      "UploadAnimatedBackgroundMarketItemRequest":
+        {
+          "title": "UploadAnimatedBackgroundMarketItemRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Code": { "type": "string" },
+              "Data": { "type": "string" },
+            },
+          "description": "UploadAnimatedBackgroundMarketItemRequest",
+          "type": "object",
+        },
+      "GetScraperTasksCountMonitoringRequest":
+        {
+          "title": "GetScraperTasksCountMonitoringRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "TaskTable": { "type": "string" },
+            },
+          "description": "GetScraperTasksCountMonitoringRequest",
+          "type": "object",
+        },
+      "GetScraperTasksMonitoringRequest":
+        {
+          "title": "GetScraperTasksMonitoringRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "TaskTable": { "type": "string" },
+            },
+          "description": "GetScraperTasksMonitoringRequest",
+          "type": "object",
+        },
+      "ReleaseTokenMonitoringRequest":
+        {
+          "title": "ReleaseTokenMonitoringRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+            },
+          "description": "ReleaseTokenMonitoringRequest",
+          "type": "object",
+        },
+      "AllActivatedGroupRequest":
+        {
+          "title": "AllActivatedGroupRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Id": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "AllActivatedGroupRequest",
+          "type": "object",
+        },
+      "CancelMailChangeRequest":
+        {
+          "title": "CancelMailChangeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "UserID": { "type": "string", "x-nullable": false },
+            },
+          "description": "CancelMailChangeRequest",
+          "type": "object",
+        },
+      "CancelScasTaskRequest":
+        {
+          "title": "CancelScasTaskRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "CancelScasTaskRequest",
+          "type": "object",
+        },
+      "ChangeMailRequest":
+        {
+          "title": "ChangeMailRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "NewMail": { "type": "string" },
+            },
+          "description": "ChangeMailRequest",
+          "type": "object",
+        },
+      "CheckTokenRequest":
+        {
+          "title": "CheckTokenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+            },
+          "description": "CheckTokenRequest",
+          "type": "object",
+        },
+      "CheckVideoTypeCloudRequest":
+        {
+          "title": "CheckVideoTypeCloudRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Hash": { "type": "string" },
+            },
+          "description": "CheckVideoTypeCloudRequest",
+          "type": "object",
+        },
+      "GetTokenDetailsMonitoringRequest":
+        {
+          "title": "GetTokenDetailsMonitoringRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+            },
+          "description": "GetTokenDetailsMonitoringRequest",
+          "type": "object",
+        },
+      "RemoveListOfMediaScasErrorRequest":
+        {
+          "title": "RemoveListOfMediaScasErrorRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "MediaScas":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/MediaScas" },
+                },
+            },
+          "description": "RemoveListOfMediaScasErrorRequest",
+          "type": "object",
+        },
+      "MediaScas":
+        {
+          "title": "MediaScas",
+          "properties":
+            {
+              "Type": { "type": "string" },
+              "Path": { "type": "string" },
+              "Title": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+              "Size":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "Hash": { "type": "string" },
+            },
+          "description": "MediaScas",
+          "type": "object",
+        },
+      "SaveDatabaseInCloudRequest":
+        {
+          "title": "SaveDatabaseInCloudRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "SaveDatabaseInCloudRequest",
+          "type": "object",
+        },
+      "ServerAttributionRequest":
+        {
+          "title": "ServerAttributionRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "MacAddress": { "type": "string" },
+            },
+          "description": "ServerAttributionRequest",
+          "type": "object",
+        },
+      "ConsiderChoiceTypeRequest":
+        {
+          "title": "ConsiderChoiceTypeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "AutoScan": { "type": "boolean", "x-nullable": false },
+              "Hash": { "type": "string" },
+              "mediaType": { "type": "string" },
+            },
+          "description": "ConsiderChoiceTypeRequest",
+          "type": "object",
+        },
+      "GetAllPathHashMoviesRequest":
+        {
+          "title": "GetAllPathHashMoviesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetAllPathHashMoviesRequest",
+          "type": "object",
+        },
+      "GetAllPathHashTvShowsEpisodeRequest":
+        {
+          "title": "GetAllPathHashTvShowsEpisodeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetAllPathHashTvShowsEpisodeRequest",
+          "type": "object",
+        },
+      "RegisterNewStatNasRequest":
+        {
+          "title": "RegisterNewStatNasRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "StatNasLog": { "$ref": "#/definitions/StatNasLog" },
+            },
+          "description": "RegisterNewStatNasRequest",
+          "type": "object",
+        },
+      "StatNasLog":
+        {
+          "title": "StatNasLog",
+          "properties":
+            {
+              "Id": { "type": "string" },
+              "TeamViewerId": { "type": "string" },
+              "TeamViewerIdFromReg": { "type": "string" },
+              "RvolutionNasToken": { "type": "string" },
+              "SystemUpSinceDate": { "type": "string" },
+              "LastUpdateStamp":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "InternalIp": { "type": "string" },
+              "ExternalIp": { "type": "string" },
+              "Hostname": { "type": "string" },
+              "DhcpEnabled": { "type": "boolean", "x-nullable": false },
+              "DiskInfos":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/DiskInfo" },
+                },
+              "Partitions":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/DiskPartition" },
+                },
+              "Rips":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/RipsInProgress" },
+                },
+            },
+          "description": "StatNasLog",
+          "type": "object",
+        },
+      "DiskInfo":
+        {
+          "title": "DiskInfo",
+          "properties":
+            {
+              "HardDiskNumber":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "HardDiskSerialNumber": { "type": "string" },
+              "TotalSize":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "Health":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "TemperatureMeasures":
+                { "$ref": "#/definitions/Queue_TemperatureMeasure_" },
+              "PowerOnTime": { "type": "string" },
+            },
+          "description": "DiskInfo",
+          "type": "object",
+        },
+      "Queue_TemperatureMeasure_":
+        {
+          "title": "Queue`1",
+          "properties": {},
+          "description": "Queue<TemperatureMeasure>",
+          "type": "object",
+        },
+      "DiskPartition":
+        {
+          "title": "DiskPartition",
+          "properties":
+            {
+              "Drive": { "type": "string" },
+              "TotalSpace":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "FreeSpace":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+            },
+          "description": "DiskPartition",
+          "type": "object",
+        },
+      "RipsInProgress":
+        {
+          "title": "RipsInProgress",
+          "properties":
+            {
+              "DriveLetter": { "type": "string" },
+              "FileName": { "type": "string" },
+              "Progress":
+                { "type": "number", "format": "float", "x-nullable": false },
+              "ProgressMessage": { "type": "string" },
+              "ResultMessage": { "type": "string" },
+              "LastUpdateUTCTicks":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+            },
+          "description": "RipsInProgress",
+          "type": "object",
+        },
+      "RescrapToEmptyRequest":
+        {
+          "title": "RescrapToEmptyRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Hash": { "type": "string" },
+              "Path": { "type": "string" },
+              "Title": { "type": "string" },
+              "Type": { "type": "string" },
+              "FileSize":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "RescrapToEmptyRequest",
+          "type": "object",
+        },
+      "GetListEpisodeFromHashRequest":
+        {
+          "title": "GetListEpisodeFromHashRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Hash": { "type": "string" },
+            },
+          "description": "GetListEpisodeFromHashRequest",
+          "type": "object",
+        },
+      "ConsiderChoiceSeasonEpisodeRequest":
+        {
+          "title": "ConsiderChoiceSeasonEpisodeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "AutoScan": { "type": "boolean", "x-nullable": false },
+              "Hash": { "type": "string" },
+              "ListEpisode": { "type": "string" },
+            },
+          "description": "ConsiderChoiceSeasonEpisodeRequest",
+          "type": "object",
+        },
+      "CsvCollectionRequest":
+        {
+          "title": "CsvCollectionRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Attachment": { "type": "string" },
+            },
+          "description": "CsvCollectionRequest",
+          "type": "object",
+        },
+      "DeletePersonalSoundtrackOnCloudRequest":
+        {
+          "title": "DeletePersonalSoundtrackOnCloudRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "SoundtrackId": { "type": "string" },
+            },
+          "description": "DeletePersonalSoundtrackOnCloudRequest",
+          "type": "object",
+        },
+      "GetStatisticsCollectionRequest":
+        {
+          "title": "GetStatisticsCollectionRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetStatisticsCollectionRequest",
+          "type": "object",
+        },
+      "DownloadSoundtrackRequest":
+        {
+          "title": "DownloadSoundtrackRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "SoundtrackId": { "type": "string" },
+              "IsDefaultSoundtrack": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "DownloadSoundtrackRequest",
+          "type": "object",
+        },
+      "DeletePersonalSoundtrackRequest":
+        {
+          "title": "DeletePersonalSoundtrackRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "SoundtrackId": { "type": "string" },
+              "ButtonId": { "type": "string", "x-nullable": false },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "DeletePersonalSoundtrackRequest",
+          "type": "object",
+        },
+      "GetAllNewSoundtracksRequest":
+        {
+          "title": "GetAllNewSoundtracksRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetAllNewSoundtracksRequest",
+          "type": "object",
+        },
+      "GetAllSoundtracksFromMediumRequest":
+        {
+          "title": "GetAllSoundtracksFromMediumRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScrapperId": { "type": "string" },
+            },
+          "description": "GetAllSoundtracksFromMediumRequest",
+          "type": "object",
+        },
+      "IsUserAllowedToMutualizeRequest":
+        {
+          "title": "IsUserAllowedToMutualizeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "IsUserAllowedToMutualizeRequest",
+          "type": "object",
+        },
+      "TvdbJwtTokenRequest":
+        {
+          "title": "TvdbJwtTokenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "TvdbJwtTokenRequest",
+          "type": "object",
+        },
+      "UpdateSoundtrackEntryRequest":
+        {
+          "title": "UpdateSoundtrackEntryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "UserId": { "type": "string" },
+              "ScrapperId": { "type": "string" },
+              "SoundtrackId": { "type": "string" },
+              "IsChecked": { "type": "boolean", "x-nullable": false },
+              "Comment": { "type": "string" },
+              "LastModification":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "OriginalTitle": { "type": "string" },
+              "IsDeleted": { "type": "boolean", "x-nullable": false },
+              "IsDefault": { "type": "boolean", "x-nullable": false },
+              "IsCorrupted": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "UpdateSoundtrackEntryRequest",
+          "type": "object",
+        },
+      "SoundtrackLinkRequest":
+        {
+          "title": "SoundtrackLinkRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "SoundtrackId": { "type": "string" },
+              "IsDefaultSoundtrack": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "SoundtrackLinkRequest",
+          "type": "object",
+        },
+      "GetAllDefaultSoundtracksRequest":
+        {
+          "title": "GetAllDefaultSoundtracksRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetAllDefaultSoundtracksRequest",
+          "type": "object",
+        },
+      "UploadDefaultSoundtrackRequest":
+        {
+          "title": "UploadDefaultSoundtrackRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "UserId": { "type": "string" },
+              "ScrapperId": { "type": "string" },
+              "SoundtrackId": { "type": "string" },
+              "IsChecked": { "type": "boolean", "x-nullable": false },
+              "Comment": { "type": "string" },
+              "LastModification":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "OriginalTitle": { "type": "string" },
+              "IsDeleted": { "type": "boolean", "x-nullable": false },
+              "Data": { "type": "string" },
+            },
+          "description": "UploadDefaultSoundtrackRequest",
+          "type": "object",
+        },
+      "GetMediaCsvRequest":
+        {
+          "title": "GetMediaCsvRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetMediaCsvRequest",
+          "type": "object",
+        },
+      "GetMediaTitlesRequest":
+        {
+          "title": "GetMediaTitlesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "GetMediaTitlesRequest",
+          "type": "object",
+        },
+      "SendCsvCollectionRequest":
+        {
+          "title": "SendCsvCollectionRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "SendCsvCollectionRequest",
+          "type": "object",
+        },
+      "TVShowEpisodesRequest":
+        {
+          "title": "TVShowEpisodesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScrapperId": { "type": "string" },
+              "Language": { "type": "string" },
+            },
+          "description": "TVShowEpisodesRequest",
+          "type": "object",
+        },
+      "UploadSoundtrackRequest":
+        {
+          "title": "UploadSoundtrackRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScraperId": { "type": "string" },
+              "SoundtrackId": { "type": "string" },
+              "LastSoundtrackId": { "type": "string" },
+              "IsChecked": { "type": "boolean", "x-nullable": false },
+              "Comment": { "type": "string" },
+            },
+          "description": "UploadSoundtrackRequest",
+          "type": "object",
+        },
+      "AddNewCultureRequest":
+        {
+          "title": "AddNewCultureRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Project": { "type": "string" },
+              "Language": { "type": "string" },
+            },
+          "description": "AddNewCultureRequest",
+          "type": "object",
+        },
+      "GetUpdatedSoundtrackRequest":
+        {
+          "title": "GetUpdatedSoundtrackRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ButtonGuid": { "type": "string", "x-nullable": false },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "GetUpdatedSoundtrackRequest",
+          "type": "object",
+        },
+      "GetDefaultSoundtrackIdRequest":
+        {
+          "title": "GetDefaultSoundtrackIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScraperId": { "type": "string" },
+            },
+          "description": "GetDefaultSoundtrackIdRequest",
+          "type": "object",
+        },
+      "GetSoundtrackIdRequest":
+        {
+          "title": "GetSoundtrackIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScraperId": { "type": "string" },
+            },
+          "description": "GetSoundtrackIdRequest",
+          "type": "object",
+        },
+      "GetSoundtrackRequest":
+        {
+          "title": "GetSoundtrackRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "SoundtrackId": { "type": "string" },
+              "IsDefaultSoundtrack": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "GetSoundtrackRequest",
+          "type": "object",
+        },
+      "AuthLogRequest":
+        {
+          "title": "AuthLogRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ID": { "type": "string", "x-nullable": false },
+              "DeviceId": { "type": "string", "x-nullable": false },
+              "Version": { "type": "string" },
+              "DeviceType": { "type": "string" },
+              "DeviceFamily": { "type": "string" },
+              "OSVersion": { "type": "string" },
+              "IP": { "type": "string" },
+              "ApplicationName": { "type": "string" },
+            },
+          "description": "AuthLogRequest",
+          "type": "object",
+        },
+      "AvailableVersionRequest":
+        {
+          "title": "AvailableVersionRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Application": { "type": "string" },
+              "Platform": { "type": "string" },
+            },
+          "description": "AvailableVersionRequest",
+          "type": "object",
+        },
+      "BetaFeedbackRequest":
+        {
+          "title": "BetaFeedbackRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "NotNow": { "type": "boolean", "x-nullable": false },
+              "Report": { "type": "boolean", "x-nullable": false },
+              "AllClear": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "BetaFeedbackRequest",
+          "type": "object",
+        },
+      "BetaStateRequest":
+        {
+          "title": "BetaStateRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "BetaProgram": { "type": "string" },
+              "UserMail": { "type": "string" },
+            },
+          "description": "BetaStateRequest",
+          "type": "object",
+        },
+      "ContactSupportRequest":
+        {
+          "title": "ContactSupportRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApplicationName": { "type": "string" },
+              "ApplicationVersion": { "type": "string" },
+              "OSVersion": { "type": "string" },
+            },
+          "description": "ContactSupportRequest",
+          "type": "object",
+        },
+      "CreateEmptyRequest":
+        {
+          "title": "CreateEmptyRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Hash": { "type": "string" },
+              "Path": { "type": "string" },
+              "Title": { "type": "string" },
+              "Type": { "type": "string" },
+              "TechnicalInformation": { "$ref": "#/definitions/TechnicalInfo" },
+              "FileSize":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "CreateEmptyRequest",
+          "type": "object",
+        },
+      "AddSoundtrackToItemRequest":
+        {
+          "title": "AddSoundtrackToItemRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ButtonGuid": { "type": "string", "x-nullable": false },
+              "ButtonType": { "type": "string" },
+              "BytesInBase64": { "type": "string" },
+              "Comment": { "type": "string" },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "AddSoundtrackToItemRequest",
+          "type": "object",
+        },
+      "EjectDriveRequest":
+        {
+          "title": "EjectDriveRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Target": { "type": "string" },
+            },
+          "description": "EjectDriveRequest",
+          "type": "object",
+        },
+      "ItemCategoriesRequest":
+        {
+          "title": "ItemCategoriesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "Type": { "type": "string" },
+            },
+          "description": "ItemCategoriesRequest",
+          "type": "object",
+        },
+      "ModuleShowcaseRequest":
+        {
+          "title": "ModuleShowcaseRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "ModuleShowcaseRequest",
+          "type": "object",
+        },
+      "DefaultExcludeArticleRequest":
+        {
+          "title": "DefaultExcludeArticleRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "DefaultExcludeArticleRequest",
+          "type": "object",
+        },
+      "CreateLinkCategoryRequest":
+        {
+          "title": "CreateLinkCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "NewLinks": { "$ref": "#/definitions/LinkCategory" },
+            },
+          "description": "CreateLinkCategoryRequest",
+          "type": "object",
+        },
+      "LinkCategory":
+        {
+          "title": "LinkCategory",
+          "properties":
+            {
+              "ItemId": { "type": "string", "x-nullable": false },
+              "ListCategoryLinked":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "LinkCategory",
+          "type": "object",
+        },
+      "DeleteItemFromNextModuleRequest":
+        {
+          "title": "DeleteItemFromNextModuleRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+            },
+          "description": "DeleteItemFromNextModuleRequest",
+          "type": "object",
+        },
+      "EditCategoryLinksRequest":
+        {
+          "title": "EditCategoryLinksRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Categories":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "EditCategoryLinksRequest",
+          "type": "object",
+        },
+      "MediaListRequest":
+        {
+          "title": "MediaListRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "StartIndex":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "MediaListRequest",
+          "type": "object",
+        },
+      "ModulesPositionsRequest":
+        {
+          "title": "ModulesPositionsRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Positions": { "$ref": "#/definitions/Dictionary_Guid_Int32_" },
+            },
+          "description": "ModulesPositionsRequest",
+          "type": "object",
+        },
+      "Dictionary_Guid_Int32_":
+        {
+          "title": "Dictionary<Guid,Int32>",
+          "additionalProperties":
+            { "type": "integer", "format": "int32", "x-nullable": false },
+          "description": "Dictionary<Guid,Int32>",
+          "type": "object",
+        },
+      "ModulesRequest":
+        {
+          "title": "ModulesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ModuleRequestSubSet": { "type": "string" },
+              "IsSearchEnabled": { "type": "boolean", "x-nullable": false },
+              "IsModePlayer": { "type": "boolean", "x-nullable": false },
+              "IsFavouriteScenesAvailable":
+                { "type": "boolean", "x-nullable": false },
+            },
+          "description": "ModulesRequest",
+          "type": "object",
+        },
+      "MoveCategoryRequest":
+        {
+          "title": "MoveCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ListCategoryMoved":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/MoveCategory" },
+                },
+            },
+          "description": "MoveCategoryRequest",
+          "type": "object",
+        },
+      "MoveCategory":
+        {
+          "title": "MoveCategory",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "Position":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "MoveCategory",
+          "type": "object",
+        },
+      "NextEpisodeRequest":
+        {
+          "title": "NextEpisodeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "CurentEpisodeId": { "type": "string", "x-nullable": false },
+            },
+          "description": "NextEpisodeRequest",
+          "type": "object",
+        },
+      "RegisterTeamViewerIdRequest":
+        {
+          "title": "RegisterTeamViewerIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+              "TeamviewerId": { "type": "string" },
+            },
+          "description": "RegisterTeamViewerIdRequest",
+          "type": "object",
+        },
+      "GetNewSoundtracksForUserRequest":
+        {
+          "title": "GetNewSoundtracksForUserRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "LimitDateInTicks": { "type": "string" },
+            },
+          "description": "GetNewSoundtracksForUserRequest",
+          "type": "object",
+        },
+      "ResetCategoryRequest":
+        {
+          "title": "ResetCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "ResetCategoryRequest",
+          "type": "object",
+        },
+      "EditCategoryRequest":
+        {
+          "title": "EditCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "CategoryId": { "type": "string", "x-nullable": false },
+              "NewCategoryName": { "type": "string" },
+              "NewCategoryIcon": { "type": "string" },
+            },
+          "description": "EditCategoryRequest",
+          "type": "object",
+        },
+      "DeleteCategoryRequest":
+        {
+          "title": "DeleteCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "CategoryId": { "type": "string", "x-nullable": false },
+            },
+          "description": "DeleteCategoryRequest",
+          "type": "object",
+        },
+      "CreateCategoryRequest":
+        {
+          "title": "CreateCategoryRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "NameCategory": { "type": "string" },
+              "IconHashCategory": { "type": "string" },
+            },
+          "description": "CreateCategoryRequest",
+          "type": "object",
+        },
+      "CheckThirdPartyRequest":
+        {
+          "title": "CheckThirdPartyRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ThirdPartyApiKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "CheckThirdPartyRequest",
+          "type": "object",
+        },
+      "CodecRipAudioRequest":
+        {
+          "title": "CodecRipAudioRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Codecs": { "type": "array", "items": { "type": "string" } },
+            },
+          "description": "CodecRipAudioRequest",
+          "type": "object",
+        },
+      "ConfigureNasRequest":
+        {
+          "title": "ConfigureNasRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "RvolutionNasToken": { "type": "string" },
+            },
+          "description": "ConfigureNasRequest",
+          "type": "object",
+        },
+      "ConsiderAutoChoiceRequest":
+        {
+          "title": "ConsiderAutoChoiceRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "IdScraper": { "type": "string" },
+              "Hash": { "type": "string" },
+              "ItemType": { "type": "string" },
+            },
+          "description": "ConsiderAutoChoiceRequest",
+          "type": "object",
+        },
+      "DeviceLicenceRequest":
+        {
+          "title": "DeviceLicenceRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+              "DeviceKey": { "type": "string" },
+              "ProductCode": { "type": "string" },
+            },
+          "description": "DeviceLicenceRequest",
+          "type": "object",
+        },
+      "TraductionDeleteRequest":
+        {
+          "title": "TraductionDeleteRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Alias": { "type": "string" },
+              "Project": { "type": "string" },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "TraductionDeleteRequest",
+          "type": "object",
+        },
+      "DownloadTranslateRequest":
+        {
+          "title": "DownloadTranslateRequest",
+          "properties":
+            {
+              "Language": { "type": "string" },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "DownloadTranslateRequest",
+          "type": "object",
+        },
+      "DownloadVersionRequest":
+        {
+          "title": "DownloadVersionRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Channel": { "type": "string" },
+            },
+          "description": "DownloadVersionRequest",
+          "type": "object",
+        },
+      "FirstPagesPicturesRequest":
+        {
+          "title": "FirstPagesPicturesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "MenuToPreloadPicturesFrom":
+                {
+                  "type": "array",
+                  "items":
+                    { "$ref": "#/definitions/MenuToPreloadPicturesFrom" },
+                },
+            },
+          "description": "FirstPagesPicturesRequest",
+          "type": "object",
+        },
+      "MenuToPreloadPicturesFrom":
+        {
+          "title": "MenuToPreloadPicturesFrom",
+          "properties":
+            {
+              "MenuName": { "type": "string" },
+              "PictureToPreloadCount":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "MenuToPreloadPicturesFrom",
+          "type": "object",
+        },
+      "ResetModulesRequest":
+        {
+          "title": "ResetModulesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "ResetModulesRequest",
+          "type": "object",
+        },
+      "ServerLogRequest":
+        {
+          "title": "ServerLogRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "DeviceId": { "type": "string", "x-nullable": false },
+              "Version": { "type": "string" },
+              "DeviceType": { "type": "string" },
+              "DeviceFamily": { "type": "string" },
+              "OSVersion": { "type": "string" },
+              "IP": { "type": "string" },
+            },
+          "description": "ServerLogRequest",
+          "type": "object",
+        },
+      "RolesRequest":
+        {
+          "title": "RolesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "RolesRequest",
+          "type": "object",
+        },
+      "SetModuleAsShowcaseRequest":
+        {
+          "title": "SetModuleAsShowcaseRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ModuleId": { "type": "string", "x-nullable": false },
+            },
+          "description": "SetModuleAsShowcaseRequest",
+          "type": "object",
+        },
+      "SetModuleRequest":
+        {
+          "title": "SetModuleRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ModuleId": { "type": "string", "x-nullable": false },
+              "ActivationStatus": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "SetModuleRequest",
+          "type": "object",
+        },
+      "SharedFoldersRequest":
+        {
+          "title": "SharedFoldersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Path": { "type": "string" },
+              "Username": { "type": "string" },
+              "Password": { "type": "string" },
+              "Workgroup": { "type": "string" },
+            },
+          "description": "SharedFoldersRequest",
+          "type": "object",
+        },
+      "GetTranslateRequest":
+        {
+          "title": "GetTranslateRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Language": { "type": "string" },
+              "Project": { "type": "string" },
+            },
+          "description": "GetTranslateRequest",
+          "type": "object",
+        },
+      "GetVoteTranslateRequest":
+        {
+          "title": "GetVoteTranslateRequest",
+          "properties":
+            {
+              "Alias": { "type": "string" },
+              "Language": { "type": "string" },
+              "Project": { "type": "string" },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "GetVoteTranslateRequest",
+          "type": "object",
+        },
+      "LogRipStateRequest":
+        {
+          "title": "LogRipStateRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "VolumeName": { "type": "string" },
+              "Token": { "type": "string" },
+              "RipError": { "type": "string" },
+            },
+          "description": "LogRipStateRequest",
+          "type": "object",
+        },
+      "MutualizeTitleByIdRequest":
+        {
+          "title": "MutualizeTitleByIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Id": { "type": "string" },
+              "ItemType": { "type": "string" },
+              "Title": { "type": "string" },
+              "CultureName": { "type": "string" },
+            },
+          "description": "MutualizeTitleByIdRequest",
+          "type": "object",
+        },
+      "RegisterBetaRequest":
+        {
+          "title": "RegisterBetaRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "BetaProgram": { "type": "string" },
+              "UserMail": { "type": "string" },
+            },
+          "description": "RegisterBetaRequest",
+          "type": "object",
+        },
+      "SaveYoutubeSearchRequest":
+        {
+          "title": "SaveYoutubeSearchRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Status":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/YoutubeVideoStatus" },
+                },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "SaveYoutubeSearchRequest",
+          "type": "object",
+        },
+      "ScraperIdRequest":
+        {
+          "title": "ScraperIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ScraperIdValueRequest": { "type": "string" },
+              "ScraperIdTypeRequest": { "type": "string" },
+              "ScraperIdTypeResult": { "type": "string" },
+            },
+          "description": "ScraperIdRequest",
+          "type": "object",
+        },
+      "ServerMountRequest":
+        {
+          "title": "ServerMountRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Host": { "type": "string" },
+              "Path": { "type": "string" },
+              "UserName": { "type": "string" },
+              "Password": { "type": "string" },
+            },
+          "description": "ServerMountRequest",
+          "type": "object",
+        },
+      "SetCodecRipAudioRequest":
+        {
+          "title": "SetCodecRipAudioRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Status": { "type": "boolean", "x-nullable": false },
+              "Codec": { "type": "string" },
+            },
+          "description": "SetCodecRipAudioRequest",
+          "type": "object",
+        },
+      "SetTranslateRequest":
+        {
+          "title": "SetTranslateRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "TranslateVoteInfos":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/TranslateVoteInfo" },
+                },
+              "Language": { "type": "string" },
+              "Project": { "type": "string" },
+            },
+          "description": "SetTranslateRequest",
+          "type": "object",
+        },
+      "TranslateVoteInfo":
+        {
+          "title": "TranslateVoteInfo",
+          "properties":
+            {
+              "Alias": { "type": "string" },
+              "Traduction": { "type": "string" },
+              "TradId": { "type": "string" },
+              "Email": { "type": "string" },
+              "Authkeys": { "type": "string" },
+              "Vote":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "IsDisabled": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "TranslateVoteInfo",
+          "type": "object",
+        },
+      "SetAllowedForChildrenRequest":
+        {
+          "title": "SetAllowedForChildrenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "AllowedForChildren": { "type": "boolean", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "SetAllowedForChildrenRequest",
+          "type": "object",
+        },
+      "SetVersionChannelRequest":
+        {
+          "title": "SetVersionChannelRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Application": { "type": "string" },
+              "Channel": { "type": "string" },
+            },
+          "description": "SetVersionChannelRequest",
+          "type": "object",
+        },
+      "StartTaskRequest":
+        {
+          "title": "StartTaskRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "TaskType": { "type": "string" },
+            },
+          "description": "StartTaskRequest",
+          "type": "object",
+        },
+      "StatisticNasRequest":
+        {
+          "title": "StatisticNasRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "StatisticNasRequest",
+          "type": "object",
+        },
+      "ValidationCodeRequest":
+        {
+          "title": "ValidationCodeRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Email": { "type": "string" },
+              "Code": { "type": "string" },
+            },
+          "description": "ValidationCodeRequest",
+          "type": "object",
+        },
+      "VerifyAccountListRequest":
+        {
+          "title": "VerifyAccountListRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "AccountList":
+                { "$ref": "#/definitions/Dictionary_String_String_" },
+            },
+          "description": "VerifyAccountListRequest",
+          "type": "object",
+        },
+      "Dictionary_String_String_":
+        {
+          "title": "Dictionary<String,String>",
+          "additionalProperties": { "type": "string" },
+          "description": "Dictionary<String,String>",
+          "type": "object",
+        },
+      "TestCredentialRequest":
+        {
+          "title": "TestCredentialRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "FolderInfo": { "$ref": "#/definitions/FolderInfo" },
+              "Username": { "type": "string" },
+              "Password": { "type": "string" },
+            },
+          "description": "TestCredentialRequest",
+          "type": "object",
+        },
+      "FolderInfo":
+        {
+          "title": "FolderInfo",
+          "properties":
+            {
+              "Name": { "type": "string" },
+              "Path": { "type": "string" },
+              "Workgroup": { "type": "string" },
+              "FolderInfoType": { "type": "string" },
+              "BrowseStorageMethod": { "type": "string" },
+              "DeviceTypeEnum": { "type": "string" },
+              "DisplayName": { "type": "string" },
+            },
+          "description": "FolderInfo",
+          "type": "object",
+        },
+      "TestStorageRequest":
+        {
+          "title": "TestStorageRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "TestStorageRequest",
+          "type": "object",
+        },
+      "RestartRequest":
+        {
+          "title": "RestartRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Port":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "RestartRequest",
+          "type": "object",
+        },
+      "CheckVersionRequest":
+        {
+          "title": "CheckVersionRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Channel": { "type": "string" },
+            },
+          "description": "CheckVersionRequest",
+          "type": "object",
+        },
+      "DownloadCollectionFromCloudRequest":
+        {
+          "title": "DownloadCollectionFromCloudRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ApiKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "DownloadCollectionFromCloudRequest",
+          "type": "object",
+        },
+      "CollectionsFromCloudRequest":
+        {
+          "title": "CollectionsFromCloudRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "CollectionsFromCloudRequest",
+          "type": "object",
+        },
+      "MonitoringRequest":
+        {
+          "title": "MonitoringRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "MonitoringRequest",
+          "type": "object",
+        },
+      "DiagnosticRequest":
+        {
+          "title": "DiagnosticRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "DiagnosticRequest",
+          "type": "object",
+        },
+      "SagaNameRequest":
+        {
+          "title": "SagaNameRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+            },
+          "description": "SagaNameRequest",
+          "type": "object",
+        },
+      "ScanStreamingRequest":
+        {
+          "title": "ScanStreamingRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "ScanStreamingRequest",
+          "type": "object",
+        },
+      "TitleByIdRequest":
+        {
+          "title": "TitleByIdRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Id": { "type": "string" },
+              "ItemType": { "type": "string" },
+              "CultureName": { "type": "string" },
+            },
+          "description": "TitleByIdRequest",
+          "type": "object",
+        },
+      "TraductionNewAliasRequest":
+        {
+          "title": "TraductionNewAliasRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Project": { "type": "string" },
+              "Alias": { "type": "string" },
+            },
+          "description": "TraductionNewAliasRequest",
+          "type": "object",
+        },
+      "TraductionOperationRequest":
+        {
+          "title": "TraductionOperationRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "FrenchTraduction": { "type": "string" },
+              "Project": { "type": "string" },
+            },
+          "description": "TraductionOperationRequest",
+          "type": "object",
+        },
+      "TraductionSaveRequest":
+        {
+          "title": "TraductionSaveRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Traductions": { "type": "array", "items": { "type": "string" } },
+              "Languages": { "type": "array", "items": { "type": "string" } },
+              "Project": { "type": "string" },
+              "Alias": { "type": "string" },
+            },
+          "description": "TraductionSaveRequest",
+          "type": "object",
+        },
+      "VersionChannelRequest":
+        {
+          "title": "VersionChannelRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Application": { "type": "string" },
+            },
+          "description": "VersionChannelRequest",
+          "type": "object",
+        },
+      "YoutubeStartSearchRequest":
+        {
+          "title": "YoutubeStartSearchRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Language": { "type": "string" },
+            },
+          "description": "YoutubeStartSearchRequest",
+          "type": "object",
+        },
+      "RvolutionDbPictureRequest":
+        {
+          "title": "RvolutionDbPictureRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "UserId": { "type": "string", "x-nullable": false },
+              "Id": { "type": "string" },
+              "ScraperName": { "type": "string" },
+            },
+          "description": "RvolutionDbPictureRequest",
+          "type": "object",
+        },
+      "PutGroupRequest":
+        {
+          "title": "PutGroupRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string" },
+              "Title": { "type": "string" },
+              "ItemsToAdd":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+              "ItemsToRemove":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+              "CurrentActiveMenusGuids":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "PutGroupRequest",
+          "type": "object",
+        },
+      "SetGroupPictureRequest":
+        {
+          "title": "SetGroupPictureRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "GroupId": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "SetGroupPictureRequest",
+          "type": "object",
+        },
+      "SetGroupSagaRequest":
+        {
+          "title": "SetGroupSagaRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "GroupId": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+            },
+          "description": "SetGroupSagaRequest",
+          "type": "object",
+        },
+      "ConsiderAllTechnicalsInfoRequest":
+        {
+          "title": "ConsiderAllTechnicalsInfoRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Auto": { "type": "boolean", "x-nullable": false },
+              "Hash": { "type": "string" },
+              "TechnicalInfo": { "$ref": "#/definitions/TechnicalInfo" },
+            },
+          "description": "ConsiderAllTechnicalsInfoRequest",
+          "type": "object",
+        },
+      "CategoriesRequest":
+        {
+          "title": "CategoriesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "CategoriesRequest",
+          "type": "object",
+        },
+      "CheckDatabaseRequest":
+        {
+          "title": "CheckDatabaseRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Email": { "type": "string" },
+              "ForceMigration": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "CheckDatabaseRequest",
+          "type": "object",
+        },
+      "ClearMediaScasErrorRequest":
+        {
+          "title": "ClearMediaScasErrorRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "ClearMediaScasErrorRequest",
+          "type": "object",
+        },
+      "ConsiderManualChoiceRequest":
+        {
+          "title": "ConsiderManualChoiceRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "IdScraper": { "type": "string" },
+              "Hash": { "type": "string" },
+              "ItemType": { "type": "string" },
+            },
+          "description": "ConsiderManualChoiceRequest",
+          "type": "object",
+        },
+      "ConsiderManualNameRequest":
+        {
+          "title": "ConsiderManualNameRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "IdScraper": { "type": "string" },
+              "Name": { "type": "string" },
+              "Language": { "type": "string" },
+              "ItemType": { "type": "string" },
+            },
+          "description": "ConsiderManualNameRequest",
+          "type": "object",
+        },
+      "CountMediaScasErrorRequest":
+        {
+          "title": "CountMediaScasErrorRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "CountMediaScasErrorRequest",
+          "type": "object",
+        },
+      "SubtitleRequest":
+        {
+          "title": "SubtitleRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "ItemType": { "type": "string" },
+            },
+          "description": "SubtitleRequest",
+          "type": "object",
+        },
+      "FolderInfoRequest":
+        {
+          "title": "FolderInfoRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Path": { "type": "string" },
+              "CreateIfNotExist": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "FolderInfoRequest",
+          "type": "object",
+        },
+      "LicenceRequest":
+        {
+          "title": "LicenceRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Email": { "type": "string" },
+            },
+          "description": "LicenceRequest",
+          "type": "object",
+        },
+      "PathHashMediaRequest":
+        {
+          "title": "PathHashMediaRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ButtonType": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+            },
+          "description": "PathHashMediaRequest",
+          "type": "object",
+        },
+      "PicturesHashRequest":
+        {
+          "title": "PicturesHashRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "RecentDate":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+            },
+          "description": "PicturesHashRequest",
+          "type": "object",
+        },
+      "BestIdFromHashRequest":
+        {
+          "title": "BestIdFromHashRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Hash": { "type": "string" },
+              "Language": { "type": "string" },
+              "ItemType": { "type": "string" },
+            },
+          "description": "BestIdFromHashRequest",
+          "type": "object",
+        },
+      "BestIdFromNameRequest":
+        {
+          "title": "BestIdFromNameRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Name": { "type": "string" },
+              "Language": { "type": "string" },
+              "ItemType": { "type": "string" },
+            },
+          "description": "BestIdFromNameRequest",
+          "type": "object",
+        },
+      "BestTechnicalInfoRequest":
+        {
+          "title": "BestTechnicalInfoRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Hash": { "type": "string" },
+            },
+          "description": "BestTechnicalInfoRequest",
+          "type": "object",
+        },
+      "TokensRequest":
+        {
+          "title": "TokensRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "TokensRequest",
+          "type": "object",
+        },
+      "TrailersRequest":
+        {
+          "title": "TrailersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "MediaId": { "type": "string", "x-nullable": false },
+              "MediaType": { "type": "string" },
+              "SaisonNumber": { "type": "string" },
+              "Language": { "type": "string" },
+            },
+          "description": "TrailersRequest",
+          "type": "object",
+        },
+      "RemoveCollectionRequest":
+        {
+          "title": "RemoveCollectionRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "RemoveCollectionRequest",
+          "type": "object",
+        },
+      "RemoveMediasRequest":
+        {
+          "title": "RemoveMediasRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "PathArray": { "type": "array", "items": { "type": "string" } },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "RemoveMediasRequest",
+          "type": "object",
+        },
+      "RenameCollectionRequest":
+        {
+          "title": "RenameCollectionRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "NewAlias": { "type": "string" },
+            },
+          "description": "RenameCollectionRequest",
+          "type": "object",
+        },
+      "RescrapTvShowRequest":
+        {
+          "title": "RescrapTvShowRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "TvShowId": { "type": "string", "x-nullable": false },
+              "Id": { "type": "string" },
+              "Title": { "type": "string" },
+              "Year": { "type": "string" },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "RescrapTvShowRequest",
+          "type": "object",
+        },
+      "SetScasErrorRequest":
+        {
+          "title": "SetScasErrorRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Errors":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/MediaScasError" },
+                },
+            },
+          "description": "SetScasErrorRequest",
+          "type": "object",
+        },
+      "MediaScasError":
+        {
+          "title": "MediaScasError",
+          "properties":
+            {
+              "Path": { "type": "string" },
+              "Type": { "type": "string" },
+              "Hash": { "type": "string" },
+            },
+          "description": "MediaScasError",
+          "type": "object",
+        },
+      "FilesRequest":
+        {
+          "title": "FilesRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Path": { "type": "string" },
+              "Extentions": { "type": "array", "items": { "type": "string" } },
+            },
+          "description": "FilesRequest",
+          "type": "object",
+        },
+      "IsAliveRequest":
+        {
+          "title": "IsAliveRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+            },
+          "description": "IsAliveRequest",
+          "type": "object",
+        },
+      "ScanMediasRequest":
+        {
+          "title": "ScanMediasRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "PreviewTotalMedias":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "ScannedMedias":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/NewMedia" },
+                },
+            },
+          "description": "ScanMediasRequest",
+          "type": "object",
+        },
+      "NewMedia":
+        {
+          "title": "NewMedia",
+          "properties":
+            {
+              "Path": { "type": "string" },
+              "Hash": { "type": "string" },
+              "Size":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "Type": { "type": "string" },
+              "TechnicalInfo": { "$ref": "#/definitions/TechnicalInfo" },
+            },
+          "description": "NewMedia",
+          "type": "object",
+        },
+      "EditRequest":
+        {
+          "title": "EditRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Media": { "$ref": "#/definitions/Media" },
+              "Collection": { "type": "string" },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "EditRequest",
+          "type": "object",
+        },
+      "Media":
+        {
+          "title": "Media",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "Path": { "type": "string" },
+              "Title": { "type": "string" },
+              "AlbumId": { "type": "string", "x-nullable": false },
+              "Poster": { "type": "string" },
+              "Background": { "type": "string" },
+              "Type": { "type": "string" },
+              "SeenState": { "type": "string" },
+              "AllowedForChildren": { "type": "boolean", "x-nullable": false },
+              "Episode":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Season":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "TvShowName": { "type": "string" },
+              "Synopsis": { "type": "string" },
+              "Rating100":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "ReleaseDate": { "type": "integer", "format": "int64" },
+              "Actors": { "type": "array", "items": { "type": "string" } },
+              "Directors": { "type": "array", "items": { "type": "string" } },
+              "AmericanCertification": { "type": "string" },
+              "AdditionalItem": { "type": "string" },
+              "TechnicalInfo": { "$ref": "#/definitions/TechnicalInfo" },
+              "AnimatedBackgroundId": { "type": "string" },
+              "LastTimeAnimatedBackgroundChecked":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "IsAnimatedBackgroundEnabled":
+                { "type": "boolean", "x-nullable": false },
+              "IsDemoTrailerEnabled":
+                { "type": "boolean", "x-nullable": false },
+              "BookmarkVideoPosition":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "Media",
+          "type": "object",
+        },
+      "AllFiltersRequest":
+        {
+          "title": "AllFiltersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "AllFiltersRequest",
+          "type": "object",
+        },
+      "MenuFiltersRequest":
+        {
+          "title": "MenuFiltersRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+              "ErrorCode": { "type": "string" },
+            },
+          "description": "MenuFiltersRequest",
+          "type": "object",
+        },
+      "StateRequest":
+        {
+          "title": "StateRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "StateRequest",
+          "type": "object",
+        },
+      "PutItemRequest":
+        {
+          "title": "PutItemRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "PutItem": { "$ref": "#/definitions/PutItem" },
+              "PutVideo": { "$ref": "#/definitions/PutVideo" },
+              "DateTime": { "type": "string" },
+            },
+          "description": "PutItemRequest",
+          "type": "object",
+        },
+      "PutItem":
+        {
+          "title": "PutItem",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "Title": { "type": "string" },
+              "Synopsis": { "type": "string" },
+              "Rating100":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Background": { "type": "string" },
+              "Creation":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "Modification":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "ReleaseDate": { "type": "string", "format": "date-time" },
+              "Poster": { "type": "string" },
+              "SeenState": { "type": "string" },
+              "Type": { "type": "string" },
+              "Position": { "type": "string" },
+              "ItemLink":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/PutLink" },
+                },
+              "ItemCategories":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/PutItemCategory" },
+                },
+              "ItemScraper": { "$ref": "#/definitions/PutScraper" },
+              "DefaultSoundtrackId": { "type": "string" },
+              "SoundtrackId": { "type": "string" },
+              "AnimatedBackgroundId": { "type": "string" },
+              "AmericanCertification": { "type": "string" },
+            },
+          "description": "PutItem",
+          "type": "object",
+        },
+      "PutLink":
+        {
+          "title": "PutLink",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "ParentId": { "type": "string", "x-nullable": false },
+              "ChildId": { "type": "string", "x-nullable": false },
+              "Position":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Type": { "type": "integer", "format": "int32" },
+            },
+          "description": "PutLink",
+          "type": "object",
+        },
+      "PutItemCategory":
+        {
+          "title": "PutItemCategory",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "CategoryId": { "type": "string", "x-nullable": false },
+            },
+          "description": "PutItemCategory",
+          "type": "object",
+        },
+      "PutScraper":
+        {
+          "title": "PutScraper",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "ScraperName": { "type": "string" },
+              "ScraperId": { "type": "string" },
+            },
+          "description": "PutScraper",
+          "type": "object",
+        },
+      "PutVideo":
+        {
+          "title": "PutVideo",
+          "properties":
+            {
+              "Id": { "type": "string", "x-nullable": false },
+              "Actors": { "type": "string" },
+              "Directors": { "type": "string" },
+              "Path": { "type": "string" },
+              "Hash": { "type": "string" },
+              "TechnicalInfo": { "$ref": "#/definitions/TechnicalInfo" },
+            },
+          "description": "PutVideo",
+          "type": "object",
+        },
+      "ScasMediaErrorListRequest":
+        {
+          "title": "ScasMediaErrorListRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Take":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Skip":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "ScasMediaErrorListRequest",
+          "type": "object",
+        },
+      "SetMenuFiltersRequest":
+        {
+          "title": "SetMenuFiltersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+              "Filters": { "type": "string" },
+            },
+          "description": "SetMenuFiltersRequest",
+          "type": "object",
+        },
+      "SetSeenStateRequest":
+        {
+          "title": "SetSeenStateRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "State": { "type": "string" },
+              "Collection": { "type": "string" },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+              "Recursive": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "SetSeenStateRequest",
+          "type": "object",
+        },
+      "ShareFolderRequest":
+        {
+          "title": "ShareFolderRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Folder": { "$ref": "#/definitions/Folder" },
+            },
+          "description": "ShareFolderRequest",
+          "type": "object",
+        },
+      "Folder":
+        {
+          "title": "Folder",
+          "properties":
+            {
+              "Type": { "type": "integer", "format": "int32" },
+              "Path": { "type": "string" },
+              "Host": { "type": "string" },
+              "Domain": { "type": "string" },
+              "UserName": { "type": "string" },
+              "UserCryptedPassword": { "type": "string" },
+              "VolumeLabel": { "type": "string" },
+              "StorageId": { "type": "string", "x-nullable": false },
+            },
+          "description": "Folder",
+          "type": "object",
+        },
+      "TaskListRequest":
+        {
+          "title": "TaskListRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "TaskListRequest",
+          "type": "object",
+        },
+      "AllGroupRequest":
+        {
+          "title": "AllGroupRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Id": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+            },
+          "description": "AllGroupRequest",
+          "type": "object",
+        },
+      "ChangePictureRequest":
+        {
+          "title": "ChangePictureRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "PictureType": { "type": "integer", "format": "int32" },
+              "Url": { "type": "string" },
+              "BytesInBase64": { "type": "string" },
+              "ApplyToChildren": { "type": "boolean", "x-nullable": false },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "ChangePictureRequest",
+          "type": "object",
+        },
+      "FoldersRequest":
+        {
+          "title": "FoldersRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Path": { "type": "string" },
+              "Host": { "type": "string" },
+              "Domain": { "type": "string" },
+              "User": { "type": "string" },
+              "Password": { "type": "string" },
+            },
+          "description": "FoldersRequest",
+          "type": "object",
+        },
+      "ActivateTokenRequest":
+        {
+          "title": "ActivateTokenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+              "DeviceId": { "type": "string" },
+            },
+          "description": "ActivateTokenRequest",
+          "type": "object",
+        },
+      "AuthRequest":
+        {
+          "title": "AuthRequest",
+          "properties":
+            {
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "Email": { "type": "string" },
+              "Password": { "type": "string" },
+              "DeviceId": { "type": "string", "x-nullable": false },
+              "DeviceFamily": { "type": "string" },
+              "DeviceType": { "type": "string" },
+              "Version": { "type": "string" },
+              "IP": { "type": "string" },
+              "OSVersion": { "type": "string" },
+              "ApplicationName": { "type": "string" },
+              "Offline": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "AuthRequest",
+          "type": "object",
+        },
+      "DeleteItemRequest":
+        {
+          "title": "DeleteItemRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+              "Type": { "type": "string" },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "DeleteItemRequest",
+          "type": "object",
+        },
+      "InitDatabaseRequest":
+        {
+          "title": "InitDatabaseRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Alias": { "type": "string" },
+              "Email": { "type": "string" },
+              "Language": { "type": "string" },
+            },
+          "description": "InitDatabaseRequest",
+          "type": "object",
+        },
+      "MediaRequest":
+        {
+          "title": "MediaRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Id": { "type": "string", "x-nullable": false },
+            },
+          "description": "MediaRequest",
+          "type": "object",
+        },
+      "MenuRequest":
+        {
+          "title": "MenuRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ById": { "type": "string", "x-nullable": false },
+              "ByName": { "type": "string" },
+              "Type": { "type": "string" },
+              "Start":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Take":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "LetterName": { "type": "string" },
+              "IsParentalControlActive":
+                { "type": "boolean", "x-nullable": false },
+            },
+          "description": "MenuRequest",
+          "type": "object",
+        },
+      "PictureRequest":
+        {
+          "title": "PictureRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Hash": { "type": "string" },
+              "Width":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "Height":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+            },
+          "description": "PictureRequest",
+          "type": "object",
+        },
+      "RegisterRequest":
+        {
+          "title": "RegisterRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Email": { "type": "string" },
+              "Password": { "type": "string" },
+              "FirstName": { "type": "string" },
+              "LastName": { "type": "string" },
+            },
+          "description": "RegisterRequest",
+          "type": "object",
+        },
+      "RescrapVideoRequest":
+        {
+          "title": "RescrapVideoRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Type": { "type": "string" },
+              "Collection": { "type": "string" },
+              "Path": { "type": "string" },
+              "Hash": { "type": "string" },
+              "TechnicalInfo": { "$ref": "#/definitions/TechnicalInfo" },
+              "Item": { "$ref": "#/definitions/SearchEntity" },
+              "Size":
+                { "type": "integer", "format": "int64", "x-nullable": false },
+              "CurrentActiveMenus":
+                {
+                  "type": "array",
+                  "items": { "type": "string", "x-nullable": false },
+                },
+            },
+          "description": "RescrapVideoRequest",
+          "type": "object",
+        },
+      "SearchEntity":
+        {
+          "title": "SearchEntity",
+          "properties":
+            {
+              "Title": { "type": "string" },
+              "Id": { "type": "string" },
+              "Year": { "type": "string" },
+              "Poster": { "type": "string" },
+              "SeasonAndEpisode": { "type": "string" },
+            },
+          "description": "SearchEntity",
+          "type": "object",
+        },
+      "ScrapSearchRequest":
+        {
+          "title": "ScrapSearchRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "ById": { "type": "string" },
+              "ByTitle": { "type": "string" },
+              "ItemType": { "type": "string" },
+            },
+          "description": "ScrapSearchRequest",
+          "type": "object",
+        },
+      "ReleaseTokenRequest":
+        {
+          "title": "ReleaseTokenRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Token": { "type": "string" },
+            },
+          "description": "ReleaseTokenRequest",
+          "type": "object",
+        },
+      "ResetPasswordRequest":
+        {
+          "title": "ResetPasswordRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Email": { "type": "string" },
+            },
+          "description": "ResetPasswordRequest",
+          "type": "object",
+        },
+      "SearchRequest":
+        {
+          "title": "SearchRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Word": { "type": "string" },
+              "Collection": { "type": "string" },
+              "IsParentalControlActive":
+                { "type": "boolean", "x-nullable": false },
+            },
+          "description": "SearchRequest",
+          "type": "object",
+        },
+      "SearchPictureRequest":
+        {
+          "title": "SearchPictureRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "ItemId": { "type": "string", "x-nullable": false },
+              "PictureType": { "type": "integer", "format": "int32" },
+              "Collection": { "type": "string" },
+            },
+          "description": "SearchPictureRequest",
+          "type": "object",
+        },
+      "SetSettingsRequest":
+        {
+          "title": "SetSettingsRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Settings": { "$ref": "#/definitions/Settings" },
+            },
+          "description": "SetSettingsRequest",
+          "type": "object",
+        },
+      "Settings":
+        {
+          "title": "Settings",
+          "properties":
+            {
+              "Language": { "type": "string" },
+              "InterfaceLanguage": { "type": "string" },
+              "Theme": { "type": "string" },
+              "Folders":
+                {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/Folder" },
+                },
+              "ScanAtLauch": { "type": "boolean", "x-nullable": false },
+              "HeaderOnMovie": { "type": "boolean", "x-nullable": false },
+              "MovieInfoScraper": { "type": "string" },
+              "MoviePictureScraper": { "type": "string" },
+              "TvShowInfoScraper": { "type": "string" },
+              "TvShowPictureScraper": { "type": "string" },
+              "ExcludedWords": { "type": "string" },
+              "IsExcludeAtFirstFind":
+                { "type": "boolean", "x-nullable": false },
+              "Email": { "type": "string" },
+              "AddToSagaOnScrap": { "type": "boolean", "x-nullable": false },
+              "PurchaseList":
+                { "type": "array", "items": { "type": "string" } },
+              "ParentalControlCode": { "type": "string" },
+              "AutoTagAllowedForChildrenInGroups":
+                { "type": "boolean", "x-nullable": false },
+              "SeenStateAuto": { "type": "boolean", "x-nullable": false },
+              "MarkPreviousEpisodes": { "type": "string" },
+              "ArticlesFilters": { "type": "string" },
+              "NextEpisode": { "type": "boolean", "x-nullable": false },
+              "SoundOnSynopsis": { "type": "boolean", "x-nullable": false },
+              "SoundOnPoster": { "type": "boolean", "x-nullable": false },
+              "SoundVolume": { "type": "string" },
+              "BluRayMenuLaunchBehaviour": { "type": "string" },
+              "SoundtrackTos": { "type": "boolean", "x-nullable": false },
+              "RenameFileOnNasWhenScan":
+                { "type": "boolean", "x-nullable": false },
+              "TimeBetweenEpisodes":
+                { "type": "integer", "format": "int32", "x-nullable": false },
+              "IsRenameAsked": { "type": "boolean", "x-nullable": false },
+              "IsAnimatedBackgroundEnabledByDefault":
+                { "type": "boolean", "x-nullable": false },
+              "IsAllowedToChildrenIconVisible":
+                { "type": "boolean", "x-nullable": false },
+              "IsGroupIconVisible": { "type": "boolean", "x-nullable": false },
+              "ShowSeenState": { "type": "boolean", "x-nullable": false },
+              "IsDemoTrailerActivated":
+                { "type": "boolean", "x-nullable": false },
+              "IsSortBarActivated": { "type": "boolean", "x-nullable": false },
+              "ScrollSensivity": { "type": "string" },
+              "SubtitlesLanguageOrder": { "type": "string" },
+              "ShowHearingImpairedSubtitles":
+                { "type": "boolean", "x-nullable": false },
+              "ShowAiSubtitles": { "type": "boolean", "x-nullable": false },
+              "SaveMenusSortAndFilters": { "type": "string" },
+              "IsGroupPlaylistRandom":
+                { "type": "boolean", "x-nullable": false },
+              "IsGroupPlaylistLooping":
+                { "type": "boolean", "x-nullable": false },
+              "UseIntegratedPlayer": { "type": "boolean", "x-nullable": false },
+            },
+          "description": "Settings",
+          "type": "object",
+        },
+      "SettingsRequest":
+        {
+          "title": "SettingsRequest",
+          "properties":
+            {
+              "ApiKey": { "type": "string", "x-nullable": false },
+              "AuthKey": { "type": "string", "x-nullable": false },
+              "Collection": { "type": "string" },
+              "Device": { "type": "string" },
+              "Library": { "type": "string" },
+            },
+          "description": "SettingsRequest",
+          "type": "object",
+        },
+    },
+  "parameters":
+    {
+      "Accept":
+        {
+          "name": "Accept",
+          "in": "header",
+          "description": "Accept Header",
+          "type": "string",
+          "required": true,
+          "enum": ["application/json"],
+        },
+    },
+  "securityDefinitions":
+    { "Bearer": { "type": "apiKey", "name": "Authorization", "in": "header" } },
+  "tags": [{ "name": "api" }],
+}

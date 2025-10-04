@@ -1,0 +1,18 @@
+meta {
+  name: GetAnimatedBackgroundRequest1.2GetAnimatedBackground_Get
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/GetAnimatedBackground?AuthKey={{authKey}}&Collection={{firstCollectionId}}&AnimatedBackgroundId=Movie_32679_9829bb29-da7b-4768-9776-f2df37964329&ApiKey={{apiKey}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  AnimatedBackgroundId: Movie_32679_9829bb29-da7b-4768-9776-f2df37964329
+  ApiKey: {{apiKey}}
+}

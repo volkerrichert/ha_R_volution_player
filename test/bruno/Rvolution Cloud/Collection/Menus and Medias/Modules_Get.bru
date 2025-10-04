@@ -1,0 +1,33 @@
+meta {
+  name: Modules_Get
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/Modules?ApiKey={{apiKey}}&AuthKey={{authKey}}&Collection={{firstCollectionId}}&ModuleRequestSubSet=EnabledModules&IsSearchEnabled=true&IsFavouriteScenesAvailable=true
+  body: json
+  auth: none
+}
+
+params:query {
+  ApiKey: {{apiKey}}
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  ModuleRequestSubSet: EnabledModules
+  IsSearchEnabled: true
+  IsFavouriteScenesAvailable: true
+  ~IsModePlayer: false
+}
+
+body:json {
+  {
+    "ApiKey": "{{apiKey}}",
+    "AuthKey": "{{authKey}}",
+    "Collection": "{{firstCollectionId}}",
+    "ModuleRequestSubSet": "EnabledModules",
+    "IsSearchEnabled": false,
+    "IsModePlayer": false,
+    "IsFavouriteScenesAvailable": false
+  }
+}

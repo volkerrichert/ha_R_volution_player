@@ -1,0 +1,17 @@
+meta {
+  name: play nfs://
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/do?cmd=start_file_playback&media_url=nfs://192.168.110.136:/volume2/Video:/Filme/8_blickwinkel.mkv&result_syntax=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  cmd: start_file_playback
+  media_url: nfs://192.168.110.136:/volume2/Video:/Filme/8_blickwinkel.mkv
+  result_syntax: json
+}

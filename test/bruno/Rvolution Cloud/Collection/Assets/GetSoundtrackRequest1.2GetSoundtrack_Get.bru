@@ -1,0 +1,18 @@
+meta {
+  name: GetSoundtrackRequest1.2GetSoundtrack_Get
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/GetSoundtrack
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~AuthKey: {{authKey}}
+  ~Collection: {{firstCollectionId}}
+  ~SoundtrackId: 
+  ~IsDefaultSoundtrack: 
+}

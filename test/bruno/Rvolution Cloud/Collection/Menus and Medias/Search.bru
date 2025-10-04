@@ -1,0 +1,33 @@
+meta {
+  name: Search
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/Search
+  body: json
+  auth: none
+}
+
+params:query {
+  ~AuthKey: {{authKey}}
+  ~Collection: {{firstCollectionId}}
+  ~Word: Blade
+  ~ApiKey: {{apiKey}}
+  ~IsParentalControlActive: false
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "ApiKey": "{{apiKey}}",
+    "AuthKey": "{{authKey}}",
+    "Word": "Blade",
+    "Collection": "{{firstCollectionId}}",
+    "IsParentalControlActive": false
+  }
+}

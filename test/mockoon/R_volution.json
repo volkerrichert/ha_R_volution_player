@@ -1,0 +1,322 @@
+{
+  "uuid": "6951088d-2597-4008-aaf7-dbb8e56016e6",
+  "lastMigration": 33,
+  "name": "R_volution",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 80,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "a6a47e7b-aa18-41b1-9b8f-3803cbfac26e",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "cgi-bin/do",
+      "responses": [
+        {
+          "uuid": "ddd58fa0-5a92-4e9f-9305-744254e0dd31",
+          "body": "{\n  \"protocol_version\": \"6\",\n  \"phv_md5\": \"00000000000000000000000000000000\",\n  \"android_app_active\": \"0\",\n  \"android_md5\": \"00000000000000000000000000000000\",\n  \"player_state\": \"navigator\",\n  \"playback_volume\": \"{{getGlobalVar 'volume' null '100'}}\",\n  \"playback_mute\": \"{{getGlobalVar 'mute' null '0'}}\",\n  \"md5\": \"00000000000000000000000000000000\",\n  \"product_id\": \"rvr008\",\n  \"serial_number\": \"0000-0000-0000-0000-0000-0000-0000-0000\",\n  \"firmware_version\": \"250729_0833_r22\",\n  \"commercial_serial_number\": \"ECRVR0000000000000\",\n  \"app_version\": \"1.0.1-13-250729_0833\",\n  \"product_name\": \"R_volution Dummy\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "status",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "cmd",
+              "value": "status",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ecbb4187-cae5-430b-8db6-4ad3b4b3ff87",
+          "body": "{{setVar 'oldVolume' (getGlobalVar 'volume' null 100)}}{{setVar 'oldMute' (getGlobalVar 'mute' null '0')}}\n{{setGlobalVar 'volume' (add (getGlobalVar 'volume' null '100') 4)}}{{setGlobalVar 'mute' '0'}}\n{{#if (gt (getGlobalVar 'volume') 100)}}{{setGlobalVar 'volume' 100}}{{/if}}\n{\n  \"protocol_version\": \"6\",\n  \"phv_md5\": \"00000000000000000000000000000000\",\n  \"android_app_active\": \"0\",\n  \"android_md5\": \"00000000000000000000000000000000\",\n  \"player_state\": \"navigator\",\n  \"playback_volume\": \"{{getGlobalVar 'volume' null '100'}}\",\n  \"playback_mute\": \"{{getGlobalVar 'mute' null '0'}}\",\n  \"md5\": \"00000000000000000000000000000000\",\n  \"product_id\": \"rvr008\",\n  \"serial_number\": \"0000-0000-0000-0000-0000-0000-0000-0000\",\n  \"firmware_version\": \"250729_0833_r22\",\n  \"commercial_serial_number\": \"ECRVR0000000000000\",\n  \"app_version\": \"1.0.1-13-250729_0833\",\n  \"product_name\": \"R_volution Dummy\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Volume Up",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "cmd",
+              "value": "ir_code",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "ir_code",
+              "value": "E7184040",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "71ec1df8-82fb-4e92-905a-0cac0295d92e",
+          "body": "{{setVar 'oldVolume' (getGlobalVar 'volume' null 100)}}{{setVar 'oldMute' (getGlobalVar 'mute' null '0')}}\n{{#if (eq (getGlobalVar 'mute' null '0') '0')}}{{setGlobalVar 'mute' '1'}}{{else}}{{setGlobalVar 'mute' '0'}}{{/if}}\n{\n  \"protocol_version\": \"6\",\n  \"phv_md5\": \"00000000000000000000000000000000\",\n  \"android_app_active\": \"0\",\n  \"android_md5\": \"00000000000000000000000000000000\",\n  \"player_state\": \"navigator\",\n  \"playback_volume\": \"{{getGlobalVar 'volume' null '100'}}\",\n  \"playback_mute\": \"{{getGlobalVar 'mute' null '0'}}\",\n  \"md5\": \"00000000000000000000000000000000\",\n  \"product_id\": \"rvr008\",\n  \"serial_number\": \"0000-0000-0000-0000-0000-0000-0000-0000\",\n  \"firmware_version\": \"250729_0833_r22\",\n  \"commercial_serial_number\": \"ECRVR0000000000000\",\n  \"app_version\": \"1.0.1-13-250729_0833\",\n  \"product_name\": \"R_volution Dummy\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Mute",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "cmd",
+              "value": "ir_code",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "ir_code",
+              "value": "BC434040",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "154530f5-d9e7-4df9-a2b4-7d27ba168439",
+          "body": "{{setVar 'oldVolume' (getGlobalVar 'volume' null 100)}}{{setVar 'oldMute' (getGlobalVar 'mute' null '0')}}\n{{setGlobalVar 'volume' (subtract (getGlobalVar 'volume' null 100) 4)}}\n{{#if (lt (getGlobalVar 'volume') 0)}}{{setGlobalVar 'volume' 0}}{{setGlobalVar 'mute' '1'}}{{/if}}<?xml version=\"1.0\"?>\n{\n  \"protocol_version\": \"6\",\n  \"phv_md5\": \"00000000000000000000000000000000\",\n  \"android_app_active\": \"0\",\n  \"android_md5\": \"00000000000000000000000000000000\",\n  \"player_state\": \"navigator\",\n  \"playback_volume\": \"{{getGlobalVar 'volume' null '100'}}\",\n  \"playback_mute\": \"{{getGlobalVar 'mute' null '0'}}\",\n  \"md5\": \"00000000000000000000000000000000\",\n  \"product_id\": \"rvr008\",\n  \"serial_number\": \"0000-0000-0000-0000-0000-0000-0000-0000\",\n  \"firmware_version\": \"250729_0833_r22\",\n  \"commercial_serial_number\": \"ECRVR0000000000000\",\n  \"app_version\": \"1.0.1-13-250729_0833\",\n  \"product_name\": \"R_volution Dummy\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Volume Down",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "cmd",
+              "value": "ir_code",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "ir_code",
+              "value": "E8174040",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "9f0b8dc5-2058-45cb-93dc-c141f49c7bfd",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/1.2/Menu",
+      "responses": [
+        {
+          "uuid": "5e951f9a-d6f0-44d3-bc84-9b3d8c1a51d9",
+          "body": "{\n    \"Menu\": {\n        \"Id\": \"c27d957477e646a99b594742f52cb1be\",\n        \"Code\": \"Movies\",\n        \"Name\": \"Movies\",\n        \"SeenState\": \"Stateless\",\n        \"HasPlaylist\": false,\n        \"Buttons\": [\n            {\n                \"Id\": \"d93f8d69446e47c7b9747e82017ab0a9\",\n                \"Type\": \"Movie\",\n                \"Icon\": \"6ffef3d36d1290c36951ce54d98cc2e054b431aa\",\n                \"Background\": \"f7174697b1aa324dede7305a494b9d3296d367a6\",\n                \"Text\": \"12 Monkeys\",\n                \"TitleWithoutDiacritics\": \"12 monkeys\",\n                \"TitleInInteger\": 12,\n                \"SeenState\": \"Unseen\",\n                \"IsAllowedForChildren\": false,\n                \"Rating100\": 76,\n                \"Duration\": 7740,\n                \"AdditionalItem\": \"Auto\",\n                \"Container\": \"MKV\",\n                \"ReleaseDate\": 629557920000000000,\n                \"CreationDate\": 638758436855199081,\n                \"IsDisabled\": false,\n                \"Width\": 1920,\n                \"Height\": 1040,\n                \"CategoryType\": \"Video\",\n                \"DefaultSoundtrackId\": \"00000000-0000-0000-0000-000000000000_IMDBtt0114746_636767757101080305\",\n                \"LastTimeDefaultSoundtrackChecked\": 638758436894196338,\n                \"AnimatedBackgroundId\": \"Movie_32679_9829bb29-da7b-4768-9776-f2df37964329\",\n                \"LastTimeAnimatedBackgroundChecked\": 638878461960241560,\n                \"IsAnimatedBackgroundEnabled\": true,\n                \"AmericanCertification\": \"R\",\n                \"IsVideoType\": false,\n                \"RMediaDbId\": 0\n            },\n            {\n                \"Id\": \"9e6a3f3b73474c06b0ccef81ff0c6267\",\n                \"Type\": \"CustomGroup\",\n                \"Icon\": \"2053e7654485517cfd09913c07d975ac6dc62d2d\",\n                \"Background\": \"2c57f983ae01a71a070af485a35121f088811cdc\",\n                \"Text\": \"Die Addams Family Filmreihe\",\n                \"TitleWithoutDiacritics\": \"addams family filmreihe\",\n                \"TitleInInteger\": 2147483647,\n                \"SeenState\": \"Unseen\",\n                \"IsAllowedForChildren\": false,\n                \"Rating100\": 0,\n                \"AdditionalItem\": \"Auto\",\n                \"ReleaseDate\": 0,\n                \"CreationDate\": 638843200728482745,\n                \"IsDisabled\": false,\n                \"Width\": 0,\n                \"Height\": 0,\n                \"CategoryType\": \"Video\",\n                \"DefaultSoundtrackId\": \"16329f17-09d3-42af-ab4e-0227d320ded8_CustomGroup244_637740750646848337\",\n                \"LastTimeDefaultSoundtrackChecked\": 0,\n                \"LastTimeAnimatedBackgroundChecked\": 638843782695730831,\n                \"IsAnimatedBackgroundEnabled\": false,\n                \"IsVideoType\": false,\n                \"RMediaDbId\": 0\n            }\n        ],\n        \"Count\": 2\n    },\n    \"ErrorCode\": \"None\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "ByName",
+              "value": "Movies",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f49fb5ce-3403-4d1f-8b4f-9091b4e33d4c",
+          "body": "{\n    \"Menu\": {\n        \"Id\": \"134bdf06c05c481a912797cb8c7f1f36\",\n        \"Code\": \"TVShows\",\n        \"Name\": \"TVShows\",\n        \"SeenState\": \"Stateless\",\n        \"HasPlaylist\": false,\n        \"Buttons\": [\n            {\n                \"Id\": \"4b386095a01542c68a24cc7744347b82\",\n                \"Type\": \"TVShow\",\n                \"Icon\": \"903240ed3bdce1ea06f0770b31e17aa2b96e4705\",\n                \"Background\": \"117a1850ca77d38f48bae6ca92aa7b88330cec71\",\n                \"Text\": \"Game of Thrones\",\n                \"TitleWithoutDiacritics\": \"game of thrones\",\n                \"TitleInInteger\": 2147483647,\n                \"SeenState\": \"Unseen\",\n                \"IsAllowedForChildren\": false,\n                \"Rating100\": 85,\n                \"AdditionalItem\": \"Auto\",\n                \"ReleaseDate\": 634385952000000000,\n                \"CreationDate\": 638878352227764555,\n                \"IsDisabled\": false,\n                \"Width\": 0,\n                \"Height\": 0,\n                \"CategoryType\": \"Video\",\n                \"DefaultSoundtrackId\": \"aa8c981e-94ee-497a-a1c9-f6e11596d544_TheTVDB121361_636767851934460934\",\n                \"LastTimeDefaultSoundtrackChecked\": 638773949977184973,\n                \"AnimatedBackgroundId\": \"TVShow_3936_4d9cbbe1-62a5-4315-83e4-c8f01d8f451d\",\n                \"LastTimeAnimatedBackgroundChecked\": 638876642159230968,\n                \"IsAnimatedBackgroundEnabled\": true,\n                \"AmericanCertification\": \"TV-MA\",\n                \"IsVideoType\": false,\n                \"RMediaDbId\": 0\n            },\n            {\n                \"Id\": \"8a13f20bcac44c819f17ac90e942fe5d\",\n                \"Type\": \"TVShow\",\n                \"Icon\": \"58e83cb192ebfa07a682a7c15a833b5a741482a3\",\n                \"Background\": \"20636843fcc5a5db89adb465817d21ec0819e405\",\n                \"Text\": \"Star Trek: Picard\",\n                \"TitleWithoutDiacritics\": \"star trek: picard\",\n                \"TitleInInteger\": 2147483647,\n                \"SeenState\": \"Unseen\",\n                \"IsAllowedForChildren\": false,\n                \"Rating100\": 72,\n                \"AdditionalItem\": \"Auto\",\n                \"ReleaseDate\": 637153344000000000,\n                \"CreationDate\": 638843788231125660,\n                \"IsDisabled\": false,\n                \"Width\": 0,\n                \"Height\": 0,\n                \"CategoryType\": \"Video\",\n                \"DefaultSoundtrackId\": \"126fa0de-1b24-45fb-b977-bed1d2865707_TheTVDB364093_637176913777953718\",\n                \"LastTimeDefaultSoundtrackChecked\": 638839767318963083,\n                \"LastTimeAnimatedBackgroundChecked\": 638857074896253738,\n                \"IsAnimatedBackgroundEnabled\": true,\n                \"AmericanCertification\": \"TV-MA\",\n                \"IsVideoType\": false,\n                \"RMediaDbId\": 0\n            },\n            {\n                \"Id\": \"7ce8e920558d49c684c9af95c47b44a5\",\n                \"Type\": \"TVShow\",\n                \"Icon\": \"00313e7c58064214d27f55f74ccbe87b8bb66eae\",\n                \"Background\": \"21c6eb9afb34802b60fd13761635e31de8542d7b\",\n                \"Text\": \"Star Trek: Strange New Worlds\",\n                \"TitleWithoutDiacritics\": \"star trek: strange new worlds\",\n                \"TitleInInteger\": 2147483647,\n                \"SeenState\": \"Seen\",\n                \"IsAllowedForChildren\": false,\n                \"Rating100\": 81,\n                \"AdditionalItem\": \"Auto\",\n                \"ReleaseDate\": 637873056000000000,\n                \"CreationDate\": 638843201035935970,\n                \"IsDisabled\": false,\n                \"Width\": 0,\n                \"Height\": 0,\n                \"CategoryType\": \"Video\",\n                \"DefaultSoundtrackId\": \"c8cf0933-e863-497b-a876-c3b0d8b5d7d7_TVShow19209_637930399477885082\",\n                \"LastTimeDefaultSoundtrackChecked\": 638826701660524378,\n                \"LastTimeAnimatedBackgroundChecked\": 638862783813081838,\n                \"IsAnimatedBackgroundEnabled\": true,\n                \"AmericanCertification\": \"TV-PG\",\n                \"IsVideoType\": false,\n                \"RMediaDbId\": 0\n            },\n            {\n                \"Id\": \"2bf49e8daf7043a9837669bba2e4b154\",\n                \"Type\": \"TVShow\",\n                \"Icon\": \"43499bc732418ce1a344573bba9f916d2962b403\",\n                \"Background\": \"4e9308405645e8247596d7994839c376c408cc1c\",\n                \"Text\": \"The Last of Us\",\n                \"TitleWithoutDiacritics\": \"the last of us\",\n                \"TitleInInteger\": 2147483647,\n                \"SeenState\": \"Unseen\",\n                \"IsAllowedForChildren\": false,\n                \"Rating100\": 85,\n                \"AdditionalItem\": \"Auto\",\n                \"ReleaseDate\": 638093376000000000,\n                \"CreationDate\": 638844822051905621,\n                \"IsDisabled\": false,\n                \"Width\": 0,\n                \"Height\": 0,\n                \"CategoryType\": \"Video\",\n                \"DefaultSoundtrackId\": \"b3b692bd-52bd-45d3-90c0-5c002d5c2dd8_TVShow5903_638142975595192527\",\n                \"LastTimeDefaultSoundtrackChecked\": 638805904704442229,\n                \"AnimatedBackgroundId\": \"TVShow_5903_cc859e32-0a0b-4c9c-bf8a-7c35ec55961c\",\n                \"LastTimeAnimatedBackgroundChecked\": 638843896158664560,\n                \"IsAnimatedBackgroundEnabled\": true,\n                \"AmericanCertification\": \"TV-MA\",\n                \"IsVideoType\": false,\n                \"RMediaDbId\": 0\n            },\n            {\n                \"Id\": \"7e758af9f4e14b1b9d85116ea057c73e\",\n                \"Type\": \"TVShow\",\n                \"Icon\": \"393f2cefb56b2306b116b0ebea8dbf099e5216ed\",\n                \"Background\": \"360203f9327e9bfb135b50101da93626ecdf1176\",\n                \"Text\": \"Wednesday\",\n                \"TitleWithoutDiacritics\": \"wednesday\",\n                \"TitleInInteger\": 2147483647,\n                \"SeenState\": \"Unseen\",\n                \"IsAllowedForChildren\": false,\n                \"Rating100\": 84,\n                \"AdditionalItem\": \"Auto\",\n                \"ReleaseDate\": 638047584000000000,\n                \"CreationDate\": 638846531480987872,\n                \"IsDisabled\": false,\n                \"Width\": 0,\n                \"Height\": 0,\n                \"CategoryType\": \"Video\",\n                \"DefaultSoundtrackId\": \"b3b692bd-52bd-45d3-90c0-5c002d5c2dd8_TVShow155967_638053975784758200\",\n                \"LastTimeDefaultSoundtrackChecked\": 638802429017906402,\n                \"AnimatedBackgroundId\": \"TVShow_155967_eb839651-0757-42b7-aa61-5e3bf4ef46a7\",\n                \"LastTimeAnimatedBackgroundChecked\": 638847452044515215,\n                \"IsAnimatedBackgroundEnabled\": true,\n                \"AmericanCertification\": \"TV-14\",\n                \"IsVideoType\": false,\n                \"RMediaDbId\": 0\n            }\n        ],\n        \"Count\": 5\n    },\n    \"ErrorCode\": \"None\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "TVShows",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "ByName",
+              "value": "TVShows",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "211446eb-09b8-4b83-b86b-231340d71db1",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/1.2/Modules",
+      "responses": [
+        {
+          "uuid": "3cdb99b3-d0ee-4ca3-82f6-84c3bc23ad44",
+          "body": "{\n    \"Modules\": [\n        {\n            \"Id\": \"bccb4a5b3ca9449997782660e07d1699\",\n            \"Icon\": \"component/Themes/Modules/Home\",\n            \"Action\": \"Home\",\n            \"Text\": \"Module.Home\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": true,\n            \"Default\": 0,\n            \"Showcasable\": false\n        },\n        {\n            \"Id\": \"cd2cd5b243194761bbd1e9371b4b208a\",\n            \"Icon\": \"component/Themes/Modules/Search\",\n            \"Action\": \"Search\",\n            \"Text\": \"Module.Search\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": false\n        },\n        {\n            \"Id\": \"10f559527b1a4c2391f96d7e0825e34d\",\n            \"Icon\": \"component/Themes/Modules/All\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.All\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"134bdf06c05c481a912797cb8c7f1f36\",\n            \"Icon\": \"component/Themes/Modules/TVShow\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"VideoMenu.TVShows\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"c27d957477e646a99b594742f52cb1be\",\n            \"Icon\": \"component/Themes/Modules/Movies\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"VideoMenu.Movies\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": true,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"5d662dcadea34d57a2887fc64c1031a1\",\n            \"Icon\": \"component/Themes/Modules/Recent\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"VideoMenu.Recents\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 638867159678395092,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"31e9fff302af4ca19b0007b8ee08fa82\",\n            \"Icon\": \"component/Themes/Modules/Categories\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"VideoMenu.Categories\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": false\n        },\n        {\n            \"Id\": \"5f756b61ce1644d8a7850e7038a2274c\",\n            \"Icon\": \"component/Themes/Modules/Next\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.Next\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"1bb89938a3904e719d4464e993f328ff\",\n            \"Icon\": \"component/Themes/Modules/MoviesWithFavouritesScenes\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.MoviesWithFavouritesScenes\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": false\n        },\n        {\n            \"Id\": \"c891191016884e57a3a8a871609a35e6\",\n            \"Icon\": \"component/Themes/Modules/Cup\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.Rating\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"142fc502ef46464b94bc26ffe40e8f0d\",\n            \"Icon\": \"component/Themes/Modules/Sagas\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.Sagas\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"52a2c8a6a0cc42c39bb5a3219baa6f5a\",\n            \"Icon\": \"component/Themes/Modules/Seen\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.Seen\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"535590625bde4d3f8cc3ec9f338bc59b\",\n            \"Icon\": \"component/Themes/Modules/Unseen\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.Unseen\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"954cd2ae81084b7dbe177b0a3eb513c4\",\n            \"Icon\": \"component/Themes/Modules/OnGoing\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"Module.OnGoing\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"6a42340e82b843fba2022cab9c754ba1\",\n            \"Icon\": \"component/Themes/Modules/CustomVideo\",\n            \"Action\": \"StartMenu\",\n            \"Text\": \"VideoMenu.CustomVideos\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"03dd2bddc0594c04b10aeb37804789a9\",\n            \"Icon\": \"component/Themes/Categories/SpaceShip\",\n            \"Action\": \"StartCategory\",\n            \"Text\": \"Category.Sci-Fi\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": false,\n            \"Default\": 0,\n            \"Showcasable\": true\n        },\n        {\n            \"Id\": \"0bfea4b8cea34be19cb6522b2d41ffff\",\n            \"Icon\": \"component/Themes/Modules/CrossBar\",\n            \"Action\": \"CrossBar\",\n            \"Text\": \"Module.CrossBar\",\n            \"IsDisabled\": false,\n            \"IsLegacy\": true,\n            \"Default\": 0,\n            \"Showcasable\": false\n        }\n    ],\n    \"ErrorCode\": \"None\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "a6a47e7b-aa18-41b1-9b8f-3803cbfac26e"
+    },
+    {
+      "type": "route",
+      "uuid": "9f0b8dc5-2058-45cb-93dc-c141f49c7bfd"
+    },
+    {
+      "type": "route",
+      "uuid": "211446eb-09b8-4b83-b86b-231340d71db1"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "5cd45019-0c29-4522-9b46-a72f38a2d0ed",
+      "id": "cncu",
+      "name": "player",
+      "documentation": "",
+      "value": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"volume\": { \"type\": \"number\", \"default\": 100 },\n    \"mute\": { \"type\": \"boolean\", \"default\": false }\n  },\n  \"required\": []\n}"
+    }
+  ],
+  "callbacks": []
+}

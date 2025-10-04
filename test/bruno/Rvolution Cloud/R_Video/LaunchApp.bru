@@ -1,0 +1,17 @@
+meta {
+  name: LaunchApp
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://{{ip}}:8990/LaunchApp
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "ApplicationName": "YouTube"
+  }
+}

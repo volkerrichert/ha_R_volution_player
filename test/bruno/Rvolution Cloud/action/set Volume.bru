@@ -1,0 +1,17 @@
+meta {
+  name: set Volume
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/do?cmd=set_playback_state&volume=50&result_syntax=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  cmd: set_playback_state
+  volume: 50
+  result_syntax: json
+}

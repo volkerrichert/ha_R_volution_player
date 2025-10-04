@@ -1,0 +1,25 @@
+meta {
+  name: All MenuRequest1-2Menu_Get
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/Menu?AuthKey={{authKey}}&Collection={{firstCollectionId}}&ByName=All&Type=Menu&IsParentalControlActive=false&ApiKey={{apiKey}}
+  body: none
+  auth: none
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  ByName: All
+  Type: Menu
+  IsParentalControlActive: false
+  ApiKey: {{apiKey}}
+  ~ById: 
+}
+
+headers {
+  Content-Type: application/json
+}

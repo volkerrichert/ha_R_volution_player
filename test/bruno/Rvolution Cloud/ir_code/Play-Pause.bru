@@ -1,0 +1,17 @@
+meta {
+  name: Play/Pause
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://{{ip}}//cgi-bin/do?cmd=ir_code&ir_code=AC534040&result_syntax=json
+  body: none
+  auth: none
+}
+
+params:query {
+  cmd: ir_code
+  ir_code: AC534040
+  result_syntax: json
+}

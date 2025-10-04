@@ -1,0 +1,17 @@
+meta {
+  name: StartVideo
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://{{ip}}:8990/StartVideo
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "MediaId": "7fe8cc6356914fa3aa2d18924fbcaf5e"
+  }
+}

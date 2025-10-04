@@ -1,4 +1,16 @@
-DOMAIN = "r_volution_player"
+"""Constants for the r_volution player integration."""
+
+from typing import Final
+from homeassistant.const import Platform
+
+ATTR_MANUFACTURER: Final = "R_Volution"
+DOMAIN: Final = "r_volution_player"
+DEFAULT_NAME: Final = "R_Volution Player"
+
+PLATFORMS: list[Platform] = [
+    Platform.MEDIA_PLAYER,
+    Platform.REMOTE
+]
 
 IR_CODES = {
     "3d": "ED124040",
@@ -52,3 +64,7 @@ IR_CODES = {
     "next": "BF404040",
     "prev": "DB204040"
 }
+
+ERROR_CANNOT_CONNECT = "cannot_connect"
+
+AFTER_REQUEST_SLEEP = 0.5  # seconds to wait after a request before refreshing the coordinator

@@ -1,0 +1,20 @@
+meta {
+  name: status
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/do?cmd=status&result_syntax=json
+  body: none
+  auth: none
+}
+
+params:query {
+  cmd: status
+  result_syntax: json
+}
+
+docs {
+  MAC 14:c0:89:60:97:8b
+}

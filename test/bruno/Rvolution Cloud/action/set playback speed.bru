@@ -1,0 +1,17 @@
+meta {
+  name: set playback speed
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/do?cmd=set_playback_state&speed=0&result_syntax=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  cmd: set_playback_state
+  speed: 0
+  result_syntax: json
+}

@@ -1,0 +1,18 @@
+meta {
+  name: test
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/GetSettings?AuthKey={{authKey}}&Collection={{firstCollectionId}}&Hash=577f1fc6ffdadd99c8a0d4eab43fff9ac0b471cc&ApiKey={{apiKey}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  Hash: 577f1fc6ffdadd99c8a0d4eab43fff9ac0b471cc
+  ApiKey: {{apiKey}}
+}

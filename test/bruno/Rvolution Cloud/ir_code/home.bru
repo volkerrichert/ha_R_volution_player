@@ -1,0 +1,17 @@
+meta {
+  name: home
+  type: http
+  seq: 11
+}
+
+get {
+  url: http://{{ip}}//cgi-bin/do?cmd=ir_code&ir_code=AE51CFCF&result_syntax=json
+  body: none
+  auth: none
+}
+
+params:query {
+  cmd: ir_code
+  ir_code: AE51CFCF
+  result_syntax: json
+}

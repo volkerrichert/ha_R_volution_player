@@ -1,0 +1,15 @@
+meta {
+  name: test
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://{{ip}}:8080/remoteCmd?command=KEYCODE_MEDIA_PLAY_PAUSE
+  body: none
+  auth: inherit
+}
+
+params:query {
+  command: KEYCODE_MEDIA_PLAY_PAUSE
+}

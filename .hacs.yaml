@@ -8,4 +8,5 @@ render_readme: true
 # Optional: Specify the domains this repository provides
 domains:
   - media_player
+  - remote
 

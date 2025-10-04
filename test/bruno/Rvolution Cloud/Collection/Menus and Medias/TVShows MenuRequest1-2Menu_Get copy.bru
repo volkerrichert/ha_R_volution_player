@@ -1,0 +1,27 @@
+meta {
+  name: TVShows MenuRequest1-2Menu_Get copy
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/Menu?AuthKey={{authKey}}&Collection={{firstCollectionId}}&ByName=TVShows&Type=Menu&IsParentalControlActive=false&ApiKey={{apiKey}}&Start=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  ByName: TVShows
+  Type: Menu
+  IsParentalControlActive: false
+  ApiKey: {{apiKey}}
+  Start: 0
+  ~Take: 0
+  ~ById: 
+}
+
+headers {
+  Content-Type: application/json
+}

@@ -1,0 +1,18 @@
+meta {
+  name: PictureRequest1.2Picture_Get
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/Picture?AuthKey={{authKey}}&Collection={{firstCollectionId}}&Hash=577f1fc6ffdadd99c8a0d4eab43fff9ac0b471cc&ApiKey={{apiKey}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  Hash: 577f1fc6ffdadd99c8a0d4eab43fff9ac0b471cc
+  ApiKey: {{apiKey}}
+}

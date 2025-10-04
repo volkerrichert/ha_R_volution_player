@@ -1,0 +1,17 @@
+meta {
+  name: play bunny
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/do?cmd=start_file_playback&media_url=http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_2160p_30fps_normal.mp4&result_syntax=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  cmd: start_file_playback
+  media_url: http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_2160p_30fps_normal.mp4
+  result_syntax: json
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Power On
+  type: http
+  seq: 16
+}
+
+get {
+  url: http://{{ip}}//cgi-bin/do?cmd=ir_code&ir_code=AC534040
+  body: none
+  auth: none
+}
+
+params:query {
+  cmd: ir_code
+  ir_code: AC534040
+}

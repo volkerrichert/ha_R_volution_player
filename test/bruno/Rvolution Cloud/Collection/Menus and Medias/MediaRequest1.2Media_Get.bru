@@ -1,0 +1,18 @@
+meta {
+  name: MediaRequest1.2Media_Get
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/Media?AuthKey={{authKey}}&Collection={{firstCollectionId}}&Id=86eaa0be63e248cda844500bd950da9b&ApiKey={{apiKey}}
+  body: none
+  auth: none
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  Id: 86eaa0be63e248cda844500bd950da9b
+  ApiKey: {{apiKey}}
+}

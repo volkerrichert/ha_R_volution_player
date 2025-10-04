@@ -1,0 +1,16 @@
+meta {
+  name: GetCollectionEndPoint
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://rvolutiontoolsapi.azurewebsites.net/Swagger/GetApiEndPoint
+  body: none
+  auth: none
+}
+
+script:post-response {
+  bru.setVar('baseUrl',res.body.ApiUrl.replace(/\/$/, ''));
+  
+}

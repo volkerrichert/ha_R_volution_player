@@ -1,0 +1,11 @@
+meta {
+  name: get metadata
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://{{ip}}/cgi-bin/metadata
+  body: none
+  auth: inherit
+}

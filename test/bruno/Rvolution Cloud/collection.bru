@@ -1,0 +1,13 @@
+auth {
+  mode: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+vars:pre-request {
+  apiKey: {{process.env.api_key}}
+  username: {{process.env.username}}
+  password: {{process.env.password}}
+}

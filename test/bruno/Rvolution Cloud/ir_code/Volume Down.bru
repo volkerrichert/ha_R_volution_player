@@ -1,0 +1,17 @@
+meta {
+  name: Volume Down
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://{{ip}}//cgi-bin/do?cmd=ir_code&ir_code=AC53CFCF&result_syntax=json
+  body: none
+  auth: none
+}
+
+params:query {
+  cmd: ir_code
+  ir_code: AC53CFCF
+  result_syntax: json
+}

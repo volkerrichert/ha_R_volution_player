@@ -1,0 +1,65 @@
+{
+    "name": "volkerrichert/ha_R_volution_player",
+    "image": "mcr.microsoft.com/devcontainers/python:3.13",
+    "postCreateCommand": "scripts/setup",
+    "forwardPorts": [
+        8124
+    ],
+    "portsAttributes": {
+        "8124": {
+            "label": "Home Assistant",
+            "onAutoForward": "notify"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "DavidAnson.vscode-markdownlint",
+                "github.vscode-pull-request-github",
+                "ms-python.black-formatter",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ryanluker.vscode-coverage-gutters",
+                "stkb.rewrap",
+                "visualstudioexptteam.vscodeintellicode",
+                "yzhang.markdown-all-in-one"
+            ],
+            "settings": {
+                "editor.formatOnPaste": false,
+                "editor.formatOnSave": true,
+                "editor.formatOnType": true,
+                "editor.tabSize": 4,
+                "files.eol": "\n",
+                "files.trimTrailingWhitespace": true,
+                "markdown.extension.toc.levels": "2..6",
+                "python.analysis.autoSearchPaths": false,
+                "python.editor.codeActionsOnSave": {
+                    "source.organizeImports": true
+                },
+                "python.editor.defaultFormatter": "ms-python.black-formatter",
+                "python.editor.formatOnSave": true,
+                "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+                "python.formatting.provider": "black",
+                "python.pythonPath": "/usr/bin/python3",
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.profiles.linux": {
+                    "zsh": {
+                        "path": "/usr/bin/zsh"
+                    }
+                },
+                "yaml.customTags": [
+                    "!input scalar",
+                    "!secret scalar",
+                    "!include_dir_named scalar",
+                    "!include_dir_list scalar",
+                    "!include_dir_merge_list scalar",
+                    "!include_dir_merge_named scalar"
+                ]
+            }
+        }
+    },
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/rust:1": {}
+    }
+}
