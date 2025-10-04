@@ -32,12 +32,12 @@ from .coordinator import RVolutionCoordinator
 _LOGGER = logging.getLogger(__name__)
 
 
-def async_refresh_after[_T: RVolutionPlayer, **_P](
-    func: Callable[Concatenate[_T, _P], Awaitable[None]],
-) -> Callable[Concatenate[_T, _P], Coroutine[Any, Any, None]]:
+def async_refresh_after[T: RVolutionPlayer, **P](
+    func: Callable[Concatenate[T, P], Awaitable[None]],
+) -> Callable[Concatenate[T, P], Coroutine[Any, Any, None]]:
     """Delay status update until after method execution."""
 
-    async def _async_wrap(self: _T, *args: _P.args, **kwargs: _P.kwargs) -> None:
+    async def _async_wrap(self: T, *args: P.args, **kwargs: P.kwargs) -> None:
         await func(self, *args, **kwargs)
         await asyncio.sleep(AFTER_REQUEST_SLEEP)
         await self.coordinator.async_refresh()
