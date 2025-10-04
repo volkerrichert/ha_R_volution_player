@@ -1,4 +1,5 @@
 """Constants for the E3DC Remote Storage Control Protocol integration."""
+
 import logging
 from typing import Any
 
@@ -11,19 +12,22 @@ from homeassistant.const import (
     CONF_EMAIL,
     CONF_PASSWORD,
     CONF_API_KEY,
-
     ATTR_MODEL,
     ATTR_MODEL_ID,
-    ATTR_SERIAL_NUMBER
+    ATTR_SERIAL_NUMBER,
 )
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError, ConfigEntryNotReady
 
-from custom_components.r_volution_player.api import RVolutionCollectionClient, RVolutionPlayerClient
+from custom_components.r_volution_player.api import (
+    RVolutionCollectionClient,
+    RVolutionPlayerClient,
+)
 
 from .const import DOMAIN, ERROR_CANNOT_CONNECT, IR_CODES
 
 _LOGGER = logging.getLogger(__name__)
+
 
 class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for the RVolution Player integration.
@@ -51,13 +55,15 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
             assert isinstance(_host, str)
             self._api = RVolutionPlayerClient(_host)
-            _collection_client = await RVolutionCollectionClient(
-                _email, _password, _apiKey
-            ).async_auth() if _email and _password and _apiKey else None
+            _collection_client = (
+                await RVolutionCollectionClient(_email, _password, _apiKey).async_auth()
+                if _email and _password and _apiKey
+                else None
+            )
 
             await self._api.async_update_status()
         except (TimeoutError, HomeAssistantError, TimeoutException) as ex:
-          raise ConfigEntryNotReady(f"Timeout while connecting to {_host}") from ex
+            raise ConfigEntryNotReady(f"Timeout while connecting to {_host}") from ex
 
         except Exception as e:
             _LOGGER.error("Error connecting to RVolutionPlayer: %s", e)
@@ -86,9 +92,7 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         product_id = await self._api.async_get_product_id()
         serial_number = await self._api.async_get_serial_number()
 
-        await self.async_set_unique_id(
-            f"{product_id}-{serial_number}"
-        )
+        await self.async_set_unique_id(f"{product_id}-{serial_number}")
         self._abort_if_unique_id_configured()
 
         final_data: dict[str, Any] = user_input
@@ -99,13 +103,12 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(
             title=f"{await self._api.async_product_name()}",
             description=f"{self._host}",
-            data=final_data
+            data=final_data,
         )
 
     async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None):
         """Handle reconfiguration of the integration."""
         if user_input is not None:
-
             self._host = user_input[CONF_HOST]
 
             if error := await self._async_validate_input(user_input):
@@ -118,7 +121,9 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="reconfigure",
-            data_schema=self._create_user_data_schema(self._get_reconfigure_entry().data),
+            data_schema=self._create_user_data_schema(
+                self._get_reconfigure_entry().data
+            ),
             errors={},
             description_placeholders={},
         )
@@ -131,13 +136,23 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors=errors or {},
         )
 
-    def _create_user_data_schema(self, data: dict[str, Any] | None = None) -> vol.Schema:
+    def _create_user_data_schema(
+        self, data: dict[str, Any] | None = None
+    ) -> vol.Schema:
         """Create the user data schema."""
         return vol.Schema(
             {
-                vol.Required(CONF_HOST, default=data.get(CONF_HOST, vol.UNDEFINED)): str,
-                vol.Optional(CONF_EMAIL, default=data.get(CONF_EMAIL, vol.UNDEFINED)): str,
-                vol.Optional(CONF_PASSWORD, default=data.get(CONF_PASSWORD, vol.UNDEFINED)): str,
-                vol.Optional(CONF_API_KEY, default=data.get(CONF_API_KEY, vol.UNDEFINED)): str,
+                vol.Required(
+                    CONF_HOST, default=data.get(CONF_HOST, vol.UNDEFINED)
+                ): str,
+                vol.Optional(
+                    CONF_EMAIL, default=data.get(CONF_EMAIL, vol.UNDEFINED)
+                ): str,
+                vol.Optional(
+                    CONF_PASSWORD, default=data.get(CONF_PASSWORD, vol.UNDEFINED)
+                ): str,
+                vol.Optional(
+                    CONF_API_KEY, default=data.get(CONF_API_KEY, vol.UNDEFINED)
+                ): str,
             }
         )

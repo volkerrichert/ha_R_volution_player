@@ -1,4 +1,5 @@
 """Media Player implementation for the R Volution Player."""
+
 import logging
 from typing import Any, Concatenate
 import asyncio
@@ -30,9 +31,10 @@ from .coordinator import RVolutionCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
+
 def async_refresh_after[_T: RVolutionPlayer, **_P](
-        func: Callable[Concatenate[_T, _P], Awaitable[None]],
-    ) -> Callable[Concatenate[_T, _P], Coroutine[Any, Any, None]]:
+    func: Callable[Concatenate[_T, _P], Awaitable[None]],
+) -> Callable[Concatenate[_T, _P], Coroutine[Any, Any, None]]:
     """Delay status update until after method execution."""
 
     async def _async_wrap(self: _T, *args: _P.args, **kwargs: _P.kwargs) -> None:
@@ -42,19 +44,23 @@ def async_refresh_after[_T: RVolutionPlayer, **_P](
 
     return _async_wrap
 
+
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Initialize media player Platform."""
     assert isinstance(config_entry.unique_id, str)
     coordinator: RVolutionCoordinator = hass.data[DOMAIN][config_entry.unique_id]
     player = RVolutionPlayer(
-        coordinator, RVolutionPlayerEntityDescription(
+        coordinator,
+        RVolutionPlayerEntityDescription(
             key="media_player",
             translation_key="system-media_player-percent",
             icon="mdi:media-player",
         ),
-        config_entry.entry_id)
+        config_entry.entry_id,
+    )
 
     async_add_entities([player], True)
+
 
 class RVolutionPlayerEntityDescription(MediaPlayerEntityDescription):
     """Description of the R Volution Player entity."""
@@ -67,6 +73,7 @@ class RVolutionPlayerEntityDescription(MediaPlayerEntityDescription):
         self.name = name
         self.icon = icon
 
+
 class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     """Representation of the R Volution Player."""
 
@@ -75,12 +82,12 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     _attr_device_class = MediaPlayerDeviceClass.RECEIVER
 
     def __init__(
-            self,
-            coordinator: RVolutionCoordinator,
-            description: RVolutionPlayerEntityDescription,
-            entry_id: str,
-            device_info: DeviceInfo | None = None
-        ) -> None:
+        self,
+        coordinator: RVolutionCoordinator,
+        description: RVolutionPlayerEntityDescription,
+        entry_id: str,
+        device_info: DeviceInfo | None = None,
+    ) -> None:
         """Initialize the R Volution Player entity."""
 
         super().__init__(coordinator)
@@ -105,7 +112,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         self._serial_number = self.coordinator._serial_number
         self._attr_state = MediaPlayerState.OFF
         self._attr_supported_features = MediaPlayerEntityFeature.BROWSE_MEDIA
-        if (device_info is not None):
+        if device_info is not None:
             self._attr_device_info = device_info
         else:
             self._attr_device_info = self.coordinator.device_info
@@ -116,7 +123,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     def _update_data_from_coordinator(self) -> None:
         """Update the entity's attributes based on the coordinator's data."""
 
-        if (data := self.coordinator.data):
+        if data := self.coordinator.data:
             # self._product_name = data.get("product_name", None)
             # self._player_state = data.get("playback_state", None)
             # self._product_id = data.get("product_id", None)
@@ -127,32 +134,48 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
 
             self._attr_is_volume_muted = data.get("playback_mute", "0") == "1"
 
-            if (data.get("player_state", None) == "file_playback"):
+            if data.get("player_state", None) == "file_playback":
                 media_info = self.coordinator.media_info
                 value = data.get("playback_duration", None)
                 self._attr_media_duration = int(value) if value else None
                 value = data.get("playback_position", None)
                 self._attr_media_position = int(value) if value else None
-                self._attr_media_position_updated_at = homeassistant.util.dt.utcnow() if value else None
+                self._attr_media_position_updated_at = (
+                    homeassistant.util.dt.utcnow() if value else None
+                )
                 self._attr_media_title = media_info.get("Title", None)
-                self._attr_media_image_url = media_info.get("BackgroundUrl", media_info.get("PosterUrl", None))
+                self._attr_media_image_url = media_info.get(
+                    "BackgroundUrl", media_info.get("PosterUrl", None)
+                )
                 self._attr_media_episode = media_info.get("Episode", None)
                 self._attr_media_series_title = media_info.get("TvShowName", None)
                 self._attr_media_season = media_info.get("Season", None)
-                self._attr_media_content_type = self.coordinator.media_info.get("Type", None)
-                if (self._attr_media_content_type == "TVShowEpisode"):
+                self._attr_media_content_type = self.coordinator.media_info.get(
+                    "Type", None
+                )
+                if self._attr_media_content_type == "TVShowEpisode":
                     self._attr_media_content_type = MediaType.TVSHOW
-                elif (self._attr_media_content_type == "Movie"):
+                elif self._attr_media_content_type == "Movie":
                     self._attr_media_content_type = MediaType.MOVIE
                 else:
                     self._attr_media_content_type = None
                 # self._attr_media_content_id = data.get("playback_url", None)
 
-                if (technical_info := self.coordinator.media_info.get("TechnicalInfo", None)) and \
-                    (audio_tracks := technical_info.get("AudioTrackTechnicalInfos", None)) and \
-                    isinstance(audio_tracks, list) and len(audio_tracks) > 0 and \
-                    data.get("audio_track").isdigit():
-
+                if (
+                    (
+                        technical_info := self.coordinator.media_info.get(
+                            "TechnicalInfo", None
+                        )
+                    )
+                    and (
+                        audio_tracks := technical_info.get(
+                            "AudioTrackTechnicalInfos", None
+                        )
+                    )
+                    and isinstance(audio_tracks, list)
+                    and len(audio_tracks) > 0
+                    and data.get("audio_track").isdigit()
+                ):
                     # Create sound mode list from available audio tracks
                     sound_modes = []
                     for track in audio_tracks:
@@ -174,7 +197,9 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                     self._attr_sound_mode_list = sound_modes if sound_modes else None
                     # Set current sound mode to first track if available^
                     if sound_modes:
-                        self._attr_sound_mode = sound_modes[int(data.get("audio_track"))]
+                        self._attr_sound_mode = sound_modes[
+                            int(data.get("audio_track"))
+                        ]
                     else:
                         self._attr_sound_mode_list = None
                         self._attr_sound_mode = None
@@ -210,28 +235,37 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             self._attr_state = self._get_player_state(data)
 
             self._attr_supported_features = (
-                MediaPlayerEntityFeature.PLAY_MEDIA |
-                MediaPlayerEntityFeature.PAUSE |
-                MediaPlayerEntityFeature.STOP |
-                MediaPlayerEntityFeature.PLAY |
-                MediaPlayerEntityFeature.VOLUME_STEP |
-                MediaPlayerEntityFeature.VOLUME_SET |
-                MediaPlayerEntityFeature.VOLUME_MUTE |
-                MediaPlayerEntityFeature.TURN_OFF |
-                MediaPlayerEntityFeature.SEEK |
-                MediaPlayerEntityFeature.REPEAT_SET
+                MediaPlayerEntityFeature.PLAY_MEDIA
+                | MediaPlayerEntityFeature.PAUSE
+                | MediaPlayerEntityFeature.STOP
+                | MediaPlayerEntityFeature.PLAY
+                | MediaPlayerEntityFeature.VOLUME_STEP
+                | MediaPlayerEntityFeature.VOLUME_SET
+                | MediaPlayerEntityFeature.VOLUME_MUTE
+                | MediaPlayerEntityFeature.TURN_OFF
+                | MediaPlayerEntityFeature.SEEK
+                | MediaPlayerEntityFeature.REPEAT_SET
             )
-            if self._collection_client and len(self._collection_client.get_collections()) > 0:
+            if (
+                self._collection_client
+                and len(self._collection_client.get_collections()) > 0
+            ):
                 # TODO: Search seems to be unusable with custom API KEY
-                self._attr_supported_features |= MediaPlayerEntityFeature.BROWSE_MEDIA # | MediaPlayerEntityFeature.SEARCH_MEDIA
+                self._attr_supported_features |= (
+                    MediaPlayerEntityFeature.BROWSE_MEDIA
+                )  # | MediaPlayerEntityFeature.SEARCH_MEDIA
             # TODO: check how to find next / prev episode
-            #if (self.coordinator.media_info.get("Type", None) == "TVShowEpisode"):
+            # if (self.coordinator.media_info.get("Type", None) == "TVShowEpisode"):
             #    self._attr_supported_features |= MediaPlayerEntityFeature.NEXT_TRACK | MediaPlayerEntityFeature.PREVIOUS_TRACK
             # Add sound mode selection if audio tracks are available
             if self._attr_sound_mode_list and len(self._attr_sound_mode_list) > 1:
-                self._attr_supported_features |= MediaPlayerEntityFeature.SELECT_SOUND_MODE
+                self._attr_supported_features |= (
+                    MediaPlayerEntityFeature.SELECT_SOUND_MODE
+                )
 
-            self._attr_volume_level = int((self.coordinator.data or {}).get("playback_volume", "100")) / 100.0
+            self._attr_volume_level = (
+                int((self.coordinator.data or {}).get("playback_volume", "100")) / 100.0
+            )
         else:
             self._attr_media_duration = None
             self._attr_media_position = None
@@ -279,7 +313,9 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
 
                 for category in categories:
                     try:
-                        content = await self._collection_client.async_get_menu(collection_id, category)
+                        content = await self._collection_client.async_get_menu(
+                            collection_id, category
+                        )
                         if not content or "Buttons" not in content:
                             continue
 
@@ -287,23 +323,37 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                             title = item.get("Text", "").lower()
 
                             # Erweiterte Suchlogik: exakte Übereinstimmung oder Wortteile
-                            if (search_query in title or
-                                any(word in title for word in search_query.split()) or
-                                any(search_word in title for search_word in search_query.split() if len(search_word) > 2)):
-
+                            if (
+                                search_query in title
+                                or any(word in title for word in search_query.split())
+                                or any(
+                                    search_word in title
+                                    for search_word in search_query.split()
+                                    if len(search_word) > 2
+                                )
+                            ):
                                 media_id = item.get("Id", "Unknown")
                                 media_type = item.get("Type", "Unknown")
                                 media_image_id = item.get("Icon", None)
 
-                                can_play, can_expand, media_class, media_content_type, thumbnail = self._determine_media_properties(
+                                (
+                                    can_play,
+                                    can_expand,
+                                    media_class,
+                                    media_content_type,
+                                    thumbnail,
+                                ) = self._determine_media_properties(
                                     collection_id=collection_id,
                                     media_image_id=media_image_id,
-                                    type=media_type
+                                    type=media_type,
                                 )
 
                                 # Verhindere Duplikate
                                 content_id = f"{collection_id}/{media_id}"
-                                if not any(result.media_content_id == content_id for result in search_results):
+                                if not any(
+                                    result.media_content_id == content_id
+                                    for result in search_results
+                                ):
                                     search_results.append(
                                         BrowseMedia(
                                             title=item.get("Text", "Unknown"),
@@ -312,25 +362,35 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                                             media_content_type=media_content_type,
                                             can_play=can_play,
                                             can_expand=can_expand,
-                                            thumbnail=thumbnail
+                                            thumbnail=thumbnail,
                                         )
                                     )
 
                     except Exception as e:
-                        _LOGGER.warning("Error searching category %s in collection %s: %s",
-                                      category, collection_id, e)
+                        _LOGGER.warning(
+                            "Error searching category %s in collection %s: %s",
+                            category,
+                            collection_id,
+                            e,
+                        )
                         continue
 
             # Sortiere Ergebnisse nach Relevanz (exakte Treffer zuerst)
-            search_results.sort(key=lambda x: (
-                search_query not in x.title.lower(),  # Exakte Treffer zuerst
-                x.title.lower()  # Dann alphabetisch
-            ))
+            search_results.sort(
+                key=lambda x: (
+                    search_query not in x.title.lower(),  # Exakte Treffer zuerst
+                    x.title.lower(),  # Dann alphabetisch
+                )
+            )
 
             # Begrenze Ergebnisse auf die ersten 50
             search_results = search_results[:50]
 
-            _LOGGER.info("Search for '%s' returned %d results", query.search_query, len(search_results))
+            _LOGGER.info(
+                "Search for '%s' returned %d results",
+                query.search_query,
+                len(search_results),
+            )
 
         except Exception as e:
             _LOGGER.error("Error during media search: %s", e)
@@ -354,10 +414,15 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         else:
             return MediaPlayerState.IDLE
 
-    async def async_get_browse_image(self, media_content_type, media_content_id, media_image_id=None):
+    async def async_get_browse_image(
+        self, media_content_type, media_content_id, media_image_id=None
+    ):
         """Serve album art. Returns (content, content_type)."""
-        image_url = f'https://cdn.rvolution.com/pictures/480x720_100/{media_image_id}' if media_content_type == MediaType.MOVIE \
-            else f'http://rvolution-server-1-10.westeurope.cloudapp.azure.com/api/1.2/Picture?AuthKey={self.coordinator.collection_client._auth_key}&Collection={media_content_id}&Hash={media_image_id}&ApiKey={self.coordinator.apiKey}'
+        image_url = (
+            f"https://cdn.rvolution.com/pictures/480x720_100/{media_image_id}"
+            if media_content_type == MediaType.MOVIE
+            else f"http://rvolution-server-1-10.westeurope.cloudapp.azure.com/api/1.2/Picture?AuthKey={self.coordinator.collection_client._auth_key}&Collection={media_content_id}&Hash={media_image_id}&ApiKey={self.coordinator.apiKey}"
+        )
         content = await self._async_fetch_image(image_url)
         return content
 
@@ -370,30 +435,46 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             match media_content_type:
                 case MediaType.CHANNELS:
                     if "/" not in media_content_id:
-                        return await self._async_get_browse_media_collection(media_content_id)
+                        return await self._async_get_browse_media_collection(
+                            media_content_id
+                        )
                     else:
                         collection_id, name = media_content_id.split("/", 1)
-                        return await self._async_get_browse_media_menu(collection_id, name)
+                        return await self._async_get_browse_media_menu(
+                            collection_id, name
+                        )
                 case MediaType.APP:
-                    return await self._async_get_browse_media_collection(media_content_id)
+                    return await self._async_get_browse_media_collection(
+                        media_content_id
+                    )
                 case MediaType.CHANNEL | MediaType.TVSHOW | MediaType.SEASON:
                     # Assuming media_content_id is in the format "collection_id/media_id"
                     collection_id, media_id = media_content_id.split("/", 1)
-                    return await self._async_get_browse_media_custom_group(collection_id, media_id)
+                    return await self._async_get_browse_media_custom_group(
+                        collection_id, media_id
+                    )
                 case _:
-                    _LOGGER.error("Unsupported media content type: %s", media_content_type)
+                    _LOGGER.error(
+                        "Unsupported media content type: %s", media_content_type
+                    )
                     return None
 
     async def _async_get_browse_media_root(self):
         """Return the root BrowseMedia object."""
-        collections = self._collection_client.get_collections() if self._collection_client else None
+        collections = (
+            self._collection_client.get_collections()
+            if self._collection_client
+            else None
+        )
 
         if not collections:
             _LOGGER.error("No collections found in the collection client.")
             return None
 
         if len(collections) == 1:
-            return await self._async_get_browse_media_collection(next(iter(collections)))  # Get the first collection
+            return await self._async_get_browse_media_collection(
+                next(iter(collections))
+            )  # Get the first collection
         else:
             # If multiple collections, return a directory listing of collections
             children = [
@@ -403,7 +484,9 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                     media_content_id=id,
                     media_content_type=MediaType.CHANNELS,
                     can_play=False,
-                    can_expand=True) for id, title in collections.items()
+                    can_expand=True,
+                )
+                for id, title in collections.items()
             ]
 
         return BrowseMedia(
@@ -425,7 +508,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
 
         children = [
             BrowseMedia(
-                title='All Media',
+                title="All Media",
                 media_class=MediaClass.DIRECTORY,
                 media_content_id=f"{collection_id}/All",
                 media_content_type=MediaType.CHANNELS,
@@ -433,7 +516,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 can_expand=True,
             ),
             BrowseMedia(
-                title='Movies',
+                title="Movies",
                 media_class=MediaClass.DIRECTORY,
                 media_content_id=f"{collection_id}/Movies",
                 media_content_type=MediaType.CHANNELS,
@@ -441,7 +524,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 can_expand=True,
             ),
             BrowseMedia(
-                title='TV Shows',
+                title="TV Shows",
                 media_class=MediaClass.DIRECTORY,
                 media_content_id=f"{collection_id}/TVShows",
                 media_content_type=MediaType.CHANNELS,
@@ -449,7 +532,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 can_expand=True,
             ),
             BrowseMedia(
-                title='Search',
+                title="Search",
                 media_class=MediaClass.DIRECTORY,
                 media_content_id=f"{collection_id}/Search",
                 media_content_type=MediaType.CHANNELS,
@@ -466,7 +549,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             media_content_type=MediaType.APP,
             can_play=False,
             can_expand=True,
-            children=children
+            children=children,
         )
 
     async def _async_get_browse_media_menu(self, collection_id, name):
@@ -482,10 +565,12 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             media_content_type=MediaType.CHANNELS,
             can_play=False,
             can_expand=True,
-            children=children
+            children=children,
         )
 
-    def _determine_media_properties(self, collection_id: str, type: str, media_image_id = None) -> tuple[bool, bool, MediaClass, MediaType, str | None]:
+    def _determine_media_properties(
+        self, collection_id: str, type: str, media_image_id=None
+    ) -> tuple[bool, bool, MediaClass, MediaType, str | None]:
         """Determine media properties based on the type."""
         media_class = MediaClass.MOVIE
         media_content_type = MediaType.MOVIE
@@ -499,7 +584,13 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 media_content_type = MediaType.MOVIE
                 can_play = True
                 can_expand = False
-                thumbnail = self.get_browse_image_url(media_content_type, collection_id, media_image_id) if media_image_id else None
+                thumbnail = (
+                    self.get_browse_image_url(
+                        media_content_type, collection_id, media_image_id
+                    )
+                    if media_image_id
+                    else None
+                )
             case "TVShow":
                 media_class = MediaClass.TV_SHOW
                 media_content_type = MediaType.TVSHOW
@@ -511,14 +602,24 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 media_content_type = MediaType.EPISODE
                 can_play = True
                 can_expand = False
-                thumbnail = self.get_browse_image_url(media_content_type, collection_id, media_image_id) if media_image_id else None
+                thumbnail = (
+                    self.get_browse_image_url(
+                        media_content_type, collection_id, media_image_id
+                    )
+                    if media_image_id
+                    else None
+                )
             case "CustomGroup":
                 media_class = MediaClass.DIRECTORY
                 media_content_type = MediaType.CHANNEL
 
-        return can_play,can_expand,media_class,media_content_type,thumbnail
+        return can_play, can_expand, media_class, media_content_type, thumbnail
 
-    def _get_media_children(self, collection_id: str, content: dict[str, Any],) -> list[BrowseMedia]:
+    def _get_media_children(
+        self,
+        collection_id: str,
+        content: dict[str, Any],
+    ) -> list[BrowseMedia]:
         """Get children for a specific media type and ID."""
         children = []
 
@@ -526,7 +627,13 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             id = item.get("Id", "Unknown")
             media_image_id = item.get("Icon", None)
             title = item.get("Text", "Unknown")
-            can_play, can_expand, media_class, media_content_type, thumbnail = self._determine_media_properties(collection_id=collection_id, media_image_id=media_image_id, type=item.get("Type", "Unknown"))
+            can_play, can_expand, media_class, media_content_type, thumbnail = (
+                self._determine_media_properties(
+                    collection_id=collection_id,
+                    media_image_id=media_image_id,
+                    type=item.get("Type", "Unknown"),
+                )
+            )
 
             children.append(
                 BrowseMedia(
@@ -536,7 +643,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                     media_content_type=media_content_type,
                     can_play=can_play,
                     can_expand=can_expand,
-                    thumbnail=thumbnail
+                    thumbnail=thumbnail,
                 )
             )
 
@@ -549,7 +656,9 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             _LOGGER.error("Collection not found: %s", collection_id)
             return None
 
-        media_item = await self._collection_client.async_get_items(collection_id, media_id)
+        media_item = await self._collection_client.async_get_items(
+            collection_id, media_id
+        )
         return BrowseMedia(
             title=collection,
             media_class=MediaClass.DIRECTORY,
@@ -557,8 +666,12 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             media_content_type=MediaType.CHANNEL,
             can_play=False,
             can_expand=True,
-            children=self._get_media_children(collection_id, media_item.get("Buttons", [])) if media_item else [],
-            #thumbnail=self.get_browse_image_url(MediaType.CHANNEL, collection_id)
+            children=self._get_media_children(
+                collection_id, media_item.get("Buttons", [])
+            )
+            if media_item
+            else [],
+            # thumbnail=self.get_browse_image_url(MediaType.CHANNEL, collection_id)
         )
 
     @async_refresh_after
@@ -568,7 +681,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         _, mediaId = media_id.split("/", 1)
         if mediaId:
             self.media_content_id = media_id
-            if (self.coordinator.data.get("player_state", None) == "file_playback"):
+            if self.coordinator.data.get("player_state", None) == "file_playback":
                 await self._api.async_stop()
             await self._rvideo_client.async_start_video(mediaId)
 
@@ -599,20 +712,20 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         await self._api.async_previous_track()
 
     ### Volume Control Methods ###
-    #@async_log_errors DenonaAVR
+    # @async_log_errors DenonaAVR
     @async_refresh_after
     async def async_volume_up(self) -> None:
         """Volume up the media player."""
         await self._api.async_volume_up()
 
-    #@async_log_errors
+    # @async_log_errors
 
     @async_refresh_after
     async def async_volume_down(self) -> None:
         """Volume down media player."""
         await self._api.async_volume_down()
 
-    #@async_log_errors
+    # @async_log_errors
     @async_refresh_after
     async def async_set_volume_level(self, volume: float) -> None:
         """Set the volume level of the media player."""
@@ -641,7 +754,10 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     @async_refresh_after
     async def async_select_sound_mode(self, sound_mode: str) -> None:
         """Select sound mode (audio track)."""
-        if not self._attr_sound_mode_list or sound_mode not in self._attr_sound_mode_list:
+        if (
+            not self._attr_sound_mode_list
+            or sound_mode not in self._attr_sound_mode_list
+        ):
             _LOGGER.warning("Sound mode '%s' not available", sound_mode)
             return
 
@@ -649,10 +765,12 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         sound_mode_index = self._attr_sound_mode_list.index(sound_mode)
 
         # Get the audio tracks from technical info
-        if (technical_info := self.coordinator.media_info.get("TechnicalInfo", None)) and \
-           (audio_tracks := technical_info.get("AudioTrackTechnicalInfos", None)) and \
-           isinstance(audio_tracks, list) and len(audio_tracks) > sound_mode_index:
-
+        if (
+            (technical_info := self.coordinator.media_info.get("TechnicalInfo", None))
+            and (audio_tracks := technical_info.get("AudioTrackTechnicalInfos", None))
+            and isinstance(audio_tracks, list)
+            and len(audio_tracks) > sound_mode_index
+        ):
             track = audio_tracks[sound_mode_index]
             track_index = track.get("Index", 0)
 
@@ -664,4 +782,3 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 _LOGGER.info("Selected audio track %d: %s", track_index, sound_mode)
             except Exception as e:
                 _LOGGER.error("Failed to select audio track %d: %s", track_index, e)
-
