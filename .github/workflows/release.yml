@@ -27,9 +27,9 @@ jobs:
         shell: "bash"
         run: |
           cd "${{ github.workspace }}/custom_components/r_volution_player"
-          zip hacs-ha_r_volution_player.zip -r ./
+          zip hacs-r-volution-player.zip -r ./
 
       - name: "Upload the ZIP file to the release"
         uses: softprops/action-gh-release@v2.3.4
         with:
-          files: ${{ github.workspace }}/custom_components/r_volution_player/hacs-ha_r_volution_player.zip
+          files: ${{ github.workspace }}/custom_components/r_volution_player/hacs-r-volution-player.zip
