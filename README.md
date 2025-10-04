@@ -31,18 +31,6 @@ code.
 - [Installation](#installation)
   - [HACS Installation](#hacs-installation)
   - [Manual Installation](#manual-installation)
-- [Configuration](#configuration)
-  - [RSCP configuration](#rscp-configuration)
-  - [Probable causes of connection problems](#probable-causes-of-connection-problems)
-    - [Password limitations](#password-limitations)
-    - [Network restriction](#network-restriction)
-  - [Unsupported features configuration schemes](#unsupported-features-configuration-schemes)
-- [Actions](#actions)
-  - [Set power limits](#set-power-limits)
-  - [Clear current power limits](#clear-current-power-limits)
-  - [Initate manual battery charging](#initate-manual-battery-charging)
-  - [Set maximum wallbox charging current](#set-maximum-wallbox-charging-current)
-- [Upstream source](#upstream-source)
 
 ## Disclaimer
 
