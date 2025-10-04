@@ -10,7 +10,7 @@
 
 <!-- [![BuyMeCoffee][buymecoffeebadge]][buymecoffee] -->
 <!-- [![Discord][discord-shield]][discord] -->
-[![Community Forum][forum-shield]][forum]
+<!-- [![Community Forum][forum-shield]][forum] -->
 
 This integration will interface with the R_volution player series by
 [R_volution](https://www.rvolution.com).
