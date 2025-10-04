@@ -1,7 +1,7 @@
 """API class for communication with the R Volution Player via HTTP."""
 
 import logging
-from typing import Any, Optional
+from typing import Any
 import aiohttp
 import async_timeout
 import xml.etree.ElementTree as ET
@@ -13,7 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 class RVolutionPlayerClient:
     """Class for communication with the R Volution Player via HTTP."""
 
-    def __init__(self, host: str, session: Optional[aiohttp.ClientSession | None] = None):
+    def __init__(self, host: str, session: aiohttp.ClientSession | None = None):
         """Initialize the API client."""
         self._host = host
         self._session = session  # Do not create session here
@@ -276,7 +276,7 @@ class RVolutionCollectionClient:
         username: str,
         password: str,
         apiKey: str,
-        session: Optional[aiohttp.ClientSession | None] = None,
+        session: aiohttp.ClientSession | None = None,
     ):
         """Initialize the API client."""
         self._username = username
@@ -433,7 +433,7 @@ class RVolutionCollectionClient:
 class RVideoClient:
     """Class for communication with the R Volution Video API."""
 
-    def __init__(self, host: str, session: Optional[aiohttp.ClientSession | None] = None):
+    def __init__(self, host: str, session: aiohttp.ClientSession | None = None):
         """Initialize the API client."""
 
         self._host = host
