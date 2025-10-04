@@ -2,6 +2,7 @@
 
 target-version = "py311"
 
+[lint]
 select = [
     "B007",    # Loop control variable {name} not used within loop body
     "B014",    # Exception handler with duplicate exception
@@ -40,8 +41,8 @@ ignore = [
     "UP007", # replaces keep-runtime-typing = true
 ]
 
-[flake8-pytest-style]
+[lint.flake8-pytest-style]
 fixture-parentheses = false
 
-[mccabe]
+[lint.mccabe]
 max-complexity = 25

@@ -1,5 +1,4 @@
 """Constants for the E3DC Remote Storage Control Protocol integration."""
-import asyncio
 import logging
 from typing import Any
 
@@ -57,7 +56,7 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             ).async_auth() if _email and _password and _apiKey else None
 
             await self._api.async_update_status()
-        except (HomeAssistantError, asyncio.TimeoutError, TimeoutException) as ex:
+        except (TimeoutError, HomeAssistantError, TimeoutException) as ex:
           raise ConfigEntryNotReady(f"Timeout while connecting to {_host}") from ex
 
         except Exception as e:
