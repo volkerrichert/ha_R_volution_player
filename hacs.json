@@ -1,0 +1,8 @@
+{
+    "filename": "hacs-r-volution-player.zip",
+    "hide_default_branch": true,
+    "homeassistant": "2025.9.0",
+    "name": "R_volution Player",
+    "render_readme": true,
+    "zip_release": true
+}

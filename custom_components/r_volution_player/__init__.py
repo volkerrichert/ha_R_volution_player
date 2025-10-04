@@ -6,6 +6,7 @@ from homeassistant.core import HomeAssistant
 from custom_components.r_volution_player.const import DOMAIN, PLATFORMS
 from custom_components.r_volution_player.coordinator import RVolutionCoordinator
 
+
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     """Set up the R_volution Player integration from a config entry."""
 
@@ -17,6 +18,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     hass.data[DOMAIN][config_entry.unique_id] = coordinator
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
     return True
+
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""

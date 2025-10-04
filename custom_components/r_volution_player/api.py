@@ -1,6 +1,7 @@
 """API class for communication with the R Volution Player via HTTP."""
+
 import logging
-from typing import Any, Optional
+from typing import Any
 import aiohttp
 import async_timeout
 import xml.etree.ElementTree as ET
@@ -8,10 +9,11 @@ from .const import IR_CODES
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class RVolutionPlayerClient:
     """Class for communication with the R Volution Player via HTTP."""
 
-    def __init__(self, host: str, session: Optional[aiohttp.ClientSession] = None):
+    def __init__(self, host: str, session: aiohttp.ClientSession | None = None):
         """Initialize the API client."""
         self._host = host
         self._session = session  # Do not create session here
@@ -29,10 +31,13 @@ class RVolutionPlayerClient:
 
         try:
             async with async_timeout.timeout(10), aiohttp.ClientSession() as session:
-                    response = await session.get(f"{self._base_url}", params={'cmd': 'status', 'result_syntax': 'json'})
-                    response.raise_for_status()
-                    self._data = await response.json()
-                    return self._data
+                response = await session.get(
+                    f"{self._base_url}",
+                    params={"cmd": "status", "result_syntax": "json"},
+                )
+                response.raise_for_status()
+                self._data = await response.json()
+                return self._data
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.info("Error retrieving player status: %s", err)
             return {}
@@ -50,7 +55,7 @@ class RVolutionPlayerClient:
         if self._data is None:
             await self.async_update_status()
 
-        return self._data['product_name']
+        return self._data["product_name"]
 
     async def async_get_serial_number(self) -> str:
         """Asynchronously retrieves the serial number of the player.
@@ -62,7 +67,7 @@ class RVolutionPlayerClient:
         if self._data is None:
             await self.async_update_status()
 
-        return self._data['serial_number']
+        return self._data["serial_number"]
 
     async def async_get_firmware_version(self) -> str:
         """Asynchronously retrieves the firmware version of the player.
@@ -74,7 +79,7 @@ class RVolutionPlayerClient:
         if self._data is None:
             await self.async_update_status()
 
-        return self._data['firmware_version']
+        return self._data["firmware_version"]
 
     async def async_get_product_id(self) -> str | None:
         """Asynchronously retrieves the product ID of the player.
@@ -86,7 +91,7 @@ class RVolutionPlayerClient:
         if self._data is None:
             await self.async_update_status()
 
-        return self._data.get('product_id', None)
+        return self._data.get("product_id", None)
 
     async def async_play(self) -> bool:
         """Start playback."""
@@ -128,7 +133,7 @@ class RVolutionPlayerClient:
                 query_params = {
                     "cmd": "set_playback_state",
                     "volume": str(volume),
-                    "result_syntax": "json"
+                    "result_syntax": "json",
                 }
 
                 response = await session.get(url, params=query_params)
@@ -150,7 +155,7 @@ class RVolutionPlayerClient:
                 query_params = {
                     "cmd": "set_playback_state",
                     "position": str(position),
-                    "result_syntax": "json"
+                    "result_syntax": "json",
                 }
 
                 response = await session.get(url, params=query_params)
@@ -168,7 +173,9 @@ class RVolutionPlayerClient:
         """Turn off the player."""
         return await self._send_ip_command("power_off")
 
-    async def _send_ip_command(self, command: str, params: dict[str, Any] = None) -> bool:
+    async def _send_ip_command(
+        self, command: str, params: dict[str, Any] = None
+    ) -> bool:
         """Send a command to the player."""
         try:
             async with async_timeout.timeout(10), aiohttp.ClientSession() as session:
@@ -198,7 +205,7 @@ class RVolutionPlayerClient:
                 query_params = {
                     "cmd": "set_playback_state",
                     "audio_track": track_id,
-                    "result_syntax": "json"
+                    "result_syntax": "json",
                 }
 
                 response = await session.get(url, params=query_params)
@@ -220,7 +227,7 @@ class RVolutionPlayerClient:
                 query_params = {
                     "cmd": "set_playback_state",
                     "subtitles_track": track_id,
-                    "result_syntax": "json"
+                    "result_syntax": "json",
                 }
 
                 response = await session.get(url, params=query_params)
@@ -234,8 +241,9 @@ class RVolutionPlayerClient:
             _LOGGER.error("Error selecting audio track %s: %s", track_id, err)
             return False
 
-
-    async def async_set_playback_speed(self, speed: int) -> bool:  # Korrigiert: "speed" statt "spped"
+    async def async_set_playback_speed(
+        self, speed: int
+    ) -> bool:  # Korrigiert: "speed" statt "spped"
         """Set playback speed."""
         try:
             async with async_timeout.timeout(10), aiohttp.ClientSession() as session:
@@ -243,7 +251,7 @@ class RVolutionPlayerClient:
                 query_params = {
                     "cmd": "set_playback_state",
                     "speed": speed,
-                    "result_syntax": "json"
+                    "result_syntax": "json",
                 }
 
                 response = await session.get(url, params=query_params)
@@ -254,14 +262,22 @@ class RVolutionPlayerClient:
                 return self._data.get("command_status", False) == "ok"
 
         except (TimeoutError, aiohttp.ClientError) as err:
-            _LOGGER.error("Error setting playback speed to %s: %s", speed, err)  # Korrigiert: "speed" statt "track_id"
+            _LOGGER.error(
+                "Error setting playback speed to %s: %s", speed, err
+            )  # Korrigiert: "speed" statt "track_id"
             return False
 
 
 class RVolutionCollectionClient:
     """Class for communication with the R Volution Collection via HTTP."""
 
-    def __init__(self, username: str, password: str, apiKey: str, session: Optional[aiohttp.ClientSession] = None):
+    def __init__(
+        self,
+        username: str,
+        password: str,
+        apiKey: str,
+        session: aiohttp.ClientSession | None = None,
+    ):
         """Initialize the API client."""
         self._username = username
         self._password = password
@@ -272,23 +288,27 @@ class RVolutionCollectionClient:
         """Authenticate with the R Volution Collection API."""
 
         session = await self.async_get_session()
-        response = await session.post("Auth", json={
-            'Email': self._username,
-            'Password': self._password,
-            'ApiKey': self._apiKey
-        }, ssl=False)
+        response = await session.post(
+            "Auth",
+            json={
+                "Email": self._username,
+                "Password": self._password,
+                "ApiKey": self._apiKey,
+            },
+            ssl=False,
+        )
 
         result = await response.json()
-        self._auth_key = result.get('Key', None)
+        self._auth_key = result.get("Key", None)
         if not self._auth_key:
             _LOGGER.error("Authentication failed, no AuthKey returned.")
             return None
 
         # Extract collections with Collection as key and Alias as value
         self._collections = {}
-        for collection_info in result.get('CollectionInfos', []):
-            collection_id = collection_info.get('Collection')
-            alias = collection_info.get('Alias')
+        for collection_info in result.get("CollectionInfos", []):
+            collection_id = collection_info.get("Collection")
+            alias = collection_info.get("Alias")
             if collection_id and alias:
                 self._collections[collection_id] = alias
 
@@ -305,44 +325,56 @@ class RVolutionCollectionClient:
         """Get a specific collection by ID."""
         return self._collections.get(collection_id, None)
 
-    async def async_get_menu(self, collection_id: str, name: str) -> dict[str, Any] | None:
+    async def async_get_menu(
+        self, collection_id: str, name: str
+    ) -> dict[str, Any] | None:
         """Get a specific module from the collection."""
 
         session = await self.async_get_session()
         try:
             with async_timeout.timeout(10):
-                response = await session.post("Menu", json={
-                    'AuthKey': self._auth_key,
-                    'Collection': collection_id,
-                    'ByName': name,
-                    'Type': 'Menu',
-                    'IsParentalControlActive': False,
-                    'ApiKey': self._apiKey
-                }, ssl=False)
+                response = await session.post(
+                    "Menu",
+                    json={
+                        "AuthKey": self._auth_key,
+                        "Collection": collection_id,
+                        "ByName": name,
+                        "Type": "Menu",
+                        "IsParentalControlActive": False,
+                        "ApiKey": self._apiKey,
+                    },
+                    ssl=False,
+                )
 
-            decoded: dict[str, Any] = (await response.json())
-            return decoded.get('Menu', None)
+            decoded: dict[str, Any] = await response.json()
+            return decoded.get("Menu", None)
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.error("Error retrieving menu %s: %s", name, err)
             return None
 
-    async def async_get_items(self, collection_id: str, id: str) -> dict[str, Any] | None:
+    async def async_get_items(
+        self, collection_id: str, id: str
+    ) -> dict[str, Any] | None:
         """Get a specific module from the collection."""
 
         session = await self.async_get_session()
         try:
             with async_timeout.timeout(10):
-                response = await session.post("Menu", json={
-                    'AuthKey': self._auth_key,
-                    'Collection': collection_id,
-                    'ById': id,
-                    'Type': 'Item',
-                    'IsParentalControlActive': False,
-                    'ApiKey': self._apiKey
-                }, ssl=False)
+                response = await session.post(
+                    "Menu",
+                    json={
+                        "AuthKey": self._auth_key,
+                        "Collection": collection_id,
+                        "ById": id,
+                        "Type": "Item",
+                        "IsParentalControlActive": False,
+                        "ApiKey": self._apiKey,
+                    },
+                    ssl=False,
+                )
 
-            decoded: dict[str, Any] = (await response.json())
-            return decoded.get('Menu', None)
+            decoded: dict[str, Any] = await response.json()
+            return decoded.get("Menu", None)
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.error("Error retrieving items %s: %s", id, err)
             return None
@@ -351,9 +383,15 @@ class RVolutionCollectionClient:
         """Get or create an aiohttp session."""
         if self._session is None:
             try:
-                async with aiohttp.ClientSession() as session, session.get('https://rvolutiontoolsapi.azurewebsites.net/Swagger/GetApiEndPoint', verify_ssl=False) as resp:
+                async with (
+                    aiohttp.ClientSession() as session,
+                    session.get(
+                        "https://rvolutiontoolsapi.azurewebsites.net/Swagger/GetApiEndPoint",
+                        verify_ssl=False,
+                    ) as resp,
+                ):
                     result = await resp.json()
-                    self._base_url = result['ApiUrl']
+                    self._base_url = result["ApiUrl"]
                     await session.close()
                     self._session = aiohttp.ClientSession(base_url=self._base_url)
             except (TimeoutError, aiohttp.ClientError) as err:
@@ -369,11 +407,15 @@ class RVolutionCollectionClient:
 
         try:
             with async_timeout.timeout(10):
-                response = await session.get(f"{self._base_url}/api/Collection", params={
-                    'username': self._username,
-                    'password': self._password,
-                    'apiKey': self._apiKey
-                }, ssl=False)
+                response = await session.get(
+                    f"{self._base_url}/api/Collection",
+                    params={
+                        "username": self._username,
+                        "password": self._password,
+                        "apiKey": self._apiKey,
+                    },
+                    ssl=False,
+                )
                 response.raise_for_status()
                 return await response.json()
 
@@ -387,10 +429,11 @@ class RVolutionCollectionClient:
             await self._session.close()
             self._session = None
 
+
 class RVideoClient:
     """Class for communication with the R Volution Video API."""
 
-    def __init__(self, host: str, session: Optional[aiohttp.ClientSession] = None):
+    def __init__(self, host: str, session: aiohttp.ClientSession | None = None):
         """Initialize the API client."""
 
         self._host = host
@@ -413,11 +456,18 @@ class RVideoClient:
         """Start the video client and fetch the base URL."""
 
         try:
-            async with async_timeout.timeout(10), await self.async_get_session() as session:
-                resp = await session.post("/StartVideo", json={'MediaId': media_id}, verify_ssl=False)
+            async with (
+                async_timeout.timeout(10),
+                await self.async_get_session() as session,
+            ):
+                resp = await session.post(
+                    "/StartVideo", json={"MediaId": media_id}, verify_ssl=False
+                )
                 result = await resp.json(content_type=None)
-                if result.get('ErrorCode') != "None":
-                    raise ValueError(f"Error starting video client: {result.get('ErrorMessage', 'Unknown error')}")
+                if result.get("ErrorCode") != "None":
+                    raise ValueError(
+                        f"Error starting video client: {result.get('ErrorMessage', 'Unknown error')}"
+                    )
 
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.error("Error starting video client: %s", err)
@@ -426,10 +476,15 @@ class RVideoClient:
     async def async_get_media_info(self) -> dict[str, Any]:
         """Get the last media info from the R Video API."""
         try:
-            async with async_timeout.timeout(10), await self.async_get_session() as session:
+            async with (
+                async_timeout.timeout(10),
+                await self.async_get_session() as session,
+            ):
                 resp = await session.get("/LastMedia", verify_ssl=False)
                 result = await resp.json(content_type=None)
-                return result.get('Media', {}) if result.get('ErrorCode') == "None" else {}
+                return (
+                    result.get("Media", {}) if result.get("ErrorCode") == "None" else {}
+                )
 
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.error("Error retrieving last media info: %s", err)

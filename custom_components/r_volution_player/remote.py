@@ -8,12 +8,11 @@ from homeassistant.core import (
     callback,
 )
 from homeassistant.helpers.entity import DeviceInfo
-from homeassistant.components.remote import (
-    RemoteEntityDescription, RemoteEntity
-)
+from homeassistant.components.remote import RemoteEntityDescription, RemoteEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, IR_CODES
 from .coordinator import RVolutionCoordinator
+
 
 async def async_setup_entry(hass: HomeAssistant, config_entry, async_add_entities):
     """Set up the R_volution Player remote platform."""
@@ -21,13 +20,16 @@ async def async_setup_entry(hass: HomeAssistant, config_entry, async_add_entitie
     assert isinstance(config_entry.unique_id, str)
     coordinator: RVolutionCoordinator = hass.data[DOMAIN][config_entry.unique_id]
     remote = RVolutionPlayerRemote(
-        coordinator, RVolutionPlayerRemoteDescription(
+        coordinator,
+        RVolutionPlayerRemoteDescription(
             key="remote",
             translation_key="system-media_player-percent",
             icon="mdi:remote",
         ),
-        config_entry.entry_id)
+        config_entry.entry_id,
+    )
     async_add_entities([remote], True)
+
 
 class RVolutionPlayerRemoteDescription(RemoteEntityDescription):
     """Class describing R_volution Player remote entities."""
@@ -37,11 +39,12 @@ class RVolutionPlayerRemote(CoordinatorEntity, RemoteEntity):
     """Representation of a R_volution Player remote."""
 
     def __init__(
-            self,
-            coordinator: RVolutionCoordinator,
-            description: RemoteEntityDescription,
-            entry_id: str,
-            device_info: DeviceInfo | None = None):
+        self,
+        coordinator: RVolutionCoordinator,
+        description: RemoteEntityDescription,
+        entry_id: str,
+        device_info: DeviceInfo | None = None,
+    ):
         """Initialize the remote."""
         super().__init__(coordinator)
         self._attr_device_info = device_info
@@ -60,7 +63,9 @@ class RVolutionPlayerRemote(CoordinatorEntity, RemoteEntity):
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
 
-        self._attr_is_on = self.coordinator.data.get("protocol_version", None) is not None
+        self._attr_is_on = (
+            self.coordinator.data.get("protocol_version", None) is not None
+        )
         self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs):

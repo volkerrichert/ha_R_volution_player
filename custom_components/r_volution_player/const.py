@@ -7,10 +7,7 @@ ATTR_MANUFACTURER: Final = "R_Volution"
 DOMAIN: Final = "r_volution_player"
 DEFAULT_NAME: Final = "R_Volution Player"
 
-PLATFORMS: list[Platform] = [
-    Platform.MEDIA_PLAYER,
-    Platform.REMOTE
-]
+PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER, Platform.REMOTE]
 
 IR_CODES = {
     "3d": "ED124040",
@@ -56,15 +53,16 @@ IR_CODES = {
     "volume_down": "E8174040",
     "volume_up": "E7184040",
     "zoom": "E21D4040",
-
     # Standard Media Player Befehle
     "play": "AC534040",
     "pause": "AC534040",
     "stop": "BD424040",
     "next": "BF404040",
-    "prev": "DB204040"
+    "prev": "DB204040",
 }
 
 ERROR_CANNOT_CONNECT = "cannot_connect"
 
-AFTER_REQUEST_SLEEP = 0.5  # seconds to wait after a request before refreshing the coordinator
+AFTER_REQUEST_SLEEP = (
+    0.5  # seconds to wait after a request before refreshing the coordinator
+)
