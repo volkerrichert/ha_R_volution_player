@@ -1,12 +1,12 @@
 {
   "domain": "r_volution_player",
   "name": "R_volution Player",
-  "version": "0.0.1",
-  "documentation": "https://github.com/volkerrichert/ha_r_volution_player",
-  "requirements": [],
-  "dependencies": [],
   "codeowners": ["@volkerrichert"],
   "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/volkerrichert/ha_r_volution_player",
   "integration_type": "device",
-  "iot_class": "local_polling"
+  "iot_class": "local_polling",
+  "requirements": [],
+  "version": "0.0.1"
 }
