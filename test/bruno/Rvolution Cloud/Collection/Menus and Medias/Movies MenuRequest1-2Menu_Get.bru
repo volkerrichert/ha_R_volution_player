@@ -4,19 +4,19 @@ meta {
   seq: 2
 }
 
-get {
-  url: {{baseUrl}}/Menu?AuthKey={{authKey}}&Collection={{firstCollectionId}}&ByName=Movies&Type=Menu&IsParentalControlActive=false&ApiKey={{apiKey}}
-  body: none
+post {
+  url: {{baseUrl}}/Menu
+  body: json
   auth: inherit
 }
 
 params:query {
-  AuthKey: {{authKey}}
-  Collection: {{firstCollectionId}}
-  ByName: Movies
-  Type: Menu
-  IsParentalControlActive: false
-  ApiKey: {{apiKey}}
+  ~AuthKey: {{authKey}}
+  ~Collection: {{firstCollectionId}}
+  ~ByName: Movies
+  ~Type: Menu
+  ~IsParentalControlActive: false
+  ~ApiKey: {{apiKey}}
   ~Start: 0
   ~Take: 3
   ~ById: 
@@ -24,4 +24,15 @@ params:query {
 
 headers {
   Content-Type: application/json
+}
+
+body:json {
+  {
+    "AuthKey": "{{authKey}}",
+    "Collection": "{{firstCollectionId}}",
+    "ByName": "Movies",
+    "Type": "Menu",
+    "IsParentalControlActive": false,
+    "ApiKey": "{{apiKey}}"
+  }
 }

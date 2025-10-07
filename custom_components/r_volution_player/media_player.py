@@ -253,7 +253,8 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 # TODO: Search seems to be unusable with custom API KEY
                 self._attr_supported_features |= (
                     MediaPlayerEntityFeature.BROWSE_MEDIA
-                )  # | MediaPlayerEntityFeature.SEARCH_MEDIA
+                #    | MediaPlayerEntityFeature.SEARCH_MEDIA
+                )
             # TODO: check how to find next / prev episode
             # if (self.coordinator.media_info.get("Type", None) == "TVShowEpisode"):
             #    self._attr_supported_features |= MediaPlayerEntityFeature.NEXT_TRACK | MediaPlayerEntityFeature.PREVIOUS_TRACK
@@ -530,15 +531,6 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 media_content_type=MediaType.CHANNELS,
                 can_play=False,
                 can_expand=True,
-            ),
-            BrowseMedia(
-                title="Search",
-                media_class=MediaClass.DIRECTORY,
-                media_content_id=f"{collection_id}/Search",
-                media_content_type=MediaType.CHANNELS,
-                can_play=False,
-                can_expand=False,
-                can_search=True,
             ),
         ]
 

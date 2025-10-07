@@ -348,7 +348,7 @@ class RVolutionCollectionClient:
 
             decoded: dict[str, Any] = await response.json()
             return decoded.get("Menu", None)
-        except (TimeoutError, aiohttp.ClientError) as err:
+        except Exception as err:
             _LOGGER.error("Error retrieving menu %s: %s", name, err)
             return None
 

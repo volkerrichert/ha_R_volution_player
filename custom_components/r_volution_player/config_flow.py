@@ -70,7 +70,7 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return ERROR_CANNOT_CONNECT
         finally:
             await self._api.close()
-            _collection_client.close() if _collection_client else None
+            await _collection_client.close() if _collection_client else None
         return None
 
     async def async_step_user(
@@ -143,16 +143,16 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return vol.Schema(
             {
                 vol.Required(
-                    CONF_HOST, default=data.get(CONF_HOST, vol.UNDEFINED)
+                    CONF_HOST, default=data.get(CONF_HOST, vol.UNDEFINED) if data else vol.UNDEFINED
                 ): str,
                 vol.Optional(
-                    CONF_EMAIL, default=data.get(CONF_EMAIL, vol.UNDEFINED)
+                    CONF_EMAIL, default=data.get(CONF_EMAIL, vol.UNDEFINED) if data else vol.UNDEFINED
                 ): str,
                 vol.Optional(
-                    CONF_PASSWORD, default=data.get(CONF_PASSWORD, vol.UNDEFINED)
+                    CONF_PASSWORD, default=data.get(CONF_PASSWORD, vol.UNDEFINED) if data else vol.UNDEFINED
                 ): str,
                 vol.Optional(
-                    CONF_API_KEY, default=data.get(CONF_API_KEY, vol.UNDEFINED)
+                    CONF_API_KEY, default=data.get(CONF_API_KEY, vol.UNDEFINED) if data else vol.UNDEFINED
                 ): str,
             }
         )
