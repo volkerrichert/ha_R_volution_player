@@ -19,7 +19,7 @@
           "uuid": "35569115-f1d8-4cd2-80d7-86d9cc99f112",
           "body": "{\n  \"ErrorCode\": \"None\"\n}",
           "latency": 0,
-          "statusCode": 404,
+          "statusCode": 200,
           "label": "",
           "headers": [
             {

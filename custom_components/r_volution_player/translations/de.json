@@ -1,0 +1,39 @@
+{
+  "component": {
+    "all": "Alle",
+    "categories": "Kategorien",
+    "category": {
+      "_3d": "3D",
+      "_4k": "4K",
+      "action": "Action",
+      "adventure": "Abenteuer",
+      "animation": "Animation",
+      "classic": "Klassiker",
+      "comedy": "Komödie",
+      "crime": "Krimi",
+      "documentary": "Dokumentation",
+      "drama": "Drama",
+      "family": "Familie",
+      "fantastique": "Fantasy",
+      "history": "Geschichte",
+      "horror": "Horror",
+      "kids": "Kinder",
+      "music": "Musik",
+      "mystery": "Mystery",
+      "news": "Nachrichten",
+      "politics": "Politik",
+      "reality": "Reality",
+      "romance": "Romantik",
+      "sci-fi": "Sci-Fi",
+      "soap": "Soap",
+      "talk": "Talk",
+      "thriller": "Thriller",
+      "tvshows": "TV-Serien",
+      "war": "Krieg",
+      "western": "Western"
+    },
+    "collections": "Sammlungen",
+    "movies": "Filme",
+    "tv_shows": "TV-Serien"
+  }
+}

@@ -1,15 +1,13 @@
 """Remote platform for R_volution Player integration."""
 
 from collections.abc import Iterable
-
 from typing import Any
-from homeassistant.core import (
-    HomeAssistant,
-    callback,
-)
+
+from homeassistant.components.remote import RemoteEntity, RemoteEntityDescription
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity import DeviceInfo
-from homeassistant.components.remote import RemoteEntityDescription, RemoteEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
 from .const import DOMAIN, IR_CODES
 from .coordinator import RVolutionCoordinator
 

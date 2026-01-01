@@ -2,12 +2,17 @@
 
 from typing import Final
 from homeassistant.const import Platform
+from homeassistant.components.media_player import (
+    BrowseMedia,
+    MediaClass,
+    MediaType,
+)
 
 ATTR_MANUFACTURER: Final = "R_Volution"
 DOMAIN: Final = "r_volution_player"
 DEFAULT_NAME: Final = "R_Volution Player"
 
-PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER, Platform.REMOTE]
+PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER, Platform.REMOTE, Platform.SENSOR]
 
 IR_CODES = {
     "3d": "ED124040",
@@ -48,7 +53,7 @@ IR_CODES = {
     "power_on": "4CB34040",
     "repeat": "B9464040",
     "return": "BD424040",
-    "video": "EC134040",
+    "r_video": "EC134040",
     "subtitle": "E41B4040",
     "volume_down": "E8174040",
     "volume_up": "E7184040",
@@ -66,3 +71,22 @@ ERROR_CANNOT_CONNECT = "cannot_connect"
 AFTER_REQUEST_SLEEP = (
     0.5  # seconds to wait after a request before refreshing the coordinator
 )
+
+DEFAULT_COLLECTION_MENU = [
+     {
+        "Title": "all",
+        "ByName": "All",
+    },
+    {
+        "Title": "movies",
+        "ByName": "Movies",
+    },
+    {
+        "Title": "tv_shows",
+        "ByName": "TVShows",
+    },
+    {
+        "Title": "categories",
+        "ByName": "Categories",
+    },
+]

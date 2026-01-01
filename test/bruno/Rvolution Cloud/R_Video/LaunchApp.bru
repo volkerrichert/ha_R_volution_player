@@ -1,10 +1,10 @@
 meta {
   name: LaunchApp
   type: http
-  seq: 5
+  seq: 4
 }
 
-get {
+post {
   url: http://{{ip}}:8990/LaunchApp
   body: json
   auth: inherit
@@ -12,6 +12,7 @@ get {
 
 body:json {
   {
+    "_ApplicationName": "com.ugexpresslmt.rvolution",
     "ApplicationName": "YouTube"
   }
 }

@@ -1,11 +1,11 @@
 meta {
   name: Modules_Get
   type: http
-  seq: 6
+  seq: 8
 }
 
 get {
-  url: {{baseUrl}}/Modules?ApiKey={{apiKey}}&AuthKey={{authKey}}&Collection={{firstCollectionId}}&ModuleRequestSubSet=EnabledModules&IsSearchEnabled=true&IsFavouriteScenesAvailable=true
+  url: {{baseUrl}}/Modules?ApiKey={{apiKey}}&AuthKey={{authKey}}&Collection={{firstCollectionId}}&ModuleRequestSubSet=EnabledModules&IsSearchEnabled=true&IsFavouriteScenesAvailable=true&IsModePlayer=true
   body: json
   auth: none
 }
@@ -17,7 +17,7 @@ params:query {
   ModuleRequestSubSet: EnabledModules
   IsSearchEnabled: true
   IsFavouriteScenesAvailable: true
-  ~IsModePlayer: false
+  IsModePlayer: true
 }
 
 body:json {

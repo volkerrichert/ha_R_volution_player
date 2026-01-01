@@ -7,23 +7,20 @@ from httpcore import TimeoutException
 import voluptuous as vol
 
 from homeassistant import config_entries
+from homeassistant.core import callback
 from homeassistant.const import (
-    CONF_HOST,
-    CONF_EMAIL,
-    CONF_PASSWORD,
-    CONF_API_KEY,
     ATTR_MODEL,
     ATTR_MODEL_ID,
     ATTR_SERIAL_NUMBER,
+    CONF_API_KEY,
+    CONF_EMAIL,
+    CONF_HOST,
+    CONF_PASSWORD,
 )
 from homeassistant.data_entry_flow import FlowResult
-from homeassistant.exceptions import HomeAssistantError, ConfigEntryNotReady
+from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 
-from custom_components.r_volution_player.api import (
-    RVolutionCollectionClient,
-    RVolutionPlayerClient,
-)
-
+from .api import RVolutionCollectionClient, RVolutionPlayerClient
 from .const import DOMAIN, ERROR_CANNOT_CONNECT, IR_CODES
 
 _LOGGER = logging.getLogger(__name__)
@@ -156,3 +153,39 @@ class RVolutionPlayerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 ): str,
             }
         )
+
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(
+        config_entry: config_entries.ConfigEntry,
+    ) -> config_entries.OptionsFlow:
+        """Return the options flow handler for this integration."""
+        return RVolutionOptionsFlowHandler()
+
+
+class RVolutionOptionsFlowHandler(config_entries.OptionsFlowWithReload):
+    """Handle options for R Volution Player."""
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    # vol.Required(
+                    #     CONF_CREATE_BATTERY_DEVICES,
+                    #     default=self.config_entry.options.get(
+                    #         CONF_CREATE_BATTERY_DEVICES,
+                    #         DEFAULT_CREATE_BATTERY_DEVICES,
+                    #     ),
+                    # ): bool,
+                }
+            ),
+        )
+

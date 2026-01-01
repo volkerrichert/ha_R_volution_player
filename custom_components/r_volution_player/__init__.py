@@ -3,8 +3,8 @@
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
-from custom_components.r_volution_player.const import DOMAIN, PLATFORMS
-from custom_components.r_volution_player.coordinator import RVolutionCoordinator
+from .const import DOMAIN, PLATFORMS
+from .coordinator import RVolutionCoordinator
 
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):

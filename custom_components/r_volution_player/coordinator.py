@@ -4,26 +4,26 @@ This module defines the RVolutionCoordinator class, which manages data updates a
 for the R_volution Player integration in Home Assistant.
 """
 
+import logging
 from datetime import timedelta
 from typing import Any
 
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.const import (
-    CONF_HOST,
-    CONF_EMAIL,
-    CONF_PASSWORD,
-    CONF_API_KEY,
     ATTR_MODEL,
     ATTR_MODEL_ID,
     ATTR_SERIAL_NUMBER,
+    CONF_API_KEY,
+    CONF_EMAIL,
+    CONF_HOST,
+    CONF_PASSWORD,
 )
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from custom_components.r_volution_player.const import DOMAIN
-from .api import RVideoClient, RVolutionPlayerClient, RVolutionCollectionClient
-import logging
+from .api import RVideoClient, RVolutionCollectionClient, RVolutionPlayerClient
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -68,6 +68,7 @@ class RVolutionCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.rvideo_client = RVideoClient(self.host)
 
         self.media_info: dict[str, Any] = {}
+        self.player_running: bool = False
 
     async def _async_setup(self) -> None:
         if self.collection_client:
@@ -80,6 +81,8 @@ class RVolutionCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
             data = await self.api.async_update_status()
 
+            self.player_running = (data.get("android_app_active", "0") == "1")
+            
             if data.get("player_state", None) == "file_playback":
                 if current_url != data.get("playback_url", None):
                     self.media_info = await self.rvideo_client.async_get_media_info()

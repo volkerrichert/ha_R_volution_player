@@ -2,9 +2,10 @@
 
 import logging
 from typing import Any
+
 import aiohttp
 import async_timeout
-import xml.etree.ElementTree as ET
+
 from .const import IR_CODES
 
 _LOGGER = logging.getLogger(__name__)
@@ -41,9 +42,6 @@ class RVolutionPlayerClient:
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.info("Error retrieving player status: %s", err)
             return {}
-        except ET.ParseError as err:
-            _LOGGER.error("Error parsing XML response: %s", err)
-            return {}
 
     async def async_product_name(self) -> str:
         """Asynchronously retrieves the product name of the player.
@@ -56,6 +54,18 @@ class RVolutionPlayerClient:
             await self.async_update_status()
 
         return self._data["product_name"]
+
+    async def async_android_app_active(self) -> str:
+        """Asynchronously retrieves the product name of the player.
+
+        Returns:
+            str: The product name of the player.
+
+        """
+        if self._data is None:
+            await self.async_update_status()
+
+        return self._data["android_app_active"] == "1"
 
     async def async_get_serial_number(self) -> str:
         """Asynchronously retrieves the serial number of the player.
@@ -172,6 +182,14 @@ class RVolutionPlayerClient:
     async def async_power_off(self) -> bool:
         """Turn off the player."""
         return await self._send_ip_command("power_off")
+
+    async def async_home(self) -> bool:
+        """Go to the home screen."""
+        return await self._send_ip_command("home")
+
+    async def async_r_video(self) -> bool:
+        """start R_Video."""
+        return await self._send_ip_command("r_video")
 
     async def _send_ip_command(
         self, command: str, params: dict[str, Any] = None
@@ -306,12 +324,14 @@ class RVolutionCollectionClient:
 
         # Extract collections with Collection as key and Alias as value
         self._collections = {}
+        self._modules = {}
         for collection_info in result.get("CollectionInfos", []):
             collection_id = collection_info.get("Collection")
             alias = collection_info.get("Alias")
             if collection_id and alias:
                 self._collections[collection_id] = alias
-
+                self._modules[collection_id] = await self.async_get_collection_modules(collection_id)
+                
         return self
 
     def get_collections(self) -> dict[str, str]:
@@ -325,8 +345,48 @@ class RVolutionCollectionClient:
         """Get a specific collection by ID."""
         return self._collections.get(collection_id, None)
 
+    async def async_get_collection_modules(
+        self, collection_id: str
+    ) -> dict | None:
+        count: int = 0
+        modules = None
+        session = await self.async_get_session()
+        while modules is None and count < 20:
+            try:
+                count += 1
+                with async_timeout.timeout(30):
+                    response = await session.post(
+                        "Modules",
+                        json={
+                            "AuthKey": self._auth_key,
+                            "Collection": collection_id,
+                            "ApiKey": self._apiKey,
+                            "ModuleRequestSubSet": "EnabledModules",
+                            "IsSearchEnabled": False,
+                            "IsModePlayer": True,
+                            "IsFavouriteScenesAvailable": True
+                        },
+                        ssl=False,
+                    )
+                if (response.status == 200):
+                    modules = (await response.json()).get("Modules", None)
+                    # Filter modules: only keep those that are not disabled and not legacy
+                    
+            except Exception as err:
+                pass
+
+        return [
+            module for module in modules
+            if not module.get("IsDisabled", False)
+        ] if modules else None
+    
+    async def async_get_modules(
+        self, collection_id: str
+    ) -> dict | None:
+        return self._modules.get(collection_id, [])
+    
     async def async_get_menu(
-        self, collection_id: str, name: str
+        self, collection_id: str, type: str, id: str = None, name: str = None
     ) -> dict[str, Any] | None:
         """Get a specific module from the collection."""
 
@@ -338,8 +398,9 @@ class RVolutionCollectionClient:
                     json={
                         "AuthKey": self._auth_key,
                         "Collection": collection_id,
+                        "ById": id,
                         "ByName": name,
-                        "Type": "Menu",
+                        "Type": type,
                         "IsParentalControlActive": False,
                         "ApiKey": self._apiKey,
                     },
@@ -378,6 +439,34 @@ class RVolutionCollectionClient:
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.error("Error retrieving items %s: %s", id, err)
             return None
+
+    async def async_get_category(
+        self, collection_id: str, id: str
+    ) -> dict[str, Any] | None:
+        """Get a specific module from the collection."""
+
+        session = await self.async_get_session()
+        try:
+            with async_timeout.timeout(10):
+                response = await session.post(
+                    "Menu",
+                    json={
+                        "AuthKey": self._auth_key,
+                        "Collection": collection_id,
+                        "ById": id,
+                        "Type": "Category",
+                        "IsParentalControlActive": False,
+                        "ApiKey": self._apiKey,
+                    },
+                    ssl=False,
+                )
+
+            decoded: dict[str, Any] = await response.json()
+            return decoded.get("Menu", None)
+        except (TimeoutError, aiohttp.ClientError) as err:
+            _LOGGER.error("Error retrieving items %s: %s", id, err)
+            return None
+
 
     async def async_get_session(self) -> aiohttp.ClientSession:
         """Get or create an aiohttp session."""
@@ -429,7 +518,6 @@ class RVolutionCollectionClient:
             await self._session.close()
             self._session = None
 
-
 class RVideoClient:
     """Class for communication with the R Volution Video API."""
 
@@ -452,12 +540,39 @@ class RVideoClient:
             await self._session.close()
             self._session = None
 
-    async def async_start_video(self, media_id: str) -> None:
-        """Start the video client and fetch the base URL."""
 
+    async def async_is_alive(
+        self,
+    ) -> bool:
+        """Check if the R Volution Collection API is reachable."""
         try:
             async with (
-                async_timeout.timeout(10),
+                async_timeout.timeout(2),
+                await self.async_get_session() as session,
+            ):
+                response = await session.get(
+                    f"/IsAlive",
+                    ssl=False,
+                )
+                response.raise_for_status()
+                result = await response.json(content_type=None)
+                return result.get("ErrorCode", "") == "None"
+
+        except (TimeoutError, aiohttp.ClientError) as err:
+            _LOGGER.error("Error checking API health: %s", err)
+            return False
+    
+    
+    async def async_start_video(self, media_id: str) -> None:
+        """Start the video client and fetch the base URL."""
+        if (not media_id) or (media_id.strip() == ""):
+            raise ValueError("Media ID cannot be empty.")
+        if (not await self.async_is_alive()):
+            raise ValueError("R Video API is not reachable.")
+        
+        try:
+            async with (
+                async_timeout.timeout(5),
                 await self.async_get_session() as session,
             ):
                 resp = await session.post(
@@ -469,7 +584,9 @@ class RVideoClient:
                         f"Error starting video client: {result.get('ErrorMessage', 'Unknown error')}"
                     )
 
-        except (TimeoutError, aiohttp.ClientError) as err:
+        except (TimeoutError) as err:
+            raise err
+        except ( aiohttp.ClientError) as err:
             _LOGGER.error("Error starting video client: %s", err)
             raise ValueError(f"Error starting video client: {err}") from err
 

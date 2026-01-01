@@ -1,0 +1,25 @@
+meta {
+  name: Categories
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/Menu?AuthKey={{authKey}}&Collection={{firstCollectionId}}&Type=Menu&IsParentalControlActive=false&ApiKey={{apiKey}}&ByName=Categories
+  body: none
+  auth: inherit
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  Type: Menu
+  IsParentalControlActive: false
+  ApiKey: {{apiKey}}
+  ByName: Categories
+  ~ById: 5d662dcadea34d57a2887fc64c1031a1
+}
+
+headers {
+  Content-Type: application/json
+}

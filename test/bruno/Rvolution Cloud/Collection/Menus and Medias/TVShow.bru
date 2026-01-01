@@ -1,0 +1,25 @@
+meta {
+  name: TVShow
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/Menu?AuthKey={{authKey}}&Collection={{firstCollectionId}}&Type=Item&IsParentalControlActive=false&ApiKey={{apiKey}}&ById=2ac7169afe2c4d04a83748294a756204
+  body: none
+  auth: inherit
+}
+
+params:query {
+  AuthKey: {{authKey}}
+  Collection: {{firstCollectionId}}
+  Type: Item
+  IsParentalControlActive: false
+  ApiKey: {{apiKey}}
+  ById: 2ac7169afe2c4d04a83748294a756204
+  ~ByName: 
+}
+
+headers {
+  Content-Type: application/json
+}
