@@ -163,13 +163,13 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     async def async_setup(self) -> None:
         """Set up the entity and load translations."""
         self._translations = await async_get_translations(
-            self.hass, self.hass.config.language, "entity_component", {DOMAIN}
+            self.hass, self.hass.config.language, "common", {DOMAIN}
         )
 
     def translate(self, key: str, default: str | None = None) -> str:
         """Translate a given key using the loaded translations."""
         return self._translations.get(
-            f"component.{DOMAIN}.entity_component._.{key.lower()}",
+            f"component.{DOMAIN}.common.browse_media.{key.lower()}",
             default if default is not None else key,
         )
 

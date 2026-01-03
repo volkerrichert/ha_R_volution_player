@@ -13,8 +13,8 @@
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]"
     }
   },
-  "entity_component": {
-    "_": {
+  "common": {
+    "browse_media": {
       "all": "All",
       "categories": "Categories",
       "category": {

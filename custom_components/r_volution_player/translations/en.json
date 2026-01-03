@@ -1,6 +1,6 @@
 {
-  "entity_component": {
-    "_": {
+  "common": {
+    "browse_media": {
       "all": "All",
       "categories": "Categories",
       "category": {
