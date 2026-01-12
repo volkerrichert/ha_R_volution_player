@@ -76,17 +76,21 @@ DEFAULT_COLLECTION_MENU = [
      {
         "Title": "all",
         "ByName": "All",
+        "media_class": MediaClass.VIDEO,
     },
     {
         "Title": "movies",
         "ByName": "Movies",
+        "media_class": MediaClass.MOVIE,
     },
     {
         "Title": "tv_shows",
         "ByName": "TVShows",
+        "media_class": MediaClass.TV_SHOW,
     },
     {
         "Title": "categories",
         "ByName": "Categories",
+        "media_class": MediaClass.GENRE,
     },
 ]

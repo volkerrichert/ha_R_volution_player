@@ -34,7 +34,7 @@ from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.translation import async_get_translations
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-
+from homeassistant.util import slugify
 from .const import AFTER_REQUEST_SLEEP, DOMAIN, DEFAULT_COLLECTION_MENU
 from .coordinator import RVolutionCoordinator
 
@@ -169,7 +169,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     def translate(self, key: str, default: str | None = None) -> str:
         """Translate a given key using the loaded translations."""
         return self._translations.get(
-            f"component.{DOMAIN}.common.browse_media.{key.lower()}",
+            f"component.{DOMAIN}.common.{slugify(key)}",
             default if default is not None else key,
         )
 
@@ -362,29 +362,32 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         self, media_content_type, media_content_id, media_image_id=None
     ):
         content = None
-        match media_content_type:
-            case MediaType.MOVIE:
-                content = await self._async_fetch_image(
-                    f"https://cdn.rvolution.com/pictures/480x720_100/{media_image_id}"
-                )
-            case MediaType.GENRE:
-                icon_path = self._get_icon_path(media_image_id.lower())
-                _LOGGER.warning("dir: %s", icon_path)
-                try:
-                    async with aiofiles.open(icon_path, 'rb') as file:
-                        content = await file.read()
-                        return content, 'image/png'
-                except FileNotFoundError:
-                    _LOGGER.warning("Icon file not found: %s", icon_path)
-                    return None, None
-                except Exception as e:
-                    _LOGGER.error("Error loading icon file %s: %s", media_image_id, e)
-                    return None, None
-            case _:
-                content = await self._async_fetch_image(
-                    f"{self._collection_client._base_url}Picture?AuthKey={self.coordinator.collection_client._auth_key}&Collection={media_content_id}&Hash={media_image_id}&ApiKey={self.coordinator.apiKey}"
-                )
-
+        try:
+            match media_content_type:
+                case MediaType.MOVIE:
+                    content = await self._async_fetch_image(
+                        f"https://cdn.rvolution.com/pictures/480x720_100/{media_image_id}"
+                    )
+                case MediaType.GENRE:
+                    icon_path = self._get_icon_path(media_image_id.lower())
+                    try:
+                        async with aiofiles.open(icon_path, 'rb') as file:
+                            content = await file.read()
+                            return content, 'image/png'
+                    except FileNotFoundError:
+                        _LOGGER.warning("Icon file not found: %s", icon_path)
+                        return None, None
+                    except Exception as e:
+                        _LOGGER.error("Error loading icon file %s: %s", media_image_id, e)
+                        return None, None
+                case _:
+                    content = await self._async_fetch_image(
+                        f"{self._collection_client._base_url}Picture?AuthKey={self.coordinator.collection_client._auth_key}&Collection={media_content_id}&Hash={media_image_id}&ApiKey={self.coordinator.apiKey}"
+                    )
+        except Exception as e:
+            _LOGGER.error("Error fetching browse image: %s", e)
+            return None, None
+    
         return content
 
     async def _async_fetch_image(self, url: str) -> tuple[bytes | None, str | None]:
@@ -543,7 +546,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         children = [
             BrowseMedia(
                 title=self.translate(item["Title"]),
-                media_class=MediaClass.DIRECTORY,
+                media_class=item.get("media_class", MediaClass.DIRECTORY),
                 media_content_id=f"StartMenuByName/{collection_id}/{item.get('ByName')}",
                 media_content_type=MediaType.CHANNELS,
                 can_play=False,
@@ -620,9 +623,10 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                 can_play = True
                 can_expand = False
                 thumbnail = (
-                    self.get_browse_image_url(
-                        media_content_type, collection_id, media_image_id
-                    )
+                    f"https://cdn.rvolution.com/pictures/480x720_100/{media_image_id}"
+                    # self.get_browse_image_url(
+                    #     media_content_type, collection_id, media_image_id
+                    # )
                     if media_image_id
                     else None
                 )
@@ -639,6 +643,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             case "TVShowSeason":
                 media_class = MediaClass.SEASON
                 media_content_type = MediaType.SEASON
+                media_content_type = MediaType.CHANNEL
                 thumbnail = (
                     self.get_browse_image_url(
                         media_content_type, collection_id, media_image_id
@@ -659,8 +664,8 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                     else None
                 )
             case "CustomGroup":
-                media_class = MediaClass.DIRECTORY
-                media_content_type = MediaType.CHANNEL
+                media_class = MediaClass.PLAYLIST
+                media_content_type = MediaType.PLAYLIST
                 thumbnail = (
                     self.get_browse_image_url(
                         media_content_type, collection_id, media_image_id
@@ -669,15 +674,15 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                     else None
                 )
             case "Category":
-                media_class = MediaClass.DIRECTORY
+                media_class = MediaClass.GENRE
                 media_content_type = MediaType.GENRE
-                thumbnail = (
-                   self.get_browse_image_url(
-                       media_content_type, collection_id, media_image_id
-                   )
-                    if media_image_id
-                   else None
-                )
+                # thumbnail = (
+                #    self.get_browse_image_url(
+                #        media_content_type, collection_id, media_image_id
+                #    )
+                #     if media_image_id
+                #    else None
+                # )
 
         return can_play, can_expand, media_class, media_content_type, thumbnail
 
