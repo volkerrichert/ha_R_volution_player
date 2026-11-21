@@ -16,6 +16,16 @@ jobs:
     steps:
       - name: "Checkout the repository"
         uses: "actions/checkout@v6.0.2"
+        with:
+          fetch-depth: 0
+
+      - name: "Only release from main"
+        shell: "bash"
+        run: |
+          if ! git merge-base --is-ancestor "${GITHUB_SHA}" origin/main; then
+            echo "::error::Release tag ${{ github.event.release.tag_name }} is not on main. Releases are only built from main."
+            exit 1
+          fi
 
       - name: "Adjust version number"
         shell: "bash"
