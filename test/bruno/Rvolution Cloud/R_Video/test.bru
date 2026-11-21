@@ -1,0 +1,16 @@
+meta {
+  name: test
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://{{ip}}:8990/Status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+  }
+}

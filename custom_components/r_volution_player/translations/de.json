@@ -1,0 +1,116 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "R_volution-Player einrichten",
+        "description": "Gib die IP-Adresse oder den Hostnamen des Players ein.",
+        "data": {
+          "host": "Host"
+        },
+        "data_description": {
+          "host": "IP-Adresse oder Hostname des Players."
+        }
+      },
+      "reconfigure": {
+        "title": "Adresse des Players ändern",
+        "description": "Gib die neue IP-Adresse oder den Hostnamen des Players ein.",
+        "data": {
+          "host": "Host"
+        },
+        "data_description": {
+          "host": "IP-Adresse oder Hostname des Players."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen"
+    },
+    "abort": {
+      "already_configured": "Gerät ist bereits eingerichtet",
+      "reconfigure_successful": "Die Neukonfiguration war erfolgreich",
+      "unique_id_mismatch": "Unter dieser Adresse ist ein anderer Player erreichbar."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "R_volution-Sammlung",
+        "description": "Mit einem R_volution-Konto kannst du deine Film- und Seriensammlung im Medienbrowser von Home Assistant durchsuchen. Dafür ist ein API-Schlüssel nötig, den R_volution nicht mehr vergibt. Ohne API-Schlüssel lass alle Felder leer; der Player selbst funktioniert auch ohne.",
+        "data": {
+          "email": "E-Mail",
+          "password": "Passwort",
+          "api_key": "API-Schlüssel"
+        },
+        "data_description": {
+          "email": "E-Mail-Adresse deines R_volution-Kontos.",
+          "password": "Passwort deines R_volution-Kontos.",
+          "api_key": "API-Schlüssel für die API der R_volution-Sammlung."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen",
+      "invalid_auth": "Ungültige Anmeldedaten",
+      "incomplete_credentials": "Fülle E-Mail, Passwort und API-Schlüssel aus oder lass alle drei leer."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "media_info_title": {
+        "name": "Titel"
+      },
+      "media_info_synopsis": {
+        "name": "Inhalt"
+      }
+    }
+  },
+  "exceptions": {
+    "no_collections": {
+      "message": "Keine R_volution-Sammlung verfügbar. Prüfe die Zugangsdaten in den Optionen der Integration."
+    },
+    "collection_not_found": {
+      "message": "R_volution-Sammlung {collection_id} nicht gefunden."
+    },
+    "unknown_media": {
+      "message": "Unbekannter Medieneintrag: {media_id}"
+    },
+    "unsupported_media_type": {
+      "message": "Nicht unterstützter Medientyp: {media_type}"
+    }
+  },
+  "common": {
+    "all": "Alle",
+    "categories": "Kategorien",
+    "category_3d": "3D",
+    "category_4k": "4K",
+    "category_action": "Action",
+    "category_adventure": "Abenteuer",
+    "category_animation": "Animation",
+    "category_classic": "Klassiker",
+    "category_comedy": "Komödie",
+    "category_crime": "Krimi",
+    "category_documentary": "Dokumentation",
+    "category_drama": "Drama",
+    "category_family": "Familie",
+    "category_fantastique": "Fantasy",
+    "category_history": "History",
+    "category_horror": "Horror",
+    "category_kids": "Jugend",
+    "category_music": "Musical",
+    "category_mystery": "Mystery",
+    "category_news": "Aktuelles",
+    "category_politics": "Politik",
+    "category_reality": "TV-Reality",
+    "category_romance": "Romanze",
+    "category_sci_fi": "Sci-Fi",
+    "category_soap": "Soap Opera",
+    "category_talk": "Talkshow",
+    "category_thriller": "Thriller",
+    "category_tvshows": "TV-Filme",
+    "category_war": "Kriegsfilm",
+    "category_western": "Western",
+    "collections": "Sammlungen",
+    "movies": "Filme",
+    "tv_shows": "TV-Serien"
+  }
+}

@@ -1,13 +1,19 @@
 """Constants for the r_volution player integration."""
 
 from typing import Final
-from homeassistant.const import Platform
+from homeassistant.const import CONF_API_KEY, CONF_EMAIL, CONF_PASSWORD, Platform
+from homeassistant.components.media_player import (
+    MediaClass,
+)
 
 ATTR_MANUFACTURER: Final = "R_Volution"
 DOMAIN: Final = "r_volution_player"
 DEFAULT_NAME: Final = "R_Volution Player"
 
-PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER, Platform.REMOTE]
+PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER, Platform.REMOTE, Platform.SENSOR]
+
+# Optional R_volution collection credentials, stored in the entry options.
+CREDENTIAL_KEYS: Final = (CONF_EMAIL, CONF_PASSWORD, CONF_API_KEY)
 
 IR_CODES = {
     "3d": "ED124040",
@@ -48,7 +54,7 @@ IR_CODES = {
     "power_on": "4CB34040",
     "repeat": "B9464040",
     "return": "BD424040",
-    "video": "EC134040",
+    "r_video": "EC134040",
     "subtitle": "E41B4040",
     "volume_down": "E8174040",
     "volume_up": "E7184040",
@@ -63,6 +69,31 @@ IR_CODES = {
 
 ERROR_CANNOT_CONNECT = "cannot_connect"
 
+MAX_COLLECTION_MODULES_RETRIES: Final = 20
+
 AFTER_REQUEST_SLEEP = (
     0.5  # seconds to wait after a request before refreshing the coordinator
 )
+
+DEFAULT_COLLECTION_MENU = [
+     {
+        "Title": "all",
+        "ByName": "All",
+        "media_class": MediaClass.VIDEO,
+    },
+    {
+        "Title": "movies",
+        "ByName": "Movies",
+        "media_class": MediaClass.MOVIE,
+    },
+    {
+        "Title": "tv_shows",
+        "ByName": "TVShows",
+        "media_class": MediaClass.TV_SHOW,
+    },
+    {
+        "Title": "categories",
+        "ByName": "Categories",
+        "media_class": MediaClass.GENRE,
+    },
+]

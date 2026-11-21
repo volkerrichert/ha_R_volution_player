@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo -e "${YELLOW}Running hassfest validation...${NC}"
+
+# Check if Home Assistant Core is cloned in a sibling directory
+if [[ -d "../core" ]]; then
+    echo -e "${GREEN}Using local Home Assistant Core repository${NC}"
+    cd ../core
+    python3 -m script.hassfest --integration-path ../ha_R_volution_player/custom_components/r_volution_player
+    exit $?
+fi
+
+# Alternative: Use Docker with the correct method
+echo -e "${YELLOW}Home Assistant Core not found locally, using Docker...${NC}"
+
+# Check if Docker is available
+if ! command -v docker &> /dev/null; then
+    echo -e "${RED}Docker is not installed or not in PATH${NC}"
+    exit 1
+fi
+
+# Clone Home Assistant Core temporarily if needed
+TEMP_DIR=$(mktemp -d)
+trap "rm -rf $TEMP_DIR" EXIT
+
+echo -e "${YELLOW}Cloning Home Assistant Core to temporary directory...${NC}"
+git clone --depth 1 https://github.com/home-assistant/core.git "$TEMP_DIR/core" 2>&1 | grep -v "^Receiving objects" || true
+
+cd "$TEMP_DIR/core"
+
+echo -e "${YELLOW}Running hassfest...${NC}"
+python3 -m script.hassfest --integration-path "$(cd - > /dev/null && pwd)/custom_components/r_volution_player"
+RESULT=$?
+
+if [[ $RESULT -eq 0 ]]; then
+    echo -e "${GREEN}✓ Hassfest validation passed!${NC}"
+else
+    echo -e "${RED}✗ Hassfest validation failed!${NC}"
+fi
+
+exit $RESULT
