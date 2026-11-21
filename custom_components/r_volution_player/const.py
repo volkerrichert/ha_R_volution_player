@@ -1,11 +1,9 @@
 """Constants for the r_volution player integration."""
 
 from typing import Final
-from homeassistant.const import Platform
+from homeassistant.const import CONF_API_KEY, CONF_EMAIL, CONF_PASSWORD, Platform
 from homeassistant.components.media_player import (
-    BrowseMedia,
     MediaClass,
-    MediaType,
 )
 
 ATTR_MANUFACTURER: Final = "R_Volution"
@@ -13,6 +11,9 @@ DOMAIN: Final = "r_volution_player"
 DEFAULT_NAME: Final = "R_Volution Player"
 
 PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER, Platform.REMOTE, Platform.SENSOR]
+
+# Optional R_volution collection credentials, stored in the entry options.
+CREDENTIAL_KEYS: Final = (CONF_EMAIL, CONF_PASSWORD, CONF_API_KEY)
 
 IR_CODES = {
     "3d": "ED124040",
@@ -67,6 +68,8 @@ IR_CODES = {
 }
 
 ERROR_CANNOT_CONNECT = "cannot_connect"
+
+MAX_COLLECTION_MODULES_RETRIES: Final = 20
 
 AFTER_REQUEST_SLEEP = (
     0.5  # seconds to wait after a request before refreshing the coordinator

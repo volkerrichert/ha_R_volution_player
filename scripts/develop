@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 cd "$(dirname "$0")/.."
-source venv/bin/activate
+source .venv/bin/activate
 
 # Create config dir if not present
 if [[ ! -d "${PWD}/config" ]]; then

@@ -1,85 +1,86 @@
 """Remote platform for R_volution Player integration."""
 
+import asyncio
 from collections.abc import Iterable
 from typing import Any
 
-from homeassistant.components.remote import RemoteEntity, RemoteEntityDescription
-from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.components.remote import (
+    ATTR_DELAY_SECS,
+    ATTR_NUM_REPEATS,
+    DEFAULT_DELAY_SECS,
+    DEFAULT_NUM_REPEATS,
+    RemoteEntity,
+    RemoteEntityDescription,
+)
+from homeassistant.config_entries import ConfigEntryError
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, IR_CODES
+from .const import DOMAIN
 from .coordinator import RVolutionCoordinator
 
 
 async def async_setup_entry(hass: HomeAssistant, config_entry, async_add_entities):
     """Set up the R_volution Player remote platform."""
 
-    assert isinstance(config_entry.unique_id, str)
+    if not isinstance(config_entry.unique_id, str):
+        raise ConfigEntryError("Invalid unique_id in config entry")
     coordinator: RVolutionCoordinator = hass.data[DOMAIN][config_entry.unique_id]
     remote = RVolutionPlayerRemote(
         coordinator,
-        RVolutionPlayerRemoteDescription(
-            key="remote",
-            translation_key="system-media_player-percent",
-            icon="mdi:remote",
-        ),
+        RemoteEntityDescription(key="remote", icon="mdi:remote"),
         config_entry.entry_id,
     )
-    async_add_entities([remote], True)
+    async_add_entities([remote])
 
 
-class RVolutionPlayerRemoteDescription(RemoteEntityDescription):
-    """Class describing R_volution Player remote entities."""
+class RVolutionPlayerRemote(CoordinatorEntity[RVolutionCoordinator], RemoteEntity):
+    """Representation of a R_volution Player remote.
 
+    Commands are names from IR_CODES (e.g. "up", "enter", "home"); unknown
+    values are sent as raw IR codes.
+    """
 
-class RVolutionPlayerRemote(CoordinatorEntity, RemoteEntity):
-    """Representation of a R_volution Player remote."""
+    _attr_has_entity_name = True
 
     def __init__(
         self,
         coordinator: RVolutionCoordinator,
         description: RemoteEntityDescription,
         entry_id: str,
-        device_info: DeviceInfo | None = None,
-    ):
+    ) -> None:
         """Initialize the remote."""
         super().__init__(coordinator)
-        self._attr_device_info = device_info
-        self._attr_should_poll = False
-
-        self._attr_is_on = False
-        self.coordinator = coordinator
-        self.entity_description: RVolutionPlayerRemoteDescription = description
+        self.entity_description = description
         self._attr_unique_id = f"{entry_id}_{description.key}"
+        self._attr_device_info = coordinator.device_info
+        self._attr_name = f"{coordinator._model} ({coordinator.host})"
 
-        self.host = coordinator.host
+    @property
+    def is_on(self) -> bool:
+        """Return True if the player answers status requests."""
+        data = self.coordinator.data or {}
+        return data.get("protocol_version") is not None
 
-        self._attr_name = f"{self.coordinator._model} ({self.host})"
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        """Turn the player on."""
+        await self.async_send_command(["power_on"])
 
-    @callback
-    def _handle_coordinator_update(self) -> None:
-        """Handle updated data from the coordinator."""
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        """Turn the player off."""
+        await self.async_send_command(["power_off"])
 
-        self._attr_is_on = (
-            self.coordinator.data.get("protocol_version", None) is not None
-        )
-        self.async_write_ha_state()
+    async def async_send_command(self, command: Iterable[str], **kwargs: Any) -> None:
+        """Send IR commands to the player."""
+        num_repeats = kwargs.get(ATTR_NUM_REPEATS, DEFAULT_NUM_REPEATS)
+        delay_secs = kwargs.get(ATTR_DELAY_SECS, DEFAULT_DELAY_SECS)
 
-    async def async_turn_off(self, **kwargs):
-        """Turn the remote off."""
-        await self.async_send_command([IR_CODES.power_off])
-        self.async_write_ha_state()
+        first = True
+        for _ in range(num_repeats):
+            for cmd in command:
+                if not first:
+                    await asyncio.sleep(delay_secs)
+                first = False
+                await self.coordinator.api._send_ip_command(cmd)
 
-    async def async_send_command(self, commands: Iterable[str], **kwargs: Any) -> None:
-        """Send commands to a device."""
-        if not self._is_on:
-            return
-
-        # Here you would implement the logic to send the command to the R_volution Player.
-        # For example, using the coordinator's API client.
-        for command in commands:
-            await self.coordinator.api.async_send_command(command)
-
-        # Optionally, refresh the state after sending the command
         await self.coordinator.async_request_refresh()

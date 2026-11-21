@@ -6,7 +6,7 @@ from typing import Any
 import aiohttp
 import async_timeout
 
-from .const import IR_CODES
+from .const import IR_CODES, MAX_COLLECTION_MODULES_RETRIES
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -188,7 +188,7 @@ class RVolutionPlayerClient:
         return await self._send_ip_command("home")
 
     async def async_r_video(self) -> bool:
-        """start R_Video."""
+        """Start R_Video."""
         return await self._send_ip_command("r_video")
 
     async def _send_ip_command(
@@ -331,7 +331,7 @@ class RVolutionCollectionClient:
             if collection_id and alias:
                 self._collections[collection_id] = alias
                 self._modules[collection_id] = await self.async_get_collection_modules(collection_id)
-                
+
         return self
 
     def get_collections(self) -> dict[str, str]:
@@ -348,10 +348,11 @@ class RVolutionCollectionClient:
     async def async_get_collection_modules(
         self, collection_id: str
     ) -> dict | None:
+        """Fetch the enabled modules of a collection, retrying on errors."""
         count: int = 0
         modules = None
         session = await self.async_get_session()
-        while modules is None and count < 20:
+        while modules is None and count < MAX_COLLECTION_MODULES_RETRIES:
             try:
                 count += 1
                 with async_timeout.timeout(30):
@@ -371,20 +372,24 @@ class RVolutionCollectionClient:
                 if (response.status == 200):
                     modules = (await response.json()).get("Modules", None)
                     # Filter modules: only keep those that are not disabled and not legacy
-                    
+
             except Exception as err:
-                pass
+                _LOGGER.warning(
+                    "Error fetching collection modules (attempt %d/%d): %s",
+                    count, MAX_COLLECTION_MODULES_RETRIES, err,
+                )
 
         return [
             module for module in modules
             if not module.get("IsDisabled", False)
         ] if modules else None
-    
+
     async def async_get_modules(
         self, collection_id: str
     ) -> dict | None:
+        """Return the cached modules of a collection."""
         return self._modules.get(collection_id, [])
-    
+
     async def async_get_menu(
         self, collection_id: str, type: str, id: str = None, name: str = None
     ) -> dict[str, Any] | None:
@@ -492,7 +497,8 @@ class RVolutionCollectionClient:
     async def async_get_collections(self) -> dict[str, Any]:
         """Get the R Volution Collection."""
         session = await self.async_get_session()
-        assert self._base_url, "Base URL is not set."
+        if not self._base_url:
+            raise RuntimeError("Base URL is not set.")
 
         try:
             with async_timeout.timeout(10):
@@ -551,7 +557,7 @@ class RVideoClient:
                 await self.async_get_session() as session,
             ):
                 response = await session.get(
-                    f"/IsAlive",
+                    "/IsAlive",
                     ssl=False,
                 )
                 response.raise_for_status()
@@ -561,15 +567,15 @@ class RVideoClient:
         except (TimeoutError, aiohttp.ClientError) as err:
             _LOGGER.error("Error checking API health: %s", err)
             return False
-    
-    
+
+
     async def async_start_video(self, media_id: str) -> None:
         """Start the video client and fetch the base URL."""
         if (not media_id) or (media_id.strip() == ""):
             raise ValueError("Media ID cannot be empty.")
         if (not await self.async_is_alive()):
             raise ValueError("R Video API is not reachable.")
-        
+
         try:
             async with (
                 async_timeout.timeout(5),

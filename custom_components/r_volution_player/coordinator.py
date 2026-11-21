@@ -8,7 +8,7 @@ import logging
 from datetime import timedelta
 from typing import Any
 
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.config_entries import ConfigEntry, ConfigEntryError
 from homeassistant.const import (
     ATTR_MODEL,
     ATTR_MODEL_ID,
@@ -45,18 +45,20 @@ class RVolutionCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             config_entry=config_entry,
         )
 
-        assert isinstance(config_entry.unique_id, str)
+        if not isinstance(config_entry.unique_id, str):
+            raise ConfigEntryError("Invalid unique_id in config entry")
         self.uid: str = config_entry.unique_id
         self.host = config_entry.data.get(CONF_HOST, None)
         self._model = config_entry.data.get(ATTR_MODEL)
         self._model_id = config_entry.data.get(ATTR_MODEL_ID)
         self._serial_number = config_entry.data.get(ATTR_SERIAL_NUMBER)
 
-        assert self.host, "Host must be provided in the configuration entry."
+        if not self.host:
+            raise ConfigEntryError("Host must be provided in the configuration entry.")
 
-        self._apiKey = config_entry.data.get(CONF_API_KEY, None)
-        self._email = config_entry.data.get(CONF_EMAIL, None)
-        self._password = config_entry.data.get(CONF_PASSWORD, None)
+        self._apiKey = config_entry.options.get(CONF_API_KEY)
+        self._email = config_entry.options.get(CONF_EMAIL)
+        self._password = config_entry.options.get(CONF_PASSWORD)
         self._attr_device_info = None
 
         self.api = RVolutionPlayerClient(self.host)
@@ -82,7 +84,7 @@ class RVolutionCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             data = await self.api.async_update_status()
 
             self.player_running = (data.get("android_app_active", "0") == "1")
-            
+
             if data.get("player_state", None) == "file_playback":
                 if current_url != data.get("playback_url", None):
                     self.media_info = await self.rvideo_client.async_get_media_info()

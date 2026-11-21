@@ -2,15 +2,80 @@
   "config": {
     "step": {
       "user": {
+        "title": "Set up R_volution player",
+        "description": "Enter the IP address or hostname of the player.",
         "data": {
-          "host": "[%key:common::config_flow::data::host%]",
-          "username": "[%key:common::config_flow::data::username%]",
-          "password": "[%key:common::config_flow::data::password%]"
+          "host": "[%key:common::config_flow::data::host%]"
+        },
+        "data_description": {
+          "host": "IP address or hostname of the player."
+        }
+      },
+      "reconfigure": {
+        "title": "Change player address",
+        "description": "Enter the new IP address or hostname of the player.",
+        "data": {
+          "host": "[%key:common::config_flow::data::host%]"
+        },
+        "data_description": {
+          "host": "IP address or hostname of the player."
         }
       }
     },
     "error": {
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]"
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]",
+      "unique_id_mismatch": "This address belongs to a different player."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "R_volution collection",
+        "description": "With an R_volution account, your movie and TV show collection can be browsed in Home Assistant's media browser. This requires an API key, which R_volution no longer issues. Without an API key, leave all fields empty; the player itself works without them.",
+        "data": {
+          "email": "[%key:common::config_flow::data::email%]",
+          "password": "[%key:common::config_flow::data::password%]",
+          "api_key": "[%key:common::config_flow::data::api_key%]"
+        },
+        "data_description": {
+          "email": "E-mail address of your R_volution account.",
+          "password": "Password of your R_volution account.",
+          "api_key": "API key for the R_volution collection API."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "incomplete_credentials": "Fill in e-mail, password and API key, or leave all three empty."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "media_info_title": {
+        "name": "Title"
+      },
+      "media_info_synopsis": {
+        "name": "Synopsis"
+      }
+    }
+  },
+  "exceptions": {
+    "no_collections": {
+      "message": "No R_volution collection available. Check the collection credentials in the integration options."
+    },
+    "collection_not_found": {
+      "message": "R_volution collection {collection_id} not found."
+    },
+    "unknown_media": {
+      "message": "Unknown media item: {media_id}"
+    },
+    "unsupported_media_type": {
+      "message": "Unsupported media type: {media_type}"
     }
   },
   "common": {

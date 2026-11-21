@@ -7,14 +7,15 @@ import ssl
 from collections.abc import Awaitable, Callable, Coroutine
 from contextlib import suppress
 from http import HTTPStatus
-from os import getcwd
 from typing import Any, Concatenate
 
 import aiofiles
 import async_timeout
 
 import homeassistant
+from homeassistant.components import media_source
 from homeassistant.components.media_player import (
+    BrowseError,
     BrowseMedia,
     MediaClass,
     MediaPlayerDeviceClass,
@@ -27,7 +28,7 @@ from homeassistant.components.media_player import (
     SearchMedia,
     SearchMediaQuery,
 )
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.config_entries import ConfigEntry, ConfigEntryError
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.entity import DeviceInfo
@@ -86,7 +87,8 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Initialize media player Platform."""
-    assert isinstance(config_entry.unique_id, str)
+    if not isinstance(config_entry.unique_id, str):
+        raise ConfigEntryError("Invalid unique_id in config entry")
     coordinator: RVolutionCoordinator = hass.data[DOMAIN][config_entry.unique_id]
     player = RVolutionPlayer(
         coordinator,
@@ -105,7 +107,7 @@ async def async_setup_entry(
 @dataclass
 class RVolutionPlayerEntityDescription(MediaPlayerEntityDescription):
     """Description of the R Volution Player entity.
-    
+
     Extends MediaPlayerEntityDescription for potential future custom attributes.
     """
     # Custom attributes can be added here in the future
@@ -191,7 +193,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     def _update_media_info(self, data: dict) -> None:
         """Update media information attributes from coordinator data."""
         media_info = self.coordinator.media_info
-        
+
         # Update playback position and duration
         value = data.get("playback_duration", None)
         self._attr_media_duration = int(value) if value else None
@@ -200,7 +202,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         self._attr_media_position_updated_at = (
             homeassistant.util.dt.utcnow() if value else None
         )
-        
+
         # Update media metadata
         self._attr_media_title = media_info.get("Title", None)
         self._attr_media_image_url = media_info.get(
@@ -209,7 +211,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         self._attr_media_episode = media_info.get("Episode", None)
         self._attr_media_series_title = media_info.get("TvShowName", None)
         self._attr_media_season = media_info.get("Season", None)
-        
+
         # Determine and set media content type
         self._attr_media_content_type = self.coordinator.media_info.get("Type", None)
         if self._attr_media_content_type == "TVShowEpisode":
@@ -251,7 +253,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             sound_modes.append(sound_mode)
 
         self._attr_sound_mode_list = sound_modes if sound_modes else None
-        
+
         # Set current sound mode based on active audio track
         if sound_modes:
             self._attr_sound_mode = sound_modes[int(data.get("audio_track"))]
@@ -263,7 +265,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             """Update playback control attributes (shuffle, repeat, volume, mute)."""
             # Shuffle
             self._attr_shuffle = data.get("playback_shuffle", BOOLEAN_FALSE) == BOOLEAN_TRUE
-            
+
             # Repeat mode
             match data.get("playback_repeat", REPEAT_MODE_OFF):
                 case "0":
@@ -274,7 +276,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                     self._attr_repeat = RepeatMode.ONE
                 case _:
                     self._attr_repeat = RepeatMode.OFF
-            
+
             # Volume
             self._attr_is_volume_muted = data.get("playback_mute", BOOLEAN_FALSE) == BOOLEAN_TRUE
             self._attr_volume_level = (
@@ -295,7 +297,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             | MediaPlayerEntityFeature.SEEK
             | MediaPlayerEntityFeature.REPEAT_SET
         )
-        
+
         # Add browse media if collections are available
         if (
             self._collection_client
@@ -303,7 +305,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         ):
             # TODO: Search seems to be unusable with custom API KEY
             self._attr_supported_features |= MediaPlayerEntityFeature.BROWSE_MEDIA | MediaPlayerEntityFeature.SEARCH_MEDIA
-        
+
         # TODO: check how to find next / prev episode for TVShowEpisode
         # Add sound mode selection if audio tracks are available
         if self._attr_sound_mode_list and len(self._attr_sound_mode_list) > 1:
@@ -361,6 +363,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     async def async_get_browse_image(
         self, media_content_type, media_content_id, media_image_id=None
     ):
+        """Return the image for a media browser item."""
         content = None
         try:
             match media_content_type:
@@ -387,7 +390,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         except Exception as e:
             _LOGGER.error("Error fetching browse image: %s", e)
             return None, None
-    
+
         return content
 
     async def _async_fetch_image(self, url: str) -> tuple[bytes | None, str | None]:
@@ -425,11 +428,17 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
             """Search the media player."""
 
             return SearchMedia(result=[])
-    
+
     async def async_browse_media(self, media_content_type=None, media_content_id=None):
         """Return a BrowseMedia object describing media sources."""
 
-        if media_content_type is None or media_content_id is None:
+        # The media panel may carry over a media-source path from another
+        # player; this player can only play its own collection, so show that.
+        if (
+            media_content_type is None
+            or media_content_id is None
+            or media_source.is_media_source_id(media_content_id)
+        ):
             return await self._async_get_browse_media_root()
         else:
             match media_content_type:
@@ -454,7 +463,11 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                                     collection_id, type="Category", id=id
                                 )
                             case _:
-                                return []
+                                raise BrowseError(
+                                    translation_domain=DOMAIN,
+                                    translation_key="unknown_media",
+                                    translation_placeholders={"media_id": media_content_id},
+                                )
 
                 case MediaType.APP:
                     return await self._async_get_browse_media_collection(
@@ -473,10 +486,11 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
                         collection_id, media_id
                     )
                 case _:
-                    _LOGGER.error(
-                        "Unsupported media content type: %s", media_content_type
+                    raise BrowseError(
+                        translation_domain=DOMAIN,
+                        translation_key="unsupported_media_type",
+                        translation_placeholders={"media_type": str(media_content_type)},
                     )
-                    return None
 
     async def _async_get_browse_media_root(self):
         """Return the root BrowseMedia object."""
@@ -487,8 +501,9 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         )
 
         if not collections:
-            _LOGGER.error("No collections found in the collection client.")
-            return None
+            raise BrowseError(
+                translation_domain=DOMAIN, translation_key="no_collections"
+            )
 
         if len(collections) == 1:
             return await self._async_get_browse_media_collection(
@@ -524,8 +539,11 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         """Return a BrowseMedia object for a specific collection."""
         collection = self._collection_client.get_collection(collection_id)
         if not collection:
-            _LOGGER.error("Collection not found: %s", collection_id)
-            return None
+            raise BrowseError(
+                translation_domain=DOMAIN,
+                translation_key="collection_not_found",
+                translation_placeholders={"collection_id": collection_id},
+            )
 
         # modules = await self._collection_client.async_get_modules(collection_id)
 
@@ -569,8 +587,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
     async def _async_get_browse_media_menu(
         self, collection_id, type: str, id: str = None, name: str = None
     ):
-        """
-        Return a BrowseMedia object for a specific menu.
+        """Return a BrowseMedia object for a specific menu.
 
         Args:
             collection_id: The identifier of the collection to browse.
@@ -590,6 +607,7 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         Raises:
             Any exceptions raised by _collection_client.async_get_menu() or
             _get_media_children() will propagate up.
+
         """
         content = await self._collection_client.async_get_menu(
             collection_id, type=type, id=id, name=name
@@ -727,8 +745,11 @@ class RVolutionPlayer(CoordinatorEntity, MediaPlayerEntity):
         """Return a BrowseMedia object for a category."""
         collection = self._collection_client.get_collection(collection_id)
         if not collection:
-            _LOGGER.error("Collection not found: %s", collection_id)
-            return None
+            raise BrowseError(
+                translation_domain=DOMAIN,
+                translation_key="collection_not_found",
+                translation_placeholders={"collection_id": collection_id},
+            )
 
         media_item = await self._collection_client.async_get_category(
             collection_id, media_id

@@ -5,21 +5,10 @@ from typing import Any, Final
 
 
 from homeassistant.components.sensor import (
-    SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
-    SensorStateClass,
 )
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    PERCENTAGE,
-    EntityCategory,
-    UnitOfElectricCurrent,
-    UnitOfElectricPotential,
-    UnitOfEnergy,
-    UnitOfPower,
-    UnitOfTemperature,
-)
+from homeassistant.config_entries import ConfigEntry, ConfigEntryError
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -38,18 +27,15 @@ class RVolutionSensorEntityDescription(SensorEntityDescription):
     """Class describing RVolution Sensor entities."""
 
 SENSOR_DESCRIPTIONS: Final[tuple[RVolutionSensorEntityDescription, ...]] = (
-    # DIAGNOSTIC SENSORS
     RVolutionSensorEntityDescription(
         key="Title",
-        translation_key="media-info-title",
+        translation_key="media_info_title",
         icon="mdi:text-box",
-        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     RVolutionSensorEntityDescription(
         key="Synopsis",
-        translation_key="media-info-synopsis",
+        translation_key="media_info_synopsis",
         icon="mdi:text-box",
-        entity_category=EntityCategory.DIAGNOSTIC,
     ),
 )
 
@@ -57,7 +43,8 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     """Initialize Sensor Platform."""
-    assert isinstance(entry.unique_id, str)
+    if not isinstance(entry.unique_id, str):
+        raise ConfigEntryError("Invalid unique_id in config entry")
     coordinator: RVolutionCoordinator = hass.data[DOMAIN][entry.unique_id]
     entities: list[RVolutionPlayerSensor] = [
         RVolutionPlayerSensor(coordinator, description, entry.unique_id)
@@ -117,7 +104,6 @@ class RVolutionPlayerSensor(CoordinatorEntity, SensorEntity):
 
     def get_icon(self) -> str | None:
         """Return the icon for the sensor."""
-        value: str = self.coordinator.data.get(self.entity_description.key)
         if self.entity_description.icon is not None:
             return self.entity_description.icon
 
