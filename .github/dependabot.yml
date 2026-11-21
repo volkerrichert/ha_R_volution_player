@@ -3,6 +3,8 @@ version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
+    # PRs go to the development branch, main only receives releases
+    target-branch: "dev"
     schedule:
       interval: "monthly"
     labels:
@@ -12,6 +14,8 @@ updates:
 
   - package-ecosystem: "pip"
     directory: "/"
+    # PRs go to the development branch, main only receives releases
+    target-branch: "dev"
     schedule:
       interval: "monthly"
     labels:

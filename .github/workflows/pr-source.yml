@@ -1,0 +1,25 @@
+name: "PR source"
+
+# main only receives dev: changes go to dev first, dev is merged into main
+# for a release.
+on:
+  pull_request:
+    branches:
+      - "main"
+
+permissions: {}
+
+jobs:
+  source:
+    name: "Source branch"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Only dev may be merged into main"
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          if [ "$HEAD_REF" != "dev" ] || [ "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
+            echo "::error::Pull requests into main must come from dev of this repository, not ${HEAD_REPO}:${HEAD_REF}. Open the pull request against dev."
+            exit 1
+          fi
