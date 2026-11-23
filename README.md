@@ -26,6 +26,9 @@ If you encounter problems, please file an issue at the integration's
   - [Marketplace Installation](#marketplace-installation)
   - [Manual Installation](#manual-installation)
 - [Configuration](#configuration)
+- [Usage](#usage)
+  - [Sending remote commands](#sending-remote-commands)
+  - [Commands](#commands)
 
 ## Disclaimer
 
@@ -77,6 +80,60 @@ show collection in the media browser, open the integration's *Configure*
 dialog and enter the e-mail, password and API key of your R_volution account.
 R_volution no longer issues new API keys, so this only works if you already
 have one; otherwise leave the fields empty.
+
+## Usage
+
+The integration creates these entities for each player:
+
+- **Media player:** play, pause, stop, next/previous, seek, volume, mute,
+  sound mode selection, power off, and (with an R_volution account) media
+  browsing and playing from your collection.
+- **Remote:** sends remote control commands to the player (see below).
+- **Sensors:** title and synopsis of the current media.
+
+### Sending remote commands
+
+Use the `remote.send_command` action on the remote entity. `command` is a list
+of command names from the table below; they are sent in order. `num_repeats`
+and `delay_secs` are optional.
+
+```yaml
+action: remote.send_command
+target:
+  entity_id: remote.r_volution_player
+data:
+  command:
+    - home
+    - down
+    - enter
+  num_repeats: 1
+  delay_secs: 0.4
+```
+
+`remote.turn_on` sends `power_on`, `remote.turn_off` sends `power_off`. A
+command that is not in the table is sent as a raw IR code (8 hex digits, for
+example `E51A4040`).
+
+### Commands
+
+| Group | Commands |
+| --- | --- |
+| Navigation | `up`, `down`, `left`, `right`, `enter`, `return`, `home`, `menu`, `explorer`, `mouse` |
+| Playback | `play_pause`, `play`, `pause`, `stop`, `next`, `prev`, `repeat` |
+| Volume | `volume_up`, `volume_down`, `mute` |
+| Power | `power`, `power_on`, `power_off` |
+| Numbers | `0`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9` |
+| Colors | `red`, `green`, `yellow`, `blue` |
+| Paging | `page_up`, `page_down` |
+| Display and media | `info`, `audio`, `subtitle`, `zoom`, `format`, `3d`, `dimmer`, `r_video`, `delete` |
+
+Notes:
+
+- `play`, `pause` and `play_pause` send the same code (toggle), as do `stop`
+  and `return`, `next` and `page_up`, and `prev` and `page_down`.
+- The media player entity offers the usual `media_player` actions (for example
+  `media_player.media_play_pause` or `media_player.volume_set`); use the
+  remote only for buttons that have no such action.
 
 ***
 
